@@ -1,0 +1,15 @@
+target/
+.settings/
+jetty/
+deploy/
+configuration.properties
+fenix-framework.properties
+output/
+.classpath
+.project
+build.properties.fenixIST
+build.properties.local
+build.properties.slave
+configuration.properties.fenix
+configuration.properties.localhost
+
