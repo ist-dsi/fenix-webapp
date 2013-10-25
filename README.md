@@ -71,7 +71,7 @@ This approach is the one used for production environments. Simply run:
 The generated War file is located in `target/fenix-webapp-1.0.0-SNAPSHOT.war`
 
 
-# Creating Jar for Fenix Scripts
+# Create Jar for Fenix Scripts
 
 To create the Jar required for Fenix Scripts (Which contains the necessary Base classes and configuration files), simply run:
 
