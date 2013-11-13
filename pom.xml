@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>fenix-webapp</artifactId>
-    <version>3</version>
+    <version>4</version>
     <packaging>war</packaging>
 
     <name>Fenix Webapp</name>
@@ -99,7 +99,7 @@
         <dependency>
             <groupId>pt.ist</groupId>
             <artifactId>fenix</artifactId>
-            <version>1.1.2</version>
+            <version>1.1.3</version>
         </dependency>
         <dependency>
             <groupId>pt.ist</groupId>
