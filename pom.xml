@@ -16,6 +16,7 @@
     <name>Fenix Webapp</name>
 
     <properties>
+    	<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
         <maven.build.timestamp.format>yyyy/MM/dd HH:mm:ss</maven.build.timestamp.format>
         <buildNumber>${maven.build.timestamp}</buildNumber>
     </properties>
@@ -119,6 +120,11 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.5</version>
         </dependency>
+        <dependency>
+  			<groupId>net.logstash.logback</groupId>
+  			<artifactId>logstash-logback-encoder</artifactId>
+  			<version>1.2</version>
+		</dependency>
     </dependencies>
 
     <profiles>
