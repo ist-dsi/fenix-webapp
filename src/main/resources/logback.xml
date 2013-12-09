@@ -9,19 +9,34 @@
 		</encoder>
 	</appender>
 
+	<appender name="LOGSTASH" class="ch.qos.logback.core.FileAppender">
+			<file>${catalina.base}/logs/logstash.out</file>
+			<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+	</appender>
+
 	<logger name="pt.ist" level="INFO">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGSTASH" />
 	</logger>
 
 	<logger name="net" level="INFO">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGSTASH" />
 	</logger>
 
 	<logger name="net.sourceforge.fenixedu.webServices.jersey" level="DEBUG">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGSTASH" />
 	</logger>
 	
 	<logger name="org" level="WARN">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGSTASH" />
 	</logger>
+
+	<root level="WARN">
+		<appender-ref ref="STDOUT">
+		<appender-ref ref="LOGSTASH">
+	</root>
+
 </configuration>
