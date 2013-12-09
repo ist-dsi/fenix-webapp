@@ -11,7 +11,9 @@
 
 	<appender name="LOGSTASH" class="ch.qos.logback.core.FileAppender">
 			<file>${catalina.base}/logs/logstash.out</file>
-			<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+			<encoder class="net.logstash.logback.encoder.LogstashEncoder">
+				<includeCallerInfo>false</includeCallerInfo>
+			</encoder>
 	</appender>
 
 	<logger name="pt.ist" level="INFO">
