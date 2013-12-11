@@ -1,3 +1,19 @@
+## Bennu Specific properties
+
+language=pt
+location=PT
+variant=
+localhost.cas.enable=false
+rest.secret=
+
+# comma separated string with language format <language>-<country>
+# example locales=pt-PT,en-US,en-GB
+
+locales=pt-PT,en-US,en-GB
+
+scheduler.lease.time.minutes=2
+scheduler.queue.threads.number=4
+
 #------------------------------------------------------------------------------
 # General Configuration
 #------------------------------------------------------------------------------
