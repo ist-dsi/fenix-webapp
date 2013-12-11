@@ -1,18 +1,27 @@
-## Bennu Specific properties
+#------------------------------------------------------------------------------
+# CAS configuration
+#------------------------------------------------------------------------------
+cas.enabled=false
+cas.serverUrl=https://localhost:8443/cas/
+cas.serviceUrl=https://localhost:8443/fenix/loginCAS.do
 
-language=pt
-location=PT
-variant=
-localhost.cas.enable=false
-rest.secret=
+#----------------------------------------------
+# Barra as authentication broker
+#----------------------------------------------
+barra.as.authentication.broker=false
+barra.loginUrl=https://barra.ist.utl.pt/login
 
 # comma separated string with language format <language>-<country>
 # example locales=pt-PT,en-US,en-GB
-
 locales=pt-PT,en-US,en-GB
 
 scheduler.lease.time.minutes=2
 scheduler.queue.threads.number=4
+
+rest.secret=
+host1.rest.secret=
+host2.rest.secret=
+
 
 #------------------------------------------------------------------------------
 # General Configuration
@@ -24,8 +33,6 @@ scheduler.queue.threads.number=4
 #   institution.project: directory containing institution specific implementation (including style layouts)
 #
 
-manager.filter.pattern=nothing
-
 file.download.url.local.content=http://localhost:8080/fenix/downloadFile/
 
 index.html.link.localhost=siteMap.do
@@ -36,13 +43,6 @@ login.html.link.localhost=http://localhost:8080/fenix/privado
 
 login.page=http://localhost:8080/fenix/privado
 institution.url=http://www.ist.utl.pt
-institution.acronym=IST
-
-#institution.project=/home/<user>/workspace/fenix-ist
-
-language=pt
-location=PT
-variant=
 
 #development.mode - if set to true it will change the appearance of the application
 # that is being run in test mode.
@@ -68,13 +68,6 @@ http.port=8080
 twilio.sid=
 twilio.stoken=
 twilio.from.number=
-
-
-#----------------------------------------------
-# Barra as authentication broker
-#----------------------------------------------
-barra.as.authentication.broker=false
-barra.loginUrl=https://barra.ist.utl.pt/login
 
 #---------------------------------------------------------------
 # Google Analytics snippet configuration (without <script> tags)
@@ -359,17 +352,6 @@ host.control.name.net.sourceforge.fenixedu.presentationTier.Action.messaging.Exe
 host.control.name.net.sourceforge.fenixedu.presentationTier.Action.externalServices.AnnouncementBoardExport=127.0.0.1,0:0:0:0:0:0:0:1
 host.control.name.net.sourceforge.fenixedu.webServices.PersonManagement=
 host.control.name.net.sourceforge.fenixedu.webServices.AnnouncementManagement=127.0.0.1,193.136.128.66,www.ist.utl.pt,wonderland.ist.utl.pt,0:0:0:0:0:0:0:1
-
-#----------------------------------------------
-# CAS configuration
-#----------------------------------------------
-localhost.cas.enabled=false
-localhost.cas.loginUrl=https://localhost:8443/cas/login
-localhost.cas.validateUrl=https://localhost:8443/cas/serviceValidate
-localhost.cas.logoutUrl=https://localhost:8443/cas/logout
-localhost.cas.serviceUrl=https://localhost:8443/fenix/loginCAS.do
-
-validateExpirationDate=false
 
 
 #------------------------------------------------------------------------------
