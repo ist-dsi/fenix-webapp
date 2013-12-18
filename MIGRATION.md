@@ -10,8 +10,8 @@ alter table `USER` add `USERNAME` text, add `PASSWORD` text, add `OID_BENNU` big
 
 update BENNU set OID_ROOT = 1;
 
-update FF$DOMAIN_CLASS_INFO set DOMAIN_CLASS_NAME = 'pt.ist.bennu.core.domain.Bennu' where DOMAIN_CLASS_NAME = 'net.sourceforge.fenixedu.domain.RootDomainObject';
-update FF$DOMAIN_CLASS_INFO set DOMAIN_CLASS_NAME = 'pt.ist.bennu.core.domain.User' where DOMAIN_CLASS_NAME = 'net.sourceforge.fenixedu.domain.User';
+update FF$DOMAIN_CLASS_INFO set DOMAIN_CLASS_NAME = 'org.fenixedu.bennu.core.domain.Bennu' where DOMAIN_CLASS_NAME = 'net.sourceforge.fenixedu.domain.RootDomainObject';
+update FF$DOMAIN_CLASS_INFO set DOMAIN_CLASS_NAME = 'org.fenixedu.bennu.core.domain.User' where DOMAIN_CLASS_NAME = 'net.sourceforge.fenixedu.domain.User';
 
 update USER set OID_BENNU = OID_ROOT_DOMAIN_OBJECT;
 update USER set USERNAME = USER_U_ID;
@@ -20,9 +20,6 @@ update USER set USERNAME = '<unknown>' where USERNAME is null;
 alter table `CONTENT` add `TYPE` text, add `OID_BENNU` bigint unsigned;
 update CONTENT join META_DOMAIN_OBJECT on CONTENT.OID_META_DOMAIN_OBJECT = META_DOMAIN_OBJECT.OID set CONTENT.TYPE = META_DOMAIN_OBJECT.TYPE;
 update CONTENT set OID_BENNU = (SELECT OID FROM BENNU) where TYPE is not null;
-
--- Sets the User's password to 'pass'
-update USER set PASSWORD = '5b722b307fce6c944905d132691d5e4a2214b7fe92b738920eb3fce3a90420a19511c3010a0e7712b054daef5b57bad59ecbd93b3280f210578f547f4aed4d25';
 
 -- Passo 2
 
