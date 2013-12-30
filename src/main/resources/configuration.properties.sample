@@ -35,8 +35,8 @@ host2.rest.secret=
 
 file.download.url.local.content=http://localhost:8080/fenix/downloadFile/
 
-index.html.link.localhost=siteMap.do
-#index.html.link.<cidhcp000>=siteMap.do
+index.html.link.localhost=fenixEduIndex.do
+#index.html.link.<cidhcp000>=fenixEduIndex.do
 
 login.html.link.localhost=http://localhost:8080/fenix/privado
 #login.html.link.<cidhcp000>=http://<cidhcp000>:8080/fenix/privado
