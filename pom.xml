@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>fenix-webapp</artifactId>
-    <version>8</version>
+    <version>9</version>
     <packaging>war</packaging>
 
     <name>Fenix Webapp</name>
