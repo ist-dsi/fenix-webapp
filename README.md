@@ -17,7 +17,7 @@ Fenix Webapp is the aggregator project for IST's Fenix Installation.
 
 #Setup Environment
 
-1. Copy `src/main/resources/configuration.properties.sample` to `src/main/resources/configuration.properties`.
+1. Create a configuration file using `mvn bennu:generate-configuration`. This generates `src/main/resources/configuration.properties`, which should be customized to best suit your needs.
 2. Copy `src/main/resources/fenix-framework.properties.sample` to `src/main/resources/fenix-framework.properties`.
 3. Modify both files accordingly
 4. `export JAVA_OPTS="-server -Xms256m -Xmx1024m -XX:PermSize=384m"`
