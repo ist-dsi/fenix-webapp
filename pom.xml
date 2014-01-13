@@ -11,7 +11,7 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>10</version>
+	<version>11</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
@@ -50,6 +50,11 @@
 	</build>
 
 	<dependencies>
+                <dependency>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-servlet</artifactId>
+                        <version>1.18</version>
+                </dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
 			<artifactId>fenix</artifactId>
