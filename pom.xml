@@ -51,14 +51,14 @@
 
 	<dependencies>
                 <dependency>
-                        <groupId>com.sun.jersey</groupId>
-                        <artifactId>jersey-servlet</artifactId>
-                        <version>1.18</version>
+                        <groupId>org.fenixedu</groupId>
+                        <artifactId>bennu-renderers</artifactId>
+                        <version>3.0.1</version>
                 </dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
 			<artifactId>fenix</artifactId>
-			<version>2.0.0</version>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
@@ -84,32 +84,32 @@
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>bennu-core</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>bennu-scheduler</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>bennu-io</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>bennu-portal</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.4</version>
         </dependency>
 		<dependency>
 			<groupId>org.fenixedu</groupId>
 			<artifactId>bennu-client</artifactId>
-			<version>2.0.1</version>
+			<version>2.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fenixedu</groupId>
 			<artifactId>default-theme</artifactId>
-			<version>2.0.1</version>
+			<version>2.0.4</version>
 		</dependency>
 	</dependencies>
 
