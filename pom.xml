@@ -11,7 +11,7 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>17</version>
+	<version>18</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
