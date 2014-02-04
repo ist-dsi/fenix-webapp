@@ -22,7 +22,7 @@
 	<logger name="net" level="INFO">
 	</logger>
 
-	<logger name="net.sourceforge.fenixedu.webServices.jersey" level="DEBUG">
+	<logger name="org.fenixedu.bennu.scheduler" level="DEBUG">
 	</logger>
 	
 	<logger name="org" level="WARN">
