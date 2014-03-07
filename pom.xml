@@ -11,7 +11,7 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>31</version>
+	<version>32</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>pt.ist</groupId>
 			<artifactId>fenix-ist</artifactId>
-			<version>1.0.8</version>
+			<version>1.0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
