@@ -13,3 +13,5 @@ build.properties.slave
 configuration.properties.fenix
 configuration.properties.localhost
 
+/target
+/target
