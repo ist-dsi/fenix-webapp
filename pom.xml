@@ -18,10 +18,10 @@
 
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
-		<version.pt.ist.fenix>2.2.3</version.pt.ist.fenix>
-		<version.pt.ist.fenix.ist>1.1.1</version.pt.ist.fenix.ist>
-		<version.org.fenixedu.bennu>2.2.0</version.org.fenixedu.bennu>
-		<version.org.fenixedu.bennu.renderers>3.0.2</version.org.fenixedu.bennu.renderers>
+		<version.pt.ist.fenix>3.0.0.M1</version.pt.ist.fenix>
+		<version.pt.ist.fenix.ist>1.2.0.M1</version.pt.ist.fenix.ist>
+		<version.org.fenixedu.bennu>3.0.1</version.org.fenixedu.bennu>
+		<version.org.fenixedu.bennu.renderers>4.0.1</version.org.fenixedu.bennu.renderers>
 	</properties>
 
 	<build>
@@ -48,7 +48,7 @@
 			<plugin>
 				<groupId>org.fenixedu</groupId>
 				<artifactId>bennu-maven-plugin</artifactId>
-				<version>2.0.0</version>
+				<version>${version.org.fenixedu.bennu}</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -118,7 +118,7 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.4</version>
+			<version>2.7</version>
 		</dependency>
 	</dependencies>
 
@@ -139,30 +139,6 @@
 								</goals>
 								<configuration>
 									<mainClass>pt.ist.fenix.webapp.SQLUpdateGeneratorMain</mainClass>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>install</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.2.1</version>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>java</goal>
-								</goals>
-								<configuration>
-									<mainClass>pt.utl.ist.codeGenerator.database.Installer</mainClass>
 								</configuration>
 							</execution>
 						</executions>
