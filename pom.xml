@@ -23,7 +23,7 @@
 		<version.pt.ist.fenix.parking>1.0.0</version.pt.ist.fenix.parking>
 		<version.org.fenixedu.bennu>3.1.0</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.renderers>4.0.3</version.org.fenixedu.bennu.renderers>
-		<version.org.fenixedu.id.cards>1.0.0</version.org.fenixedu.id.cards>
+		<version.org.fenixedu.id.cards>1.0.1</version.org.fenixedu.id.cards>
 	</properties>
 
 	<build>
