@@ -6,22 +6,24 @@
 	<parent>
 		<groupId>org.fenixedu</groupId>
 		<artifactId>web-app-project</artifactId>
-		<version>1.3.0</version>
+		<version>2.0.1</version>
 	</parent>
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>52</version>
+	<version>53</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
 
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
-		<version.pt.ist.fenix>2.2.9</version.pt.ist.fenix>
-		<version.pt.ist.fenix.ist>1.1.2</version.pt.ist.fenix.ist>
-		<version.org.fenixedu.bennu>2.2.0</version.org.fenixedu.bennu>
-		<version.org.fenixedu.bennu.renderers>3.0.2</version.org.fenixedu.bennu.renderers>
+		<version.pt.ist.fenix>3.0.3</version.pt.ist.fenix>
+		<version.pt.ist.fenix.ist>1.2.4</version.pt.ist.fenix.ist>
+		<version.pt.ist.fenix.parking>1.0.0</version.pt.ist.fenix.parking>
+		<version.org.fenixedu.bennu>3.1.0</version.org.fenixedu.bennu>
+		<version.org.fenixedu.bennu.renderers>4.0.3</version.org.fenixedu.bennu.renderers>
+		<version.org.fenixedu.id.cards>1.0.0</version.org.fenixedu.id.cards>
 	</properties>
 
 	<build>
@@ -29,7 +31,7 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.1</version>
+				<version>2.2</version>
 				<configuration>
 					<path>/fenix</path>
 					<port>8080</port>
@@ -48,7 +50,7 @@
 			<plugin>
 				<groupId>org.fenixedu</groupId>
 				<artifactId>bennu-maven-plugin</artifactId>
-				<version>2.0.0</version>
+				<version>${version.org.fenixedu.bennu}</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -116,9 +118,19 @@
 			<version>${version.org.fenixedu.bennu}</version>
 		</dependency>
 		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenix-parking</artifactId>
+			<version>${version.pt.ist.fenix.parking}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>fenixedu-id-cards</artifactId>
+			<version>${version.org.fenixedu.id.cards}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.4</version>
+			<version>2.9</version>
 		</dependency>
 	</dependencies>
 
@@ -139,30 +151,6 @@
 								</goals>
 								<configuration>
 									<mainClass>pt.ist.fenix.webapp.SQLUpdateGeneratorMain</mainClass>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>install</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.2.1</version>
-						<executions>
-							<execution>
-								<id>install</id>
-								<phase>prepare-package</phase>
-								<goals>
-									<goal>java</goal>
-								</goals>
-								<configuration>
-									<mainClass>pt.utl.ist.codeGenerator.database.Installer</mainClass>
 								</configuration>
 							</execution>
 						</executions>

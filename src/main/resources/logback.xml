@@ -22,10 +22,10 @@
 	<logger name="net" level="INFO">
 	</logger>
 
-	<logger name="org.fenixedu.bennu.scheduler" level="DEBUG">
-	</logger>
-	
 	<logger name="org" level="WARN">
+	</logger>
+
+	<logger name="org.fenixedu" level="INFO">
 	</logger>
 
 	<root level="WARN">
