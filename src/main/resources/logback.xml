@@ -25,6 +25,9 @@
 	<logger name="org" level="WARN">
 	</logger>
 
+	<logger name="org.fenixedu.bennu.spring.portal.PortalHandlerMapping" level="WARN">
+	</logger>
+
 	<logger name="org.fenixedu" level="INFO">
 	</logger>
 
