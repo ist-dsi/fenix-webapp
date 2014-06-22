@@ -11,7 +11,7 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>65-SNAPSHOT</version>
+	<version>65</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
@@ -19,7 +19,7 @@
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
 		<version.pt.ist.fenix>3.4.0</version.pt.ist.fenix>
-		<version.pt.ist.fenix.ist>1.2.7</version.pt.ist.fenix.ist>
+		<version.pt.ist.fenix.ist>1.2.8</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>1.0.1</version.pt.ist.fenix.parking>
 		<version.org.fenixedu.bennu>3.1.0</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.renderers>4.0.6</version.org.fenixedu.bennu.renderers>
