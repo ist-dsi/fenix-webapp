@@ -11,19 +11,18 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>68</version>
+	<version>69</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
 
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
-		<version.pt.ist.fenix>3.5.1</version.pt.ist.fenix>
-		<version.pt.ist.fenix.ist>1.2.9</version.pt.ist.fenix.ist>
+		<version.pt.ist.fenix>3.6.0</version.pt.ist.fenix>
+		<version.pt.ist.fenix.ist>1.2.10</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>1.0.1</version.pt.ist.fenix.parking>
 		<version.org.fenixedu.bennu>3.1.0</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.renderers>4.0.6</version.org.fenixedu.bennu.renderers>
-		<version.org.fenixedu.id.cards>1.0.1</version.org.fenixedu.id.cards>
 	</properties>
 
 	<build>
@@ -121,11 +120,6 @@
 			<groupId>pt.ist</groupId>
 			<artifactId>fenix-parking</artifactId>
 			<version>${version.pt.ist.fenix.parking}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fenixedu</groupId>
-			<artifactId>fenixedu-id-cards</artifactId>
-			<version>${version.org.fenixedu.id.cards}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
