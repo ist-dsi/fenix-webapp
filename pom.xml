@@ -11,14 +11,14 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>77</version>
+	<version>78</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
 
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
-		<version.pt.ist.fenix>3.7.2</version.pt.ist.fenix>
+		<version.pt.ist.fenix>3.7.3</version.pt.ist.fenix>
 		<version.org.fenixedu.idcards>1.0.2</version.org.fenixedu.idcards>
 		<version.pt.ist.fenix.ist>1.2.12</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>1.0.2</version.pt.ist.fenix.parking>
