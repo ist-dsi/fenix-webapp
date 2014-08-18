@@ -11,14 +11,14 @@
 
 	<groupId>pt.ist</groupId>
 	<artifactId>fenix-webapp</artifactId>
-	<version>79</version>
+	<version>80</version>
 	<packaging>war</packaging>
 
 	<name>Fenix Webapp</name>
 
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
-		<version.pt.ist.fenix>3.7.4</version.pt.ist.fenix>
+		<version.pt.ist.fenix>3.8.0</version.pt.ist.fenix>
 		<version.org.fenixedu.idcards>1.0.2</version.org.fenixedu.idcards>
 		<version.pt.ist.fenix.ist>1.2.12</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>1.0.3</version.pt.ist.fenix.parking>
@@ -132,6 +132,12 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.9</version>
 		</dependency>
+                <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <version>3.0.1</version>
+                    <scope>provided</scope>
+                </dependency>
 	</dependencies>
 
 	<profiles>
