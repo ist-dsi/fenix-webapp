@@ -24,6 +24,7 @@
 		<version.pt.ist.fenix.parking>1.0.3</version.pt.ist.fenix.parking>
 		<version.org.fenixedu.bennu>3.3.3</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.renderers>4.2.1</version.org.fenixedu.bennu.renderers>
+		<version.pt.ist.fenix.framework>2.5.1</version.pt.ist.fenix.framework>
 	</properties>
 
 	<build>
