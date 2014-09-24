@@ -22,6 +22,7 @@
 		<version.org.fenixedu.idcards>1.1.2</version.org.fenixedu.idcards>
 		<version.pt.ist.fenix.ist>1.4.3</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>1.0.3</version.pt.ist.fenix.parking>
+		<version.org.fenixedu.ashes.theme>1.1.1</version.org.fenixedu.ashes.theme>
 		<version.org.fenixedu.bennu>3.3.3</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.renderers>4.2.1</version.org.fenixedu.bennu.renderers>
 		<version.pt.ist.fenix.framework>2.5.1</version.pt.ist.fenix.framework>
@@ -127,6 +128,11 @@
 			<groupId>org.fenixedu</groupId>
 			<artifactId>fenixedu-id-cards</artifactId>
 			<version>${version.org.fenixedu.idcards}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>ashes-theme</artifactId>
+			<version>${version.org.fenixedu.ashes.theme}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
