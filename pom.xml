@@ -18,13 +18,29 @@
 
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
-		<version.pt.ist.fenix>3.14.9</version.pt.ist.fenix>
-		<version.org.fenixedu.idcards>1.2.0</version.org.fenixedu.idcards>
-		<version.pt.ist.fenix.ist>1.5.1</version.pt.ist.fenix.ist>
-		<version.pt.ist.fenix.parking>1.0.3</version.pt.ist.fenix.parking>
-		<version.org.fenixedu.ashes.theme>1.1.1</version.org.fenixedu.ashes.theme>
-		<version.org.fenixedu.bennu>3.4.0</version.org.fenixedu.bennu>
-		<version.org.fenixedu.bennu.renderers>4.2.1</version.org.fenixedu.bennu.renderers>
+
+		<version.org.fenixedu.academic>4.0.2</version.org.fenixedu.academic>
+		<version.org.fenixedu.academic.thesis>1.0.0.RC1</version.org.fenixedu.academic.thesis>
+		<version.org.fenixedu.ashes.theme>1.1.2</version.org.fenixedu.ashes.theme>
+		<version.org.fenixedu.bennu>3.4.1</version.org.fenixedu.bennu>
+		<version.org.fenixedu.bennu.renderers>5.0.1</version.org.fenixedu.bennu.renderers>
+		<version.org.fenixedu.cms>1.0.0.RC2</version.org.fenixedu.cms>
+		<version.org.fenixedu.idcards>2.0.0.RC1</version.org.fenixedu.idcards>
+		<version.org.fenixedu.learning>1.0.0.RC1</version.org.fenixedu.learning>
+
+		<version.pt.ist.fenixedu.delegates>4.0.0</version.pt.ist.fenixedu.delegates>
+		<version.pt.ist.fenixedu.giaf-contracts>4.0.0.RC1</version.pt.ist.fenixedu.giaf-contracts>
+		<version.pt.ist.fenixedu.libraryspace>4.0.0</version.pt.ist.fenixedu.libraryspace>
+		<version.pt.ist.fenixedu.onlinetests>4.0.0</version.pt.ist.fenixedu.onlinetests>
+		<version.pt.ist.fenixedu.pre-bolonha>4.0.0</version.pt.ist.fenixedu.pre-bolonha>
+		<version.pt.ist.fenixedu.quc>4.0.0</version.pt.ist.fenixedu.quc>
+		<version.pt.ist.fenixedu.teacher-credits>4.0.0.RC1</version.pt.ist.fenixedu.teacher-credits>
+		<version.pt.ist.fenixedu.teacher-evaluation>4.0.0.RC1</version.pt.ist.fenixedu.teacher-evaluation>
+		<version.pt.ist.fenixedu.tutorship>4.0.0</version.pt.ist.fenixedu.tutorship>
+		<version.pt.ist.fenixedu.vigilancies>4.0.0</version.pt.ist.fenixedu.vigilancies>
+
+		<version.pt.ist.fenix.ist>2.0.0.RC1</version.pt.ist.fenix.ist>
+		<version.pt.ist.fenix.parking>2.0.0.RC1</version.pt.ist.fenix.parking>
 	</properties>
 
 	<build>
@@ -36,7 +52,7 @@
 				<configuration>
 					<path>/fenix</path>
 					<port>8080</port>
-					<warSourceDirectory>../fenix/src/main/webapp</warSourceDirectory>
+					<warSourceDirectory>../fenixedu-academic/src/main/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -63,9 +79,14 @@
 			<version>${version.org.fenixedu.bennu.renderers}</version>
 		</dependency>
 		<dependency>
-			<groupId>pt.ist</groupId>
-			<artifactId>fenix</artifactId>
-			<version>${version.pt.ist.fenix}</version>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>fenixedu-academic</artifactId>
+			<version>${version.org.fenixedu.academic}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>fenixedu-academic-thesis</artifactId>
+			<version>${version.org.fenixedu.academic.thesis}</version>
 		</dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
@@ -120,6 +141,56 @@
 		</dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-delegates</artifactId>
+			<version>${version.pt.ist.fenixedu.delegates}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-giaf-contracts</artifactId>
+			<version>${version.pt.ist.fenixedu.giaf-contracts}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-libraryspace</artifactId>
+			<version>${version.pt.ist.fenixedu.libraryspace}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-onlinetests</artifactId>
+			<version>${version.pt.ist.fenixedu.onlinetests}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-pre-bolonha</artifactId>
+			<version>${version.pt.ist.fenixedu.pre-bolonha}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-quc</artifactId>
+			<version>${version.pt.ist.fenixedu.quc}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-teacher-credits</artifactId>
+			<version>${version.pt.ist.fenixedu.teacher-credits}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-teacher-evaluation</artifactId>
+			<version>${version.pt.ist.fenixedu.teacher-evaluation}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-tutorship</artifactId>
+			<version>${version.pt.ist.fenixedu.tutorship}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
+			<artifactId>fenixedu-ist-vigilancies</artifactId>
+			<version>${version.pt.ist.fenixedu.vigilancies}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist</groupId>
 			<artifactId>fenix-parking</artifactId>
 			<version>${version.pt.ist.fenix.parking}</version>
 		</dependency>
@@ -127,6 +198,16 @@
 			<groupId>org.fenixedu</groupId>
 			<artifactId>fenixedu-id-cards</artifactId>
 			<version>${version.org.fenixedu.idcards}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>fenixedu-cms</artifactId>
+			<version>${version.org.fenixedu.cms}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>fenixedu-learning</artifactId>
+			<version>${version.org.fenixedu.learning}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fenixedu</groupId>
@@ -138,12 +219,12 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.9</version>
 		</dependency>
-                <dependency>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
-                    <version>3.0.1</version>
-                    <scope>provided</scope>
-                </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<profiles>

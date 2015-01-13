@@ -2,7 +2,7 @@ package pt.ist.fenix.webapp;
 
 import java.sql.Connection;
 
-import net.sourceforge.fenixedu.util.ConnectionManager;
+import org.fenixedu.academic.util.ConnectionManager;
 
 import org.apache.ojb.broker.accesslayer.LookupException;
 
