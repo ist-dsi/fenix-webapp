@@ -19,16 +19,17 @@
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
 
-		<version.org.fenixedu.academic>4.0.3</version.org.fenixedu.academic>
+		<version.org.fenixedu.academic>4.0.4</version.org.fenixedu.academic>
 		<version.org.fenixedu.academic.thesis>1.0.0</version.org.fenixedu.academic.thesis>
 		<version.org.fenixedu.ashes.theme>1.1.2</version.org.fenixedu.ashes.theme>
 		<version.org.fenixedu.bennu>3.4.1</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.oauth>1.0.2</version.org.fenixedu.bennu.oauth>
 		<version.org.fenixedu.bennu.renderers>5.0.1</version.org.fenixedu.bennu.renderers>
+		<version.org.fenixedu.bennu.signals>1.0.1</version.org.fenixedu.bennu.signals>
 		<version.org.fenixedu.bennu.spring>1.2.0</version.org.fenixedu.bennu.spring>
-		<version.org.fenixedu.cms>1.0.0</version.org.fenixedu.cms>
+		<version.org.fenixedu.cms>1.0.1</version.org.fenixedu.cms>
 		<version.org.fenixedu.idcards>2.0.0</version.org.fenixedu.idcards>
-		<version.org.fenixedu.learning>1.0.0</version.org.fenixedu.learning>
+		<version.org.fenixedu.learning>1.0.1</version.org.fenixedu.learning>
 		<version.org.fenixedu.spaces>1.3.2</version.org.fenixedu.spaces>	
 
 		<version.pt.ist.fenixedu.delegates>4.0.0</version.pt.ist.fenixedu.delegates>
@@ -43,7 +44,7 @@
 		<version.pt.ist.fenixedu.tutorship>4.0.1</version.pt.ist.fenixedu.tutorship>
 		<version.pt.ist.fenixedu.vigilancies>4.0.1</version.pt.ist.fenixedu.vigilancies>
 
-		<version.pt.ist.fenix.ist>2.0.0</version.pt.ist.fenix.ist>
+		<version.pt.ist.fenix.ist>2.0.1</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>2.0.0</version.pt.ist.fenix.parking>
 	</properties>
 
@@ -81,6 +82,11 @@
 			<groupId>org.fenixedu</groupId>
 			<artifactId>bennu-renderers</artifactId>
 			<version>${version.org.fenixedu.bennu.renderers}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fenixedu</groupId>
+			<artifactId>bennu-signals</artifactId>
+			<version>${version.org.fenixedu.bennu.signals}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fenixedu</groupId>
