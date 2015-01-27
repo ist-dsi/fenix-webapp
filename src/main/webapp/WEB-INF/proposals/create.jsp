@@ -35,24 +35,8 @@ ${portal.toolkit()}
 </div>
 
 
-<c:if test="${!empty unexistentConfigurationException}">
-  <p class="text-danger"><spring:message code="error.thesisProposal.create.unexistentConfigurationException"/></p>
-</c:if>
-
-<c:if test="${!empty unequivalentThesisConfigurationsException}">
-  <p class="text-danger"><spring:message code="error.thesisProposal.create.unequivalentThesisConfigurationsException"/></p>
-</c:if>
-
-<c:if test="${!empty illegalParticipantTypeException}">
-  <p class="text-danger"><spring:message code="error.thesisProposal.create.illegalParticipantTypeException"/></p>
-</c:if>
-
-<c:if test="${!empty createMaxNumberThesisProposalsException}">
-  <p class="text-danger"><spring:message code="error.thesisProposal.create.maxNumberThesisProposalsException"/></p>
-</c:if>
-
-<c:if test="${!empty unexistentThesisParticipantException}">
-  <p class="text-danger"><spring:message code="error.thesisProposal.unexistentThesisParticipantException"/></p>
+<c:if test="${!empty error}">
+  <p class="text-danger"><spring:message code="error.thesisProposal.${error}"/></p>
 </c:if>
 
 
@@ -266,3 +250,4 @@ ${portal.toolkit()}
 
         $(document).ready(checkboxListener(null));
       </script>
+      
