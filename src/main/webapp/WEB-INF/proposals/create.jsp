@@ -1,6 +1,6 @@
 <%--
 
-Copyright © ${project.inceptionYear} Instituto Superior Técnico
+    Copyright © 2014 Instituto Superior Técnico
 
 This file is part of FenixEdu Academic Thesis.
 
@@ -39,14 +39,13 @@ ${portal.toolkit()}
   <p class="text-danger"><spring:message code="error.thesisProposal.${error}"/></p>
 </c:if>
 
+<form:form role="form" method="POST" action="${pageContext.request.contextPath}/${action}" class="form-horizontal" commandname="thesisProposalBean" id="thesisProposalCreateForm">
 
 <div class="alert alert-warning">
   <p>
     Colocar nome e email dos orientadores externos no campo de Observações.
   </p>
 </div>
-
-<form:form role="form" method="POST" action="${pageContext.request.contextPath}/proposals/create" class="form-horizontal" commandname="thesisProposalBean" id="thesisProposalCreateForm">
 
   <spring:message code='label.title' var='title'/>
   <spring:message code='label.observations' var='observations'/>
@@ -82,9 +81,9 @@ ${portal.toolkit()}
             <div class="form-group">
               <div class="col-sm-10">
                 <select id="selectParticipantType" class="form-control">
-                  <option value="" label="${selectParticipantType}"/>
+                <option value=""> ${selectParticipantType} </option>
                   <c:forEach var="participantType" items="${participantTypeList}">
-                    <option value="${participantType.externalId}" label="${participantType.name.content}"/>
+                <option value="${participantType.externalId}"> ${participantType.name.content}</option>
                   </c:forEach>
                 </select>
               </div>
@@ -106,17 +105,17 @@ ${portal.toolkit()}
               </div>
               <div class="form-group">
                 <div class="col-sm-10">
-                  <select id="selectParticipantType" class="form-control">
-                    <option value="" label="${selectParticipantType}"/>
-                    <c:forEach var="participantType" items="${participantTypeList}">
-                      <c:if test="${participantBean.participantTypeExternalId == participantType.externalId}">
-                        <option value="${participantType.externalId}" selected="selected" label="${participantType.name.content}"/>
-                      </c:if>
-                      <c:if test="${participantBean.participantTypeExternalId != participantType.externalId}">
-                        <option value="${participantType.externalId}" label="${participantType.name.content}"/>
-                      </c:if>
-                    </c:forEach>
-                  </select>
+              <select id="selectParticipantType" class="form-control">
+                <option value=""> ${selectParticipantType} </option>
+                <c:forEach var="participantType" items="${participantTypeList}">
+                  <c:if test="${participantBean.participantTypeExternalId == participantType.externalId}">
+                    <option value="${participantType.externalId}" selected="selected"> ${participantType.name.content} </option>
+                  </c:if>
+                  <c:if test="${participantBean.participantTypeExternalId != participantType.externalId}">
+                    <option value="${participantType.externalId}"> "${participantType.name.content} </option>
+                  </c:if>
+                </c:forEach>
+              </select>
                 </div>
               </div>
               <div class="form-group">
@@ -168,8 +167,11 @@ ${portal.toolkit()}
     <label class="col-sm-2 control-label">${executionDegrees}</label>
     <div class="col-sm-10" id="configurationsSelect">
       <c:forEach items="${configurations}" var="configuration">
-        <form:checkbox path="thesisProposalsConfigurations" value="${configuration.externalId}" onClick="checkboxListener(this)" name="thesisProposalsConfigurations"/>${configuration.executionDegree.presentationName}
-        <br>
+      <div class="checkbox">
+        <label>
+          <form:checkbox path="thesisProposalsConfigurations" value="${configuration.externalId}" onClick="checkboxListener(this)" name="thesisProposalsConfigurations"/>${configuration.executionDegree.presentationName}
+        </label>
+      </div>
         </c:forEach>
       </div>
     </div>
@@ -193,9 +195,9 @@ ${portal.toolkit()}
             <div class="form-group">
               <div class="col-sm-10">
                 <select id="selectParticipantType" class="form-control">
-                  <option value="NONE" label="${selectParticipantType}"/>
-                  <c:forEach var="participantType" items="${participantTypeList}">
-                    <option value="${participantType.externalId}" label="${participantType.name.content}"/>
+          <option value=""> ${selectParticipantType} </option>
+          <c:forEach var="participantType" items="${participantTypeList}">
+          <option value="${participantType.externalId}"> ${participantType.name.content} </option>
                   </c:forEach>
                 </select>
               </div>
@@ -222,7 +224,6 @@ ${portal.toolkit()}
         $(".removeParticipant").on("click", onRemoveParticipant);
 
         $("#submitButton").on("click", function(e) {
-        debugger;
         var participantsJSON = {
         participants: []
         };
@@ -240,7 +241,7 @@ ${portal.toolkit()}
         });
 
         function checkboxListener(e) {
-        if($("#configurationsSelect").children(":checked").size() > 0) {
+    if($("#configurationsSelect").find(":checked").size() > 0) {
         $("#submitButton").attr("disabled", false);
         }
         else {
