@@ -20,7 +20,7 @@
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
 
 		<version.org.fenixedu.academic>4.0.10</version.org.fenixedu.academic>
-		<version.org.fenixedu.academic.thesis>2.2.0</version.org.fenixedu.academic.thesis>
+		<version.org.fenixedu.academic.thesis>2.2.1</version.org.fenixedu.academic.thesis>
 		<version.org.fenixedu.ashes.theme>1.1.2</version.org.fenixedu.ashes.theme>
 		<version.org.fenixedu.bennu>3.4.1</version.org.fenixedu.bennu>
 		<version.org.fenixedu.bennu.oauth>1.0.2</version.org.fenixedu.bennu.oauth>
@@ -40,7 +40,7 @@
 		<version.pt.ist.fenixedu.pre-bolonha>4.0.0</version.pt.ist.fenixedu.pre-bolonha>
 		<version.pt.ist.fenixedu.quc>4.0.2</version.pt.ist.fenixedu.quc>
 		<version.pt.ist.fenixedu.tutorship>4.0.2</version.pt.ist.fenixedu.tutorship>
-		<version.pt.ist.fenixedu.vigilancies>4.0.3</version.pt.ist.fenixedu.vigilancies>
+		<version.pt.ist.fenixedu.vigilancies>4.0.4</version.pt.ist.fenixedu.vigilancies>
 
 		<version.pt.ist.fenix.ist>2.0.7</version.pt.ist.fenix.ist>
 		<version.pt.ist.fenix.parking>2.0.2</version.pt.ist.fenix.parking>
