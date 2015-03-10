@@ -33,7 +33,7 @@
 		<version.org.fenixedu.spaces>1.6.0</version.org.fenixedu.spaces>	
 
 		<version.pt.ist.fenixedu.delegates>4.2.1</version.pt.ist.fenixedu.delegates>
-		<version.pt.ist.fenixedu.teacher-service>5.1.0</version.pt.ist.fenixedu.teacher-service>
+		<version.pt.ist.fenixedu.teacher-service>5.1.1</version.pt.ist.fenixedu.teacher-service>
 		<version.pt.ist.fenixedu.reports>1.0.1</version.pt.ist.fenixedu.reports>
 		<version.pt.ist.fenixedu.libraryspace>4.0.0</version.pt.ist.fenixedu.libraryspace>
 		<version.pt.ist.fenixedu.onlinetests>4.0.1</version.pt.ist.fenixedu.onlinetests>
@@ -43,7 +43,7 @@
 		<version.pt.ist.fenixedu.vigilancies>4.0.4</version.pt.ist.fenixedu.vigilancies>
 
 		<version.pt.ist.fenix.ist>2.4.0</version.pt.ist.fenix.ist>
-		<version.pt.ist.fenix.parking>2.0.2</version.pt.ist.fenix.parking>
+		<version.pt.ist.fenix.parking>2.0.3</version.pt.ist.fenix.parking>
 
 		<version.pt.ist.fenix.framework>2.6.1</version.pt.ist.fenix.framework>
 	</properties>
