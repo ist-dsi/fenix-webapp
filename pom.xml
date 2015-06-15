@@ -33,7 +33,7 @@
 		<version.org.fenixedu.learning>1.1.0</version.org.fenixedu.learning>
 		<version.org.fenixedu.spaces>1.6.2</version.org.fenixedu.spaces>
 
-        <version.pt.ist.fenixedu.integration>6.2.0</version.pt.ist.fenixedu.integration>
+		<version.pt.ist.fenixedu.integration>6.3.0</version.pt.ist.fenixedu.integration>
 		<version.pt.ist.fenixedu.onlinetests>4.1.1</version.pt.ist.fenixedu.onlinetests>
 
 		<version.pt.ist.fenix.framework>2.6.1</version.pt.ist.fenix.framework>
