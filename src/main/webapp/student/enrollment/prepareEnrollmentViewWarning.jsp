@@ -30,57 +30,56 @@
 
 <div align="center">
 
-        <h2 class="acenter"><bean:message bundle="STUDENT_RESOURCES" key="title.student.shift.enrollment" /></h2>
+	<h2 class="acenter"><bean:message bundle="STUDENT_RESOURCES" key="title.student.shift.enrollment" /></h2>
 
-        <div class="inobullet">
-                <!-- Error messages go here --><html:errors />
-        </div>
+	<div class="inobullet">
+		<!-- Error messages go here --><html:errors />
+	</div>
+	
+	<logic:messagesPresent message="true">
+		<html:messages id="messages" message="true">
+			<p><span class="error0"><bean:write name="messages" filter="false" /></span></p>
+		</html:messages>
+	</logic:messagesPresent>
 
-        <logic:messagesPresent message="true">
-                <html:messages id="messages" message="true">
-                        <p><span class="error0"><bean:write name="messages" filter="false" /></span></p>
-                </html:messages>
-        </logic:messagesPresent>
+	<c:if test="${!registration.registrationProtocol.mobilityAgreement}">
+	   <p><span class="error0">O período de inscrições encontra-se fechado.</span></p>
+    </c:if>
 
-        <c:if test="${!registration.registrationProtocol.mobilityAgreement}">
-                <p><span class="error0">O período de inscrições encontra-se fechado.</span></p>
-        </c:if>
-
-        <div class="infoop2" style="text-align: left">
-        <ul>
-                <li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses" /> <html:link page="<%= "/studentEnrollmentManagement.do?method=prepare" %>"><bean:message bundle="STUDENT_RESOURCES" 
-key="messa$
-                <li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.labs" /></li>
-                <li>
-                        <bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.notEnroll" />
-                        <ul>
-                                <li>Alunos Externos</li>
-                                <li>Melhorias de Nota</li>
-                                <li>Alunos com processos de Equivalência em curso</li>
-                        </ul>
-                </li>
-
-                <c:if test="${registration.registrationProtocol.mobilityAgreement}">
-                        <li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.notEnroll.chooseCourse" /> <html:link page="<%= 
-"/studentShiftEnrollmentManager.do?method=start&amp;selectCourses=true&am$
-                </c:if>
-
-        </ul>
-    
-       </div>
-
-        <br />
-
+	<div class="infoop2" style="text-align: left">
+	<ul>
+		<li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses" /> <html:link page="<%= "/studentEnrollmentManagement.do?method=prepare" %>"><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.Fenix" /></html:link>.</li>
+		<li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.labs" /></li>
+		<li>
+			<bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.notEnroll" />
+			<ul>
+				<li>Alunos Externos</li>
+				<li>Melhorias de Nota</li>
+				<li>Alunos com processos de Equivalência em curso</li>
+			</ul>
+		</li>
+        
         <c:if test="${registration.registrationProtocol.mobilityAgreement}">
-                <html:form action="/studentShiftEnrollmentManager">
-                        <input alt="input.method" type="hidden" name="method" value="start"/>
-
-                        <html:hidden property="registrationOID" value="<%=registration.getExternalId().toString()%>"/>
-                        <html:hidden property="executionSemesterID" value="<%= executionSemesterID %>"/>
-
-                        <html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit" styleClass="inputbutton">
-                                <bean:message bundle="STUDENT_RESOURCES" key="button.continue.enrolment"/>
-                        </html:submit>
-                </html:form>
+			<li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.notEnroll.chooseCourse" /> <html:link page="<%= "/studentShiftEnrollmentManager.do?method=start&amp;selectCourses=true&amp;registrationOID=" + registration.getExternalId().toString() + "&executionSemesterID=" + executionSemesterID %>"><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.notEnroll.chooseCourse.link" /></html:link></li>
         </c:if>
+
+        <%-- <li><bean:message bundle="STUDENT_RESOURCES" key="message.warning.student.enrolmentClasses.first.year.first.semester" /></li> --%>
+    
+    </ul>
+	</div>
+	
+	<br />
+	<c:if test="${registration.registrationProtocol.mobilityAgreement}">
+		<html:form action="/studentShiftEnrollmentManager">
+			<input alt="input.method" type="hidden" name="method" value="start"/>
+
+			<html:hidden property="registrationOID" value="<%=registration.getExternalId().toString()%>"/>
+			<html:hidden property="executionSemesterID" value="<%= executionSemesterID %>"/>
+
+			<html:submit bundle="HTMLALT_RESOURCES" altKey="submit.submit" styleClass="inputbutton">
+				<bean:message bundle="STUDENT_RESOURCES" key="button.continue.enrolment"/>
+			</html:submit>
+		</html:form>
+	</c:if>
+
 </div>
