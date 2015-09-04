@@ -29,11 +29,11 @@
 		<version.org.fenixedu.bennu.spring>1.2.0</version.org.fenixedu.bennu.spring>
 		<version.org.fenixedu.commons>1.1.1</version.org.fenixedu.commons>
 		<version.org.fenixedu.cms>1.0.7</version.org.fenixedu.cms>
-		<version.org.fenixedu.idcards>2.0.1</version.org.fenixedu.idcards>
+		<version.org.fenixedu.idcards>2.1.0</version.org.fenixedu.idcards>
 		<version.org.fenixedu.learning>1.1.1</version.org.fenixedu.learning>
 		<version.org.fenixedu.spaces>1.6.4</version.org.fenixedu.spaces>
 
-		<version.pt.ist.fenixedu.integration>6.5.0</version.pt.ist.fenixedu.integration>
+		<version.pt.ist.fenixedu.integration>6.6.0</version.pt.ist.fenixedu.integration>
 		<version.pt.ist.fenixedu.onlinetests>4.1.2</version.pt.ist.fenixedu.onlinetests>
 
 		<version.pt.ist.fenix.framework>2.6.1</version.pt.ist.fenix.framework>
@@ -211,6 +211,27 @@
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.10-b140802.1033</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.istu</groupId>
+			<artifactId>fenixedu-ulisboa-cgdIntegration</artifactId>
+			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.xml.bind</groupId>
+					<artifactId>jaxb-impl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>3.1.2</version>
 		</dependency>
 	</dependencies>
 
