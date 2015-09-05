@@ -34,7 +34,7 @@
 
 		<version.pt.ist.fenixedu.integration>6.6.1</version.pt.ist.fenixedu.integration>
 		<version.pt.ist.fenixedu.onlinetests>4.1.2</version.pt.ist.fenixedu.onlinetests>
-		<version.pt.ist.fenixedu.idcards>2.1.0</version.pt.ist.fenixedu.idcards>
+		<version.pt.ist.fenixedu.idcards>2.1.0b</version.pt.ist.fenixedu.idcards>
 
 		<version.pt.ist.fenix.framework>2.6.1</version.pt.ist.fenix.framework>
 	</properties>
@@ -211,22 +211,6 @@
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.2.10-b140802.1033</version>
-		</dependency>
-		<dependency>
-			<groupId>pt.ist</groupId>
-			<artifactId>fenixedu-ulisboa-cgdIntegration</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun.xml.bind</groupId>
-					<artifactId>jaxb-impl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
