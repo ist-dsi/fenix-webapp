@@ -19,7 +19,7 @@
 	<properties>
 		<version.ch.qos.logback.logback.classic>1.0.12</version.ch.qos.logback.logback.classic>
 
-		<version.org.fenixedu.academic>5.1.5</version.org.fenixedu.academic>
+		<version.org.fenixedu.academic>5.1.6</version.org.fenixedu.academic>
 		<version.org.fenixedu.academic.thesis>3.3.5</version.org.fenixedu.academic.thesis>
 		<version.org.fenixedu.ashes.theme>1.1.3</version.org.fenixedu.ashes.theme>
 		<version.org.fenixedu.bennu>3.4.1</version.org.fenixedu.bennu>
