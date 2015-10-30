@@ -56,7 +56,7 @@
 </c:if>
 
 <c:if test="${empty debtsMessage && not hasInquiriesToRespond}">
-    <a class="btn btn-primary" href="${pageContext.request.contextPath}/student/bolonhaStudentEnrollment.do?method=prepare&registrationOid=${registrationOid}">
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/student/bolonhaStudentEnrollment.do?method=prepare&registrationOid=${registrationOid}&executionSemesterID=${executionSemester.externalId}">
         ${fr:message('resources.ApplicationResources', 'label.continue')}
     </a>
 </c:if>
