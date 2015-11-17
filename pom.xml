@@ -212,19 +212,24 @@
 			<artifactId>itext</artifactId>
 			<version>2.1.0</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.fenixedu</groupId>
-		    <artifactId>a3es</artifactId>
-		    <version>${version.org.fenixedu.a3es}</version>
-		</dependency>
-		<dependency>
-		    <groupId>pt.ist</groupId>
-		    <artifactId>a3es-ist</artifactId>
-            <version>${version.pt.ist.a3es-ist}</version>
-		</dependency>
 	</dependencies>
 
 	<profiles>
+	    <profile>
+	        <id>production</id>
+	        <dependencies>
+		        <dependency>
+		            <groupId>org.fenixedu</groupId>
+		            <artifactId>a3es</artifactId>
+		            <version>${version.org.fenixedu.a3es}</version>
+		        </dependency>
+		        <dependency>
+		            <groupId>pt.ist</groupId>
+		            <artifactId>a3es-ist</artifactId>
+		            <version>${version.pt.ist.a3es-ist}</version>
+		        </dependency>
+	        </dependencies>
+	    </profile>
 		<profile>
 			<id>SQLUpdateGenerator</id>
 			<build>
