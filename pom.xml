@@ -31,12 +31,12 @@
 		<version.org.fenixedu.cms>1.0.7</version.org.fenixedu.cms>
 		<version.org.fenixedu.learning>1.1.1</version.org.fenixedu.learning>
 		<version.org.fenixedu.spaces>1.6.4</version.org.fenixedu.spaces>
-        <version.org.fenixedu.a3es>1.1.0</version.org.fenixedu.a3es>
+		<version.org.fenixedu.a3es>1.1.1</version.org.fenixedu.a3es>
 
 		<version.pt.ist.fenixedu.integration>6.11.2</version.pt.ist.fenixedu.integration>
 		<version.pt.ist.fenixedu.onlinetests>4.1.2</version.pt.ist.fenixedu.onlinetests>
 		<version.pt.ist.fenixedu.idcards>2.2.0b</version.pt.ist.fenixedu.idcards>
-        <version.pt.ist.a3es-ist>1.0.0</version.pt.ist.a3es-ist>
+		<version.pt.ist.a3es-ist>1.0.0</version.pt.ist.a3es-ist>
 	</properties>
 
 	<build>
