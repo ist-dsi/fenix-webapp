@@ -1,5 +1,7 @@
 package pt.ist.fenix.webapp.api;
 
+import pt.ist.fenixframework.backend.jvstmojb.pstm.TransactionSupport;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
@@ -8,51 +10,37 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.fenixedu.bennu.core.rest.BennuRestResource;
+import org.fenixedu.bennu.oauth.annotation.OAuthEndpoint;
 import org.joda.time.DateTime;
 
-import pt.ist.fenixframework.backend.jvstmojb.pstm.TransactionSupport;
-
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-@Path("/fenix-ist/stats")
+@Path("/_internal/fenix-framework/stats")
 public class TxStatsResource extends BennuRestResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String stats(@Context HttpServletRequest request, @Context HttpServletResponse response) throws SQLException {
+    @OAuthEndpoint("_internal")
+    public String stats(@QueryParam("chart") @DefaultValue("false") boolean chart, @QueryParam("hours") @DefaultValue("24") int
+            hoursToReport) throws SQLException {
         accessControl("#managers");
         JsonObject data = new JsonObject();
-
-        // Allow CORS requests, we are only letting managers use this anyway...
-        final String referer = request.getHeader("Origin");
-        response.setHeader("Access-Control-Allow-Origin", String.valueOf(referer));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "GET");
-        response.setHeader("Access-Control-Allow-Headers", "Accept, Cache-Control, Pragma, Origin, Authorization, Content-Type");
 
         data.addProperty("timestamp", DateTime.now().toString("dd/MM/yyyy HH:mm:ss"));
         data.addProperty("hostname", getHostName());
         data.add("current", new Gson().toJsonTree(TransactionSupport.STATISTICS));
 
-        if (Boolean.valueOf(request.getParameter("chart"))) {
-
-            int hoursToReport = 24;
-
-            if (!Strings.isNullOrEmpty(request.getParameter("hours"))) {
-                hoursToReport = Integer.parseInt(request.getParameter("hours"));
-            }
+        if (chart) {
             JsonArray array = new JsonArray();
             try (Statement stmt = TransactionSupport.getCurrentSQLConnection().createStatement()) {
                 ResultSet rs =
