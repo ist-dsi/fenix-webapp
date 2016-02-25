@@ -16,3 +16,6 @@ configuration.properties.localhost
 /target
 /target
 /target
+
+.idea/
+*.iml
