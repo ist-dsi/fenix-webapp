@@ -4,4 +4,6 @@
   version="2.0">
 	<endpoint name="cgdIntegration" implementation="com.qubit.solution.fenixedu.integration.cgd.webservices.CgdIntegrationService"
 		url-pattern="/web-services/cgdIntegration" />
+    <endpoint name="bpiIntegration" implementation="pt.ist.fenixedu.bpi.webservice.BPISyncWebService"
+              url-pattern="/web-services/bpiIntegration" />
 </endpoints>
