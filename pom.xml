@@ -37,7 +37,7 @@
 		<version.pt.ist.fenixedu.onlinetests>4.1.2</version.pt.ist.fenixedu.onlinetests>
 		<version.pt.ist.fenixedu.idcards>2.2.0b</version.pt.ist.fenixedu.idcards>
 		<version.pt.ist.a3es-ist>1.0.1</version.pt.ist.a3es-ist>
-                <version.pt.ist.fenixedu-ist-bpi>1.0.1</version.pt.ist.fenixedu-ist-bpi>
+                <version.pt.ist.fenixedu-ist-bpi>1.0.2</version.pt.ist.fenixedu-ist-bpi>
 	</properties>
 
 	<build>
