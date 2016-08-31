@@ -3,7 +3,25 @@
   xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
   version="2.0">
 	<endpoint name="cgdIntegration" implementation="com.qubit.solution.fenixedu.integration.cgd.webservices.CgdIntegrationService"
-		url-pattern="/web-services/cgdIntegration" />
+		url-pattern="/web-services/cgdIntegration">
+		<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+		  <handler-chain>
+		      <handler>
+		          <handler-name>SecurityHandler</handler-name>
+		          <handler-class>com.qubit.solution.fenixedu.bennu.webservices.services.server.BennuWebServiceHandler</handler-class>
+		      </handler>
+		  </handler-chain>
+		</handler-chains>
+    </endpoint>
     <endpoint name="bpiIntegration" implementation="pt.ist.fenixedu.bpi.webservice.BPISyncWebService"
-              url-pattern="/web-services/bpiIntegration" />
+              url-pattern="/web-services/bpiIntegration">
+        <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+          <handler-chain>
+              <handler>
+                  <handler-name>SecurityHandler</handler-name>
+                  <handler-class>com.qubit.solution.fenixedu.bennu.webservices.services.server.BennuWebServiceHandler</handler-class>
+              </handler>
+          </handler-chain>
+        </handler-chains>
+    </endpoint>
 </endpoints>
