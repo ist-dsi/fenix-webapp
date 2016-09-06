@@ -82,15 +82,12 @@
             <br/><br/>
             <div id="txt">
                 <div id="banksBody">                    
-                    <p>
-                        Autorizo a cedência à Caixa Geral de Depósitos dos meus dados pessoais 
-                        (nome, morada, contactos, números de identificação, fotografia e dados de matricula)  
-                        para a emissão do meu cartão de identificação da Universidade de Lisboa, cartão Caixa IU,
-                        <b>necessário para acesso à cantina do IST</b>, 
-                        bem como a alguns outros serviços assegurados pela Universidade.
-                    </p>
                     <% if (!ProcessCandidacyPrintAllDocumentsFilter.isPdfFillerToExclude("org.fenixedu.idcards.ui.candidacydocfiller.BPIPdfFiller") &&
                             !ProcessCandidacyPrintAllDocumentsFilter.isPdfFillerToExclude("org.fenixedu.idcards.ui.candidacydocfiller.SantanderPdfFiller")) { %>
+                        <p>
+                            <bean:message key="authorize.personal.data.access.description.cgd" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
+                        </p>
+
                         <p class="text-center">
                             <a href="#" class="btn-primary btn btn-lg" onclick="postYes(true);">
                                 Sim
@@ -101,48 +98,20 @@
                         </p>
                     <% } else { %>
 
-                        <div class="row">
-                            <div class="col-lg-12 text-left">       
-                                <span style="line-height: 20px; vertical-align: bottom; margin-right: 55px;">
-                                    <input type="radio" name="cgdRadio" id="cgd_yes" value="true" onclick="removeDisabled()">Sim
-                                </span>
-                                <span>
-                                    <input type="radio" name="cgdRadio" id="cgd_no" value="false" onclick="removeDisabled()">Não
-                                </span>
-                            </div>
-                        </div>
-
-
-                        <% if(ProcessCandidacyPrintAllDocumentsFilter.isPdfFillerToExclude("org.fenixedu.idcards.ui.candidacydocfiller.BPIPdfFiller")) { %>
-                            <p style="margin-top: 40px;">
-                                Autorizo a cedência ao Banco Português de Investimento (BPI) dos meus dados pessoais 
-                                (nome, morada, contactos, números de identificação, fotografia e dados de matricula)  
-                                para a emissão do meu cartão de identificação da Associação de Estudantes do IST.
-                            </p>
-
-                            <div class="row">
-                                <div class="col-lg-12 text-left">
-                                    <span style="line-height: 20px; vertical-align: bottom; margin-right: 55px;">
-                                        <input type="radio" name="bpiRadio" id="bpi_yes" value="true" onclick="removeDisabled()">Sim
-                                    </span>
-                                    <span>
-                                        <input type="radio" name="bpiRadio" id="bpi_no" value="false" onclick="removeDisabled()">Não
-                                    </span>
-                                </div>                          
-                            </div>
-                        <% } %>
-
                         <% if(ProcessCandidacyPrintAllDocumentsFilter.isPdfFillerToExclude("org.fenixedu.idcards.ui.candidacydocfiller.SantanderPdfFiller")) { %>
-                            <p style="margin-top: 40px;">
-                                Autorizo a cedência ao Banco Santander dos meus dados pessoais 
-                                (nome, morada, contactos, números de identificação, fotografia e dados de matricula)  
-                                para a emissão do meu cartão bancário de identificação perante o Técnico.
+
+                            <h2 style="border-bottom-width: 1px; border-bottom-color: #ddd; border-bottom-style: solid;">
+                                <bean:message key="authorize.personal.data.access.title.santander" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
+                            </h2>
+
+                            <p>
+                                <bean:message key="authorize.personal.data.access.description.santander" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
                             </p>
 
                             <div class="row">
                                 <div class="col-lg-12 text-left">
                                     <span style="line-height: 20px; vertical-align: bottom; margin-right: 55px;">
-                                        <input type="radio" name="santanderRadio" id="santander_yes" value="true" onclick="removeDisabled()">Sim
+                                        <input type="radio" name="santanderRadio" id="santander_yes" value="true" onclick="removeDisabled()" checked="checked">Sim
                                     </span>
                                     <span>
                                         <input type="radio" name="santanderRadio" id="santander_no" value="false" onclick="removeDisabled()">Não
@@ -150,9 +119,49 @@
                                 </div>                          
                             </div>
                         <% } %>
+
+                        <h2 style="border-bottom-width: 1px; border-bottom-color: #ddd; border-bottom-style: solid; margin-top: 40px;">
+                            <bean:message key="authorize.personal.data.access.title.cgd" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
+                        </h2>
+
+                        <p>
+                            <bean:message key="authorize.personal.data.access.description.cgd" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
+                        </p>
+
+                        <div class="row">
+                            <div class="col-lg-12 text-left">       
+                                <span style="line-height: 20px; vertical-align: bottom; margin-right: 55px;">
+                                    <input type="radio" name="cgdRadio" id="cgd_yes" value="true" onclick="removeDisabled()" checked="checked">Sim
+                                </span>
+                                <span>
+                                    <input type="radio" name="cgdRadio" id="cgd_no" value="false" onclick="removeDisabled()">Não
+                                </span>
+                            </div>
+                        </div>
+
+                        <% if(ProcessCandidacyPrintAllDocumentsFilter.isPdfFillerToExclude("org.fenixedu.idcards.ui.candidacydocfiller.BPIPdfFiller")) { %>
+                            <h2 style="border-bottom-width: 1px; border-bottom-color: #ddd; border-bottom-style: solid; margin-top: 40px;">
+                                <bean:message key="authorize.personal.data.access.title.bpi" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
+                            </h2>
+
+                            <p style="margin-top: 40px;">
+                                <bean:message key="authorize.personal.data.access.description.bpi" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
+                            </p>
+
+                            <div class="row">
+                                <div class="col-lg-12 text-left">
+                                    <span style="line-height: 20px; vertical-align: bottom; margin-right: 55px;">
+                                        <input type="radio" name="bpiRadio" id="bpi_yes" value="true" onclick="removeDisabled()" checked="checked">Sim
+                                    </span>
+                                    <span>
+                                        <input type="radio" name="bpiRadio" id="bpi_no" value="false" onclick="removeDisabled()">Não
+                                    </span>
+                                </div>                          
+                            </div>
+                        <% } %>
                         
                         <p class="text-center" style="margin-top:  30px;">
-                            <a href="#" id="submitButton" class="btn-primary btn btn-lg disabled" onclick="submitForm()" >
+                            <a href="#" id="submitButton" class="btn-primary btn btn-lg" onclick="submitForm()" >
                                 Submeter
                             </a>                            
                         </p>
