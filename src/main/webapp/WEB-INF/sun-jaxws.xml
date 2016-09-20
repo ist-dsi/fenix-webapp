@@ -13,6 +13,17 @@
 		  </handler-chain>
 		</handler-chains>
     </endpoint>
+    <endpoint name="cgdIntegrationTemp" implementation="com.qubit.solution.fenixedu.integration.cgd.webservices.TemporaryMifareReceiverService"
+        url-pattern="/web-services/cgdIntegrationTemp">
+        <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+          <handler-chain>
+              <handler>
+                  <handler-name>SecurityHandler</handler-name>
+                  <handler-class>com.qubit.solution.fenixedu.bennu.webservices.services.server.BennuWebServiceHandler</handler-class>
+              </handler>
+          </handler-chain>
+        </handler-chains>
+    </endpoint>
     <endpoint name="bpiIntegration" implementation="pt.ist.fenixedu.bpi.webservice.BPISyncWebService"
               url-pattern="/web-services/bpiIntegration">
         <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
