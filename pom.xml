@@ -28,7 +28,7 @@
         <version.org.fenixedu.cms>3.0.1</version.org.fenixedu.cms>
         <version.org.fenixedu.commons>1.1.2</version.org.fenixedu.commons>
         <version.org.fenixedu.learning>3.0.0</version.org.fenixedu.learning>
-        <version.org.fenixedu.spaces>2.0.0</version.org.fenixedu.spaces>
+        <version.org.fenixedu.spaces>2.0.1</version.org.fenixedu.spaces>
 
         <version.pt.ist.a3es-ist>1.1.0</version.pt.ist.a3es-ist>
         <version.pt.ist.digitalized-signatures>2.0.0</version.pt.ist.digitalized-signatures>
@@ -71,16 +71,6 @@
     <dependencies>
         <dependency>
             <groupId>org.fenixedu</groupId>
-            <artifactId>bennu-cas-client</artifactId>
-            <version>${version.org.fenixedu.bennu}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fenixedu</groupId>
-            <artifactId>fenixedu-spaces</artifactId>
-            <version>${version.org.fenixedu.spaces}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fenixedu</groupId>
             <artifactId>fenixedu-academic</artifactId>
             <version>${version.org.fenixedu.academic}</version>
         </dependency>
@@ -98,6 +88,11 @@
             <groupId>org.fenixedu</groupId>
             <artifactId>fenixedu-learning</artifactId>
             <version>${version.org.fenixedu.learning}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fenixedu</groupId>
+            <artifactId>fenixedu-spaces</artifactId>
+            <version>${version.org.fenixedu.spaces}</version>
         </dependency>
         <dependency>
             <groupId>pt.ist</groupId>
@@ -143,6 +138,11 @@
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>bennu-admin</artifactId>
+            <version>${version.org.fenixedu.bennu}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fenixedu</groupId>
+            <artifactId>bennu-cas-client</artifactId>
             <version>${version.org.fenixedu.bennu}</version>
         </dependency>
         <dependency>
