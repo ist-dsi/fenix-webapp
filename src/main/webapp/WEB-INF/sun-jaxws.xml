@@ -35,4 +35,26 @@
           </handler-chain>
         </handler-chains>
     </endpoint>
+    <endpoint name="activeDegreesWebService" implementation="org.fenixedu.ulisboa.integration.sas.webservices.ActiveDegreesWebService"
+        url-pattern="/web-services/activeDegreesWebService">
+        <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+          <handler-chain>
+              <handler>
+                  <handler-name>SecurityHandler</handler-name>
+                  <handler-class>com.qubit.solution.fenixedu.bennu.webservices.services.server.BennuWebServiceHandler</handler-class>
+              </handler>
+          </handler-chain>
+        </handler-chains>
+    </endpoint>
+    <endpoint name="activeStudentsWebService" implementation="org.fenixedu.ulisboa.integration.sas.webservices.ActiveStudentsWebService"
+        url-pattern="/web-services/activeStudentsWebService">
+        <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+          <handler-chain>
+              <handler>
+                  <handler-name>SecurityHandler</handler-name>
+                  <handler-class>com.qubit.solution.fenixedu.bennu.webservices.services.server.BennuWebServiceHandler</handler-class>
+              </handler>
+          </handler-chain>
+        </handler-chains>
+    </endpoint>
 </endpoints>
