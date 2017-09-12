@@ -35,7 +35,7 @@
         <version.pt.ist.fenixedu-ist-bpi>2.1.0</version.pt.ist.fenixedu-ist-bpi>
         <version.pt.ist.fenixedu-ulisboa-cgdIntegration>2.1.1.IST</version.pt.ist.fenixedu-ulisboa-cgdIntegration>
         <version.pt.ist.fenixedu.idcards>3.0.0</version.pt.ist.fenixedu.idcards>
-        <version.pt.ist.fenixedu.ist>11.1.0</version.pt.ist.fenixedu.ist>
+        <version.pt.ist.fenixedu.ist>11.1.1</version.pt.ist.fenixedu.ist>
         <version.pt.ist.fenixedu.onlinetests>5.0.0</version.pt.ist.fenixedu.onlinetests>
     </properties>
 
