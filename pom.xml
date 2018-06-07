@@ -38,7 +38,7 @@
         <version.pt.ist.fenixedu.idcards>3.0.0</version.pt.ist.fenixedu.idcards>
         <version.pt.ist.fenixedu.ist>12.2.4</version.pt.ist.fenixedu.ist>
         <version.pt.ist.fenixedu.onlinetests>5.0.1</version.pt.ist.fenixedu.onlinetests>
-        <version.org.fenixedu.comm-hub>1.0.0</version.org.fenixedu.comm-hub>
+        <version.org.fenixedu.comm-hub>1.1.1</version.org.fenixedu.comm-hub>
     </properties>
 
     <build>
@@ -275,7 +275,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.fenixedu</groupId>
-                    <artifactId>comm-hub</artifactId>
+                    <artifactId>comm-hub-sdk-java</artifactId>
                     <version>${version.org.fenixedu.comm-hub}</version>
                 </dependency>
             </dependencies>
