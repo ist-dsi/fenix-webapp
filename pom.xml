@@ -22,7 +22,7 @@
         <version.org.fenixedu.academic.thesis>5.0.2</version.org.fenixedu.academic.thesis>
         <version.org.fenixedu.academic>10.0.4</version.org.fenixedu.academic>
         <version.org.fenixedu.ashes.theme>1.2.0</version.org.fenixedu.ashes.theme>
-        <version.org.fenixedu.bennu.renderers>5.2.0</version.org.fenixedu.bennu.renderers>
+        <version.org.fenixedu.bennu.renderers>5.3.0</version.org.fenixedu.bennu.renderers>
         <version.org.fenixedu.bennu>5.1.1</version.org.fenixedu.bennu>
         <version.org.fenixedu.cms>3.1.2</version.org.fenixedu.cms>
         <version.org.fenixedu.commons>1.1.2</version.org.fenixedu.commons>
@@ -36,7 +36,7 @@
 
         <version.pt.ist.fenixedu-ulisboa-cgdIntegration>2.1.1.IST</version.pt.ist.fenixedu-ulisboa-cgdIntegration>
         <version.pt.ist.fenixedu.idcards>3.0.0</version.pt.ist.fenixedu.idcards>
-        <version.pt.ist.fenixedu.ist>12.2.4</version.pt.ist.fenixedu.ist>
+        <version.pt.ist.fenixedu.ist>12.3.0</version.pt.ist.fenixedu.ist>
         <version.pt.ist.fenixedu.onlinetests>5.0.1</version.pt.ist.fenixedu.onlinetests>
         <version.org.fenixedu.comm-hub>1.1.1</version.org.fenixedu.comm-hub>
     </properties>
