@@ -12,9 +12,7 @@ build.properties.local
 build.properties.slave
 configuration.properties.fenix
 configuration.properties.localhost
-
-/target
-/target
+*.sh
 /target
 
 .idea/
