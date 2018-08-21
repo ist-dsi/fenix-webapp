@@ -36,7 +36,7 @@
 	<version.org.apache.poi>3.17</version.org.apache.poi>
         <version.pt.ist.fenixedu-ulisboa-cgdIntegration>2.1.1.IST</version.pt.ist.fenixedu-ulisboa-cgdIntegration>
         <version.pt.ist.fenixedu.idcards>3.0.0</version.pt.ist.fenixedu.idcards>
-        <version.pt.ist.fenixedu.ist>14.2.1</version.pt.ist.fenixedu.ist>
+        <version.pt.ist.fenixedu.ist>14.3.0</version.pt.ist.fenixedu.ist>
         <version.pt.ist.fenixedu.onlinetests>5.0.1</version.pt.ist.fenixedu.onlinetests>
         <version.org.fenixedu.comm-hub>1.1.3</version.org.fenixedu.comm-hub>
     </properties>
