@@ -35,7 +35,7 @@
         <version.pt.ist.digitalized-signatures>3.1.0</version.pt.ist.digitalized-signatures>
         <version.pt.ist.fenixedu-ist-bpi>2.1.3</version.pt.ist.fenixedu-ist-bpi>
         <version.pt.ist.fenixedu-ist-sas-integration>1.2.0</version.pt.ist.fenixedu-ist-sas-integration>
-	<version.org.apache.poi>3.17</version.org.apache.poi>
+		  <version.org.apache.poi>3.17</version.org.apache.poi>
         <version.pt.ist.fenixedu-ulisboa-cgdIntegration>2.1.1.IST</version.pt.ist.fenixedu-ulisboa-cgdIntegration>
         <version.pt.ist.fenixedu.idcards>3.0.2</version.pt.ist.fenixedu.idcards>
         <version.pt.ist.fenixedu.onlinetests>5.0.1</version.pt.ist.fenixedu.onlinetests>
@@ -264,16 +264,16 @@
             <artifactId>email-dispatch</artifactId>
             <version>${version.org.fenixedu.messaging}</version>
         </dependency>
-	<dependency>
-	    <groupId>org.apache.poi</groupId>
-	    <artifactId>poi</artifactId>
-	    <version>${version.org.apache.poi}</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.apache.poi</groupId>
-	    <artifactId>poi-ooxml</artifactId>
-	    <version>${version.org.apache.poi}</version>
-	</dependency>
+		  <dependency>
+		      <groupId>org.apache.poi</groupId>
+		      <artifactId>poi</artifactId>
+		      <version>${version.org.apache.poi}</version>
+		  </dependency>
+		  <dependency>
+		      <groupId>org.apache.poi</groupId>
+		      <artifactId>poi-ooxml</artifactId>
+		      <version>${version.org.apache.poi}</version>
+		  </dependency>
     </dependencies>
 
     <profiles>
