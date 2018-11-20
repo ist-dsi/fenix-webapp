@@ -25,14 +25,14 @@
 
     <properties>
         <version.org.fenixedu.academic>18.8.1</version.org.fenixedu.academic>
-        <version.pt.ist.fenixedu.ist>16.15.6</version.pt.ist.fenixedu.ist>
+        <version.pt.ist.fenixedu.ist>16.15.7</version.pt.ist.fenixedu.ist>
         <version.pt.ist.renates-integration>1.2.0</version.pt.ist.renates-integration>
         <version.ch.qos.logback.logback.classic>1.1.8</version.ch.qos.logback.logback.classic>
         <version.org.fenixedu.a3es>1.5.1</version.org.fenixedu.a3es>
         <version.org.fenixedu.academic.thesis>5.1.0</version.org.fenixedu.academic.thesis>
         <version.org.fenixedu.ashes.theme>1.2.1</version.org.fenixedu.ashes.theme>
         <version.org.fenixedu.bennu.renderers>5.4.0</version.org.fenixedu.bennu.renderers>
-        <version.org.fenixedu.bennu>5.4.0</version.org.fenixedu.bennu>
+        <version.org.fenixedu.bennu>5.4.1</version.org.fenixedu.bennu>
         <version.org.fenixedu.cms>3.3.0</version.org.fenixedu.cms>
         <version.org.fenixedu.commons>2.0.0</version.org.fenixedu.commons>
         <version.org.fenixedu.learning>3.2.0</version.org.fenixedu.learning>
