@@ -8,7 +8,7 @@ Fenix Webapp IST
 - [Compiling](#compiling)
 - [Create Jar for Fenix Scripts](#create-jar-for-fenix-scripts)
 - [Create Manual SQL Updates](#create-manual-sql-updates)
-
+- [Reading Artifacts From Internal Repo](#reading-artifacts-from-internal-repo)
 
 #About
 
@@ -87,3 +87,44 @@ Schema updates are now automatically handled. However, if you find yourself in n
     mvn clean test -PSQLUpdateGenerator
     
 Which will create the file `etc/database_operations/updates.sql`
+
+# Reading Artifacts From Internal Repo
+
+In our to use the `-Pproduction` profile, it is necessary to have maven configured with username and password.
+The two files involved in this setup are:
+
+    1. ~/.m2/settings.xml
+    2. ~/.m2/settings-security.xml
+
+1. Run the following command to create your own master password so that `~/.m2/settings.xml` does not contain plain text passwords
+
+`mvn --encrypt-master-password`
+
+This will generate something like this: `{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}`
+
+2. Save the output in the `~/.m2/settings-security.xml` file
+
+```xml
+<settingsSecurity>
+  <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>
+</settingsSecurity>
+```
+
+3. Run the following command input the password of the user you have for the `dsi-maven-artifacts` repo.
+
+`mvn --encrypt-password` 
+
+This will generate something like this: `{COQLCE6DU6GtcS5P=}`
+
+4. Add the following section in the `~/.m2/settings.xml` file
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>dsi-maven-artifacts</id>
+      <username>foo</username>
+      <password>{COQLCE6DU6GtcS5P=}</password>
+    </server>
+  </servers>
+</settings>
+```
