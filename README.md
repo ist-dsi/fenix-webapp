@@ -90,7 +90,7 @@ Which will create the file `etc/database_operations/updates.sql`
 
 # Reading Artifacts From Internal Repo
 
-In our to use the `-Pproduction` profile, it is necessary to have maven configured with username and password.
+In order to use the `-Pproduction` profile, it is necessary to have maven configured with username and password.
 The two files involved in this setup are:
 
     1. ~/.m2/settings.xml
