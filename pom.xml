@@ -11,7 +11,7 @@
 
     <groupId>pt.ist</groupId>
     <artifactId>fenix-webapp</artifactId>
-    <version>DEV-SNAPSHOT</version>
+    <version>300.3</version>
     <packaging>war</packaging>
 
     <name>Fenix Webapp</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git@github.com:ist-dsi/fenix-webapp.git</connection>
         <developerConnection>scm:git:git@github.com:ist-dsi/fenix-webapp.git</developerConnection>
         <url>https://github.com/ist-dsi/fenix-webapp</url>
-        <tag>HEAD</tag>
+        <tag>v300.3</tag>
     </scm>
 
     <properties>
