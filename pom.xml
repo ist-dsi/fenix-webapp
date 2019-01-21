@@ -311,6 +311,10 @@
                 </dependency>
             </dependencies>
             <repositories>
+                 <repository>
+                    <id>fenixedu-maven-repository</id>
+                    <url>https://repo.fenixedu.org/fenixedu-maven-repository</url>
+                </repository>
                 <repository>
                     <id>dsi-maven-artifacts</id>
                     <url>http://nexus.smeg.tecnico.ulisboa.pt/repository/dsi-maven-artifacts</url>
