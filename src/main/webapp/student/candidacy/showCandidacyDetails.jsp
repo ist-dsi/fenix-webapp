@@ -23,7 +23,6 @@
 <% final String contextPath = request.getContextPath(); %>
 <%@ page import="org.fenixedu.academic.domain.candidacy.CandidacyOperationType"%>
 <%@ page import="pt.ist.fenixedu.integration.domain.BpiCard"%>
-<%@ page import="pt.ist.fenixedu.integration.domain.SantanderCard"%>
 <%@ page import="org.joda.time.LocalDate"%>
 <%@ page import="org.joda.time.Years"%>
 <%@ page import="org.fenixedu.academic.domain.candidacy.Candidacy"%>
@@ -81,26 +80,7 @@
             <br/><br/>
             <div id="txt">
             	<div id="errorMessage" class="alert alert-danger" role="alert" style="display: none; font-size: 20px; margin-bottom: 30px;">Tem de responder a todas as questões.</div>
-                <div id="banksBody">                                       
-                        <h2 style="border-bottom-width: 1px; border-bottom-color: #ddd; border-bottom-style: solid;">
-                            <bean:message key="authorize.personal.data.access.title.santander" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
-                        </h2>
-
-                        <p>
-                            <bean:message key="authorize.personal.data.access.description.santander" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
-                        </p>
-
-                        <div class="row">
-                            <div class="col-lg-12 text-left">
-                                <span style="line-height: 20px; vertical-align: bottom; margin-right: 55px;">
-                                    <input type="radio" name="santanderRadio" id="santander_yes" value="true">Sim
-                                </span>
-                                <span>
-                                    <input type="radio" name="santanderRadio" id="santander_no" value="false">Não
-                                </span>
-                            </div>                          
-                        </div>
-
+                <div id="banksBody">
                         <h2 style="border-bottom-width: 1px; border-bottom-color: #ddd; border-bottom-style: solid; margin-top: 40px;">
                             <bean:message key="authorize.personal.data.access.title.cgd" bundle="FENIXEDU_IST_INTEGRATION_RESOURCES"/>
                         </h2>
@@ -188,13 +168,11 @@
     function submitForm() {
     	var cgdRadio = document.querySelector('input[name="cgdRadio"]:checked');
         var bpiRadio = document.querySelector('input[name="bpiRadio"]:checked');
-        var santanderRadio = document.querySelector('input[name="santanderRadio"]:checked');
 
-        if(cgdRadio != null && bpiRadio != null && santanderRadio != null) {
+        if(cgdRadio != null && bpiRadio != null) {
         	document.getElementById("errorMessage").style.display = 'none';
 	        postYes(document.querySelector('input[name="cgdRadio"]:checked').value,
-	        document.querySelector('input[name="bpiRadio"]:checked').value,
-	        document.querySelector('input[name="santanderRadio"]:checked').value);
+	                document.querySelector('input[name="bpiRadio"]:checked').value);
 	    } else {
 	    	document.getElementById("errorMessage").style.display = 'block';
 	    }
@@ -219,7 +197,7 @@
         replaceTargetWith( 'visibleTitle', '<span id="visibleTitle">Processo Concluído</span>' );
     }
 
-    function postYes(allowAccessCgd, allowAccessBpi, allowAccessSantander) {
+    function postYes(allowAccessCgd, allowAccessBpi) {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", '<%= contextPath %>' + '/authorize-personal-data-access' );
@@ -241,18 +219,12 @@
         hiddenField3.setAttribute("name", "allowAccessBpi");
         hiddenField3.setAttribute("value", allowAccessBpi);
         form.appendChild(hiddenField3);
-
+        
         var hiddenField4 = document.createElement("input");
         hiddenField4.setAttribute("type", "hidden");
-        hiddenField4.setAttribute("name", "allowAccessSantander");
-        hiddenField4.setAttribute("value", allowAccessSantander);
+        hiddenField4.setAttribute("name", "<%= token.getParameterName() %>");
+        hiddenField4.setAttribute("value", "<%= token.getToken() %>");
         form.appendChild(hiddenField4);
-        
-        var hiddenField5 = document.createElement("input");
-        hiddenField5.setAttribute("type", "hidden");
-        hiddenField5.setAttribute("name", "<%= token.getParameterName() %>");
-        hiddenField5.setAttribute("value", "<%= token.getToken() %>");
-        form.appendChild(hiddenField5);
 
         
         document.body.appendChild(form);
@@ -263,9 +235,8 @@
     replaceTargetWith( 'visibleTitle', '<span id="visibleTitle">Cedência de Dados / Cartões</span>' );
     <%
         boolean bpiHasResponse = BpiCard.hasAccessResponse();
-        boolean santanderHasResponse = SantanderCard.hasAccessResponse();
         
-        if(bpiHasResponse && santanderHasResponse){ 
+        if(bpiHasResponse){
     %>
             goByeBye();
     <%
