@@ -317,7 +317,7 @@
                 </repository>
                 <repository>
                     <id>dsi-maven-artifacts</id>
-                    <url>http://nexus.smeg.tecnico.ulisboa.pt/repository/dsi-maven-artifacts</url>
+                    <url>https://nexus.smeg.tecnico.ulisboa.pt/repository/dsi-maven-artifacts</url>
                 </repository>
             </repositories>
         </profile>
