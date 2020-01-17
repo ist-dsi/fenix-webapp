@@ -47,6 +47,7 @@
         <version.pt.ist.fenixedu.idcards>5.7.1</version.pt.ist.fenixedu.idcards>
         <version.pt.ist.fenixedu.onlinetests>6.0.0</version.pt.ist.fenixedu.onlinetests>
         <version.org.fenixedu.comm-hub>1.1.4</version.org.fenixedu.comm-hub>
+        <version.pt.ist.sap-sdk-java>4.4.1</version.pt.ist.sap-sdk-java>
     </properties>
 
 
@@ -283,6 +284,11 @@
 		      <artifactId>poi-ooxml</artifactId>
 		      <version>${version.org.apache.poi}</version>
 		  </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>sap-sdk-java</artifactId>
+            <version>${version.pt.ist.sap-sdk-java}</version>
+        </dependency>
     </dependencies>
 
     <profiles>
