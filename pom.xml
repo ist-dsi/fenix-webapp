@@ -49,7 +49,7 @@
         <version.org.fenixedu.comm-hub>1.1.4</version.org.fenixedu.comm-hub>
         <version.org.fenixedu.fenixedu-academic-transitions>1.0.5</version.org.fenixedu.fenixedu-academic-transitions>
         <version.pt.ist.sap-sdk-java>4.5.0</version.pt.ist.sap-sdk-java>
-        <version.fenixedu-collaboration-integrations>1.0.0</version.fenixedu-collaboration-integrations>
+        <version.fenixedu-collaboration-integrations>1.1.0</version.fenixedu-collaboration-integrations>
     </properties>
 
 
