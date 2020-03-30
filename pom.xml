@@ -24,7 +24,7 @@
     </scm>
 
     <properties>
-        <version.org.fenixedu.academic>22.19.2</version.org.fenixedu.academic>
+        <version.org.fenixedu.academic>22.19.3</version.org.fenixedu.academic>
         <version.pt.ist.fenixedu.ist>17.25.0</version.pt.ist.fenixedu.ist>
         <version.pt.ist.renates-integration>2.0.1</version.pt.ist.renates-integration>
         <version.ch.qos.logback.logback.classic>1.1.8</version.ch.qos.logback.logback.classic>
@@ -49,7 +49,7 @@
         <version.org.fenixedu.comm-hub>1.1.4</version.org.fenixedu.comm-hub>
         <version.org.fenixedu.fenixedu-academic-transitions>1.0.9</version.org.fenixedu.fenixedu-academic-transitions>
         <version.pt.ist.sap-sdk-java>4.5.0</version.pt.ist.sap-sdk-java>
-        <version.fenixedu-collaboration-integrations>2.0.9</version.fenixedu-collaboration-integrations>
+        <version.fenixedu-collaboration-integrations>2.0.10</version.fenixedu-collaboration-integrations>
     </properties>
 
 
