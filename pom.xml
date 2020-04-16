@@ -50,6 +50,7 @@
         <version.org.fenixedu.fenixedu-academic-transitions>1.1.1</version.org.fenixedu.fenixedu-academic-transitions>
         <version.pt.ist.sap-sdk-java>4.5.1</version.pt.ist.sap-sdk-java>
         <version.fenixedu-collaboration-integrations>3.0.0</version.fenixedu-collaboration-integrations>
+        <version.org.fenixedu.profile>1.0.0</version.org.fenixedu.profile>
     </properties>
 
 
@@ -326,6 +327,11 @@
                     <groupId>org.fenixedu</groupId>
                     <artifactId>collaboration-integrations</artifactId>
                     <version>${version.fenixedu-collaboration-integrations}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.fenixedu</groupId>
+                    <artifactId>profiles</artifactId>
+                    <version>${version.org.fenixedu.profile}</version>
                 </dependency>
             </dependencies>
             <repositories>
