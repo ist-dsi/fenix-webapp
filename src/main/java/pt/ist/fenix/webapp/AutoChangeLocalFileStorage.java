@@ -6,7 +6,6 @@ import org.fenixedu.bennu.core.groups.Group;
 import org.fenixedu.bennu.io.domain.LocalFileSystemStorage;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
-import org.fenixedu.bennu.scheduler.custom.CustomTask;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,17 +36,13 @@ public class AutoChangeLocalFileStorage extends CronTask {
         final String absolutePath = getRealPath(lfs);
         final int availablePct = getAvailablePct(absolutePath);
         if (availablePct >= PCT_THREASHOLD) {
-            final int usages = lfs.getConfigurationSet().size();
             final String name = lfs.getName();
-            final String path = lfs.getPath();
-            taskLog("%s : %s : %s : %s : %s%n", name, path, absolutePath == null ? "Offline" : "Ok", usages, availablePct);
-
-            final LocalFileSystemStorage next = findNextAvailableStore(lfs.getName());
+            final LocalFileSystemStorage next = findNextAvailableStore(name);
             if (next == null) {
-                notify("Store " + lfs.getName() + " is full - No other store is available!");
+                notify("Store " + name + " is full - No other store is available!");
             } else {
                 next.getConfigurationSet().addAll(lfs.getConfigurationSet());
-                notify("Store " + lfs.getName() + " is full - switched to new store " + next.getName());
+                notify("Store " + name + " is full - switched to new store " + next.getName());
             }
         }
     }
