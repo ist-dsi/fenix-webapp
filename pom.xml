@@ -45,7 +45,7 @@
         <version.org.apache.poi>3.17</version.org.apache.poi>
         <version.pt.ist.fenixedu-ulisboa-cgdIntegration>3.0.0</version.pt.ist.fenixedu-ulisboa-cgdIntegration>
         <version.pt.ist.fenixedu.idcards>5.9.1</version.pt.ist.fenixedu.idcards>
-        <version.pt.ist.fenixedu.onlinetests>6.2.0</version.pt.ist.fenixedu.onlinetests>
+        <version.pt.ist.fenixedu.onlinetests>6.2.2</version.pt.ist.fenixedu.onlinetests>
         <version.org.fenixedu.comm-hub>1.1.4</version.org.fenixedu.comm-hub>
         <version.org.fenixedu.fenixedu-academic-transitions>1.1.1</version.org.fenixedu.fenixedu-academic-transitions>
         <version.pt.ist.sap-sdk-java>4.5.1</version.pt.ist.sap-sdk-java>
