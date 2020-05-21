@@ -1,5 +1,6 @@
 package pt.ist.fenix.webapp;
 
+import org.fenixedu.academic.domain.ExecutionCourse;
 import org.fenixedu.academic.domain.ExecutionSemester;
 import org.fenixedu.academic.domain.Project;
 import org.fenixedu.academic.domain.onlineTests.DistributedTest;
@@ -12,6 +13,7 @@ import org.fenixedu.bennu.scheduler.custom.CustomTask;
 import org.joda.time.YearMonthDay;
 
 import java.time.YearMonth;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Task(englishTitle = "Send daily test and project notifications")
@@ -50,22 +52,28 @@ public class SendDailyEvaluationAlerts extends CronTask {
     }
 
     private String describe(final DistributedTest dt) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(dt.getEndHourDateHourMinuteSecond().toString("HH:mm"));
-        builder.append("\t");
-        builder.append(dt.getOnlineTest().getAssociatedExecutionCoursesSet().stream()
-                .map(ec -> ec.getName())
-                .collect(Collectors.joining( ", " )));
-        return builder.toString();
+        return describe(dt.getEndHourDateHourMinuteSecond().toString("HH:mm"), dt.getOnlineTest().getAssociatedExecutionCoursesSet());
     }
 
     private String describe(final Project p) {
+        return describe(p.getProjectEndDateTime().toString("HH:mm"), p.getAssociatedExecutionCoursesSet());
+    }
+
+    private String describe(final String hour, final Set<ExecutionCourse> courses) {
+        final String courseNames = courses.stream()
+                .map(ec -> ec.getName() + " " + ec.getDegreePresentationString())
+                .collect(Collectors.joining( ", " ));
+        final long studentCount = courses.stream()
+                .flatMap(c -> c.getAttendsSet().stream())
+                .count();
+
         final StringBuilder builder = new StringBuilder();
-        builder.append(p.getProjectEndDateTime().toString("HH:mm"));
+        builder.append(hour);
         builder.append("\t");
-        builder.append(p.getAssociatedExecutionCoursesSet().stream()
-                .map(ec -> ec.getName())
-                .collect(Collectors.joining( ", " )));
+        builder.append(studentCount);
+        builder.append(" students");
+        builder.append("\t ");
+        builder.append(courseNames);
         return builder.toString();
     }
 
