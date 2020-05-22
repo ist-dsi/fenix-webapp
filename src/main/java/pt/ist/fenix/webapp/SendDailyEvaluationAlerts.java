@@ -27,7 +27,7 @@ public class SendDailyEvaluationAlerts extends CronTask {
                 .map(e -> (OnlineTest) e)
                 .map(ot -> ot.getDistributedTest())
                 .filter(dt -> dt.getEndDateDateYearMonthDay().equals(today))
-                .map(dt -> describe(dt))
+                .map(dt -> describe(today, dt))
                 .sorted()
                 .collect(Collectors.joining("\n"));
 
@@ -36,7 +36,7 @@ public class SendDailyEvaluationAlerts extends CronTask {
                 .filter(e -> e instanceof Project)
                 .map(e -> (Project) e)
                 .filter(p -> p.getProjectEndDateTime().toYearMonthDay().equals(today))
-                .map(p -> describe(p))
+                .map(p -> describe(today, p))
                 .sorted()
                 .collect(Collectors.joining("\n"));
 
@@ -48,18 +48,26 @@ public class SendDailyEvaluationAlerts extends CronTask {
                 .subject("Testes e Projetos no Fénix " + today.toString("yyyy-MM-dd"))
                 .textBody("Tests:\n" + tests + "\n\nProjects:\n" + projects)
                 .send();
-
     }
 
-    private String describe(final DistributedTest dt) {
-        return describe(dt.getEndHourDateHourMinuteSecond().toString("HH:mm"), dt.getOnlineTest().getAssociatedExecutionCoursesSet());
+    private String describe(final YearMonthDay today, final DistributedTest dt) {
+        return describe(today,
+                dt.getBeginDateDateYearMonthDay(),
+                dt.getBeginHourDateHourMinuteSecond().toString("HH:mm"),
+                dt.getEndHourDateHourMinuteSecond().toString("HH:mm"),
+                dt.getOnlineTest().getAssociatedExecutionCoursesSet());
     }
 
-    private String describe(final Project p) {
-        return describe(p.getProjectEndDateTime().toString("HH:mm"), p.getAssociatedExecutionCoursesSet());
+    private String describe(final YearMonthDay today, final Project p) {
+        return describe(today,
+                p.getProjectBeginDateTime().toYearMonthDay(),
+                p.getProjectBeginDateTime().toString("HH:mm"),
+                p.getProjectEndDateTime().toString("HH:mm"),
+                p.getAssociatedExecutionCoursesSet());
     }
 
-    private String describe(final String hour, final Set<ExecutionCourse> courses) {
+    private String describe(final YearMonthDay today, final YearMonthDay evalStartDate, final String evalStartHour,
+                            final String evalEndHour, final Set<ExecutionCourse> courses) {
         final String courseNames = courses.stream()
                 .map(ec -> ec.getName() + " " + ec.getDegreePresentationString())
                 .collect(Collectors.joining( ", " ));
@@ -67,8 +75,14 @@ public class SendDailyEvaluationAlerts extends CronTask {
                 .flatMap(c -> c.getAttendsSet().stream())
                 .count();
 
-        final StringBuilder builder = new StringBuilder();
-        builder.append(hour);
+        final StringBuilder builder = new StringBuilder("   ");
+        if (today.equals(evalStartDate)) {
+            builder.append(evalStartHour);
+        } else {
+            builder.append("00:00");
+        }
+        builder.append(" -> ");
+        builder.append(evalEndHour);
         builder.append("\t");
         builder.append(studentCount);
         builder.append(" students");
