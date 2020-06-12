@@ -52,6 +52,7 @@
         <version.fenixedu-collaboration-integrations>4.0.3</version.fenixedu-collaboration-integrations>
         <version.org.fenixedu.profile>1.0.0</version.org.fenixedu.profile>
         <version.org.fenixedu.JWTTools>1.0.1</version.org.fenixedu.JWTTools>
+        <version.org.fenixedu.postCodeTools>1.4.0</version.org.fenixedu.postCodeTools>
     </properties>
 
 
@@ -297,6 +298,11 @@
             <groupId>org.fenixedu</groupId>
             <artifactId>JWTTools</artifactId>
             <version>${version.org.fenixedu.JWTTools}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fenixedu</groupId>
+            <artifactId>postCodeTools</artifactId>
+            <version>${version.org.fenixedu.postCodeTools}</version>
         </dependency>
     </dependencies>
     <profiles>
