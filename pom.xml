@@ -53,6 +53,7 @@
         <version.org.fenixedu.profile>1.0.0</version.org.fenixedu.profile>
         <version.org.fenixedu.JWTTools>1.0.1</version.org.fenixedu.JWTTools>
         <version.org.fenixedu.postCodeTools>1.4.0</version.org.fenixedu.postCodeTools>
+        <version.pt.ist.standards>2.0.2</version.pt.ist.standards>
     </properties>
 
 
@@ -88,6 +89,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>standards</artifactId>
+            <version>${version.pt.ist.standards}</version>
+        </dependency>
         <dependency>
             <groupId>org.fenixedu</groupId>
             <artifactId>fenixedu-academic</artifactId>
