@@ -54,6 +54,7 @@
         <version.org.fenixedu.JWTTools>1.0.1</version.org.fenixedu.JWTTools>
         <version.org.fenixedu.postCodeTools>1.4.0</version.org.fenixedu.postCodeTools>
         <version.pt.ist.standards>2.0.3</version.pt.ist.standards>
+        <version.org.fenixedu.fenixedu-admissions>1.0.0-RC1</version.org.fenixedu.fenixedu-admissions>
     </properties>
 
 
@@ -349,6 +350,11 @@
                     <groupId>org.fenixedu</groupId>
                     <artifactId>profiles</artifactId>
                     <version>${version.org.fenixedu.profile}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.fenixedu</groupId>
+                    <artifactId>fenixedu-admissions</artifactId>
+                    <version>${version.org.fenixedu.fenixedu-admissions}</version>
                 </dependency>
             </dependencies>
             <repositories>
