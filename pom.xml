@@ -24,7 +24,7 @@
     </scm>
 
     <properties>
-        <version.org.fenixedu.academic>22.32.3</version.org.fenixedu.academic>
+        <version.org.fenixedu.academic>22.32.4</version.org.fenixedu.academic>
         <version.pt.ist.fenixedu.ist>17.29.2</version.pt.ist.fenixedu.ist>
         <version.pt.ist.renates-integration>2.0.1</version.pt.ist.renates-integration>
         <version.ch.qos.logback.logback.classic>1.1.8</version.ch.qos.logback.logback.classic>
