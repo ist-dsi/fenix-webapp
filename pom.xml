@@ -90,6 +90,11 @@
     </build>
 
     <dependencies>
+	<dependency>
+	    <groupId>org.bouncycastle</groupId>
+	    <artifactId>bcprov-jdk15on</artifactId>
+	    <version>1.66</version>
+	</dependency>
         <dependency>
             <groupId>pt.ist</groupId>
             <artifactId>standards</artifactId>
