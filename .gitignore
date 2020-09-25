@@ -4,6 +4,7 @@ jetty/
 deploy/
 configuration.properties
 fenix-framework.properties
+onelogin.saml.properties
 output/
 .classpath
 .project
