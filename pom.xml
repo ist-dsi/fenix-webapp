@@ -210,11 +210,6 @@
         </dependency>
         <dependency>
             <groupId>org.fenixedu</groupId>
-            <artifactId>bennu-saml-client</artifactId>
-            <version>${version.org.fenixedu.bennu}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fenixedu</groupId>
             <artifactId>default-theme</artifactId>
             <version>${version.org.fenixedu.bennu}</version>
         </dependency>
