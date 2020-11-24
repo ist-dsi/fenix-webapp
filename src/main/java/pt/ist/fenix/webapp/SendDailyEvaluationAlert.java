@@ -1,5 +1,8 @@
 package pt.ist.fenix.webapp;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.fenixedu.academic.domain.ExecutionCourse;
 import org.fenixedu.academic.domain.ExecutionSemester;
 import org.fenixedu.academic.domain.Project;
@@ -9,9 +12,6 @@ import org.fenixedu.bennu.core.groups.Group;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
 import org.joda.time.YearMonthDay;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Task(englishTitle = "Send daily test and project notifications")
 public class SendDailyEvaluationAlert extends CronTask {
@@ -41,7 +41,7 @@ public class SendDailyEvaluationAlert extends CronTask {
 
         org.fenixedu.messaging.core.domain.Message.fromSystem()
                 .bcc(Group.managers())
-                .singleTos("si@tecnico.ulisboa.pt")
+                .singleTos("dsi.testesfenix@tecnico.ulisboa.pt")
                 .subject("Testes e Projetos no Fénix " + today.toString("yyyy-MM-dd"))
                 .textBody("Tests:\n" + tests + "\n\nProjects:\n" + projects)
                 .send();
