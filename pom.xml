@@ -354,6 +354,16 @@
                 </dependency>
                 <dependency>
                     <groupId>org.fenixedu</groupId>
+                    <artifactId>fenixedu-collaboration-core</artifactId>
+                    <version>${version.fenixedu-collaboration-integrations}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.fenixedu</groupId>
+                    <artifactId>fenixedu-zoom-sdk</artifactId>
+                    <version>${version.fenixedu-collaboration-integration}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.fenixedu</groupId>
                     <artifactId>fenixedu-collaboration-integrations</artifactId>
                     <version>${version.fenixedu-collaboration-integrations}</version>
                 </dependency>
