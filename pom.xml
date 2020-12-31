@@ -360,7 +360,7 @@
                 <dependency>
                     <groupId>org.fenixedu</groupId>
                     <artifactId>fenixedu-zoom-sdk</artifactId>
-                    <version>${version.fenixedu-collaboration-integration}</version>
+                    <version>${version.fenixedu-collaboration-integrations}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.fenixedu</groupId>
