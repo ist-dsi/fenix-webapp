@@ -2,6 +2,7 @@ package pt.ist.fenix.webapp;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.fenixedu.academic.domain.ExecutionCourse;
 import org.fenixedu.academic.domain.ExecutionSemester;
@@ -39,8 +40,12 @@ public class SendDailyEvaluationAlert extends CronTask {
 
         taskLog("%s%n", "Tests:\n" + tests + "\n\nProjects:\n" + projects);
 
+        //to prevent duplicate emails to RT system
+        final Stream<String> bccs = Group.managers().getMembers()
+                .filter(user -> !user.getName().equalsIgnoreCase("fenix"))
+                .map(user -> user.getEmail());
         org.fenixedu.messaging.core.domain.Message.fromSystem()
-                .bcc(Group.managers())
+                .singleBcc(bccs)
                 .singleTos("dsi.testesfenix@tecnico.ulisboa.pt")
                 .subject("Testes e Projetos no Fénix " + today.toString("yyyy-MM-dd"))
                 .textBody("Tests:\n" + tests + "\n\nProjects:\n" + projects)
