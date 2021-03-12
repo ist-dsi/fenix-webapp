@@ -1,6 +1,7 @@
 package pt.ist.fenix.webapp.task;
 
 import com.google.common.io.ByteStreams;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.itextpdf.text.DocumentException;
@@ -29,7 +30,6 @@ import org.fenixedu.bennu.core.util.CoreConfiguration;
 import org.fenixedu.bennu.papyrus.domain.SignatureFieldSettings;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
-import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
 import org.fenixedu.commons.i18n.LocalizedString;
 import org.fenixedu.commons.stream.StreamUtils;
 import org.fenixedu.connect.domain.Account;
@@ -127,6 +127,19 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
         final User user = user(application);
         sendDocumentToBeSigned(SIGNING_QUEUE, title, title, title + ".pdf", new ByteArrayInputStream(document), uuid, user == null
                 ? "ist24439" : user.getUsername());
+        FenixFramework.atomic(() -> {
+            final JsonObject data = application.getDataObject();
+            JsonArray documents = data.getAsJsonArray("documents");
+            if (documents == null || documents.isJsonNull()) {
+                documents = new JsonArray();
+                data.add("documents", documents);
+            }
+            final JsonObject jdoc = new JsonObject();
+            documents.add(jdoc);
+            jdoc.addProperty("url", "https://certifier.tecnico.ulisboa.pt/" + uuid + " /download");
+            jdoc.addProperty("title", "Admission Declaration");
+            application.setData(data.toString());
+        });
     }
 
     private User user(final Application application) {
