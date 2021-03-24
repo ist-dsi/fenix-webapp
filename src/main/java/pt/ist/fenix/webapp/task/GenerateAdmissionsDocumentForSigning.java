@@ -24,7 +24,6 @@ import org.fenixedu.admissions.domain.Application;
 import org.fenixedu.bennu.RegistrationProcessConfiguration;
 import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.core.domain.User;
-import org.fenixedu.bennu.core.i18n.BundleUtil;
 import org.fenixedu.bennu.core.rest.JsonBodyReaderWriter;
 import org.fenixedu.bennu.core.util.CoreConfiguration;
 import org.fenixedu.bennu.papyrus.domain.SignatureFieldSettings;
@@ -46,7 +45,6 @@ import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.papyrus.PapyrusClient;
 import pt.ist.registration.process.handler.CandidacySignalHandler;
-import pt.ist.registration.process.ui.service.exception.ProblemsGeneratingDocumentException;
 import pt.ist.standards.geographic.Country;
 import pt.ist.standards.geographic.Planet;
 
@@ -62,6 +60,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
@@ -97,7 +96,10 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
                             process(application);
                             processed.add(application.getExternalId());
                         } catch (final Throwable t) {
-                            taskLog("Failled to process: %s : %s%n", application.getExternalId(), t.getMessage());
+                            final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            final PrintStream printStream = new PrintStream(stream);
+                            t.printStackTrace(printStream);
+                            taskLog("Failled to process: %s : %s%n    %s%n", application.getExternalId(), t.getMessage(), new String(stream.toByteArray()));
                         }
                     });
         } finally {
@@ -186,7 +188,7 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
     }
 
     public String getIdentificationDocumentName(final IdentificationDocument identificationDocument, final Locale locale) {
-        return BundleUtil.getString("resources.ConnectResources", locale, identificationDocument.getClass().getName());
+        return identificationDocument.getIdentificationDocumentName().getContent(locale);
     }
 
     private String generateURIBase64QRCode(final String uuid) {
@@ -239,17 +241,14 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
         final InputStream inputStream = papyrusClient.render(templateID, locale, data);
         try {
             final byte[] document = ByteStreams.toByteArray(inputStream);
-            final SignatureFieldSettings settings = new SignatureFieldSettings(100, 450, 500, 350, "signatureField", 1);
+            final SignatureFieldSettings settings = new SignatureFieldSettings(150, 320, 550, 220, "signatureField", 1);
             return generateDocumentWithSignatureField(new ByteArrayInputStream(document), settings);
         } catch (final IOException ex) {
-            throw new Error(ex);
-        } catch (final ProblemsGeneratingDocumentException ex) {
             throw new Error(ex);
         }
     }
 
-    public byte[] generateDocumentWithSignatureField(final InputStream fileStream, final SignatureFieldSettings settings)
-            throws ProblemsGeneratingDocumentException {
+    public byte[] generateDocumentWithSignatureField(final InputStream fileStream, final SignatureFieldSettings settings) {
         if (fileStream == null) {
             return null;
         }
@@ -269,7 +268,7 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
             stp.close();
             return bos.toByteArray();
         } catch (IOException | DocumentException e) {
-            throw new ProblemsGeneratingDocumentException(e);
+            throw new Error(e);
         }
     }
 
