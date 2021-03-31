@@ -89,22 +89,36 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
                     .flatMap(admissionProcess -> admissionProcess.getAdmissionProcessTargetSet().stream())
                     .flatMap(admissionProcessTarget -> admissionProcessTarget.getApplicationSet().stream())
                     .filter(application -> application.getAdmitted())
-                    .filter(application -> !processed.contains(application.getExternalId()))
                     .filter(application -> isPayed(application))
                     .forEach(application -> {
-                        try {
-                            process(application);
-                            processed.add(application.getExternalId());
-                        } catch (final Throwable t) {
-                            final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            final PrintStream printStream = new PrintStream(stream);
-                            t.printStackTrace(printStream);
-                            taskLog("Failled to process: %s : %s%n    %s%n", application.getExternalId(), t.getMessage(), new String(stream.toByteArray()));
+                        final String hash = calculateHashFor(application);
+                        if (!processed.contains(hash)) {
+                            try {
+                                process(application);
+                                processed.add(hash);
+                            } catch (final Throwable t) {
+                                final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                final PrintStream printStream = new PrintStream(stream);
+                                t.printStackTrace(printStream);
+                                taskLog("Failled to process: %s : %s%n    %s%n", application.getExternalId(), t.getMessage(), new String(stream.toByteArray()));
+                            }
                         }
                     });
         } finally {
             write(LOG_FILE, processed);
         }
+    }
+
+    private String calculateHashFor(final Application application) {
+        final PersonalInformation personalInformation = ConnectSystem.getPersonalInformationFor(application.getAccount());
+        final IdentificationDocument identificationDocument = personalInformation.getIdentificationDocument();
+        final StringBuilder builder = new StringBuilder();
+        builder.append(application.getExternalId());
+        builder.append(personalInformation.getFullName());
+        builder.append(personalInformation.getDateOfBirth().toString("yyyy-MM-dd"));
+        builder.append(identificationDocument.getDocumentNumber());
+        builder.append(personalInformation.getNationalityCountryCode());
+        return Base64.getEncoder().encodeToString(builder.toString().getBytes());
     }
 
     private boolean isPayed(final Application application) {
@@ -138,7 +152,7 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
             }
             final JsonObject jdoc = new JsonObject();
             documents.add(jdoc);
-            jdoc.addProperty("url", "https://certifier.tecnico.ulisboa.pt/" + uuid + " /download");
+            jdoc.addProperty("url", "https://certifier.tecnico.ulisboa.pt/" + uuid + "/download");
             jdoc.addProperty("title", "Admission Declaration");
             application.setData(data.toString());
         });
