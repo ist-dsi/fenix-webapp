@@ -270,32 +270,37 @@ public class CreateUserAccounts extends CronTask {
     }
 
     private void createAccount(final User user) {
-        FenixFramework.atomic(() -> {
-            if (user.getAccount() != null) {
-                return;
-            }
-            final String email = emailsFor(user);
-            if (accountMap.containsKey(email)) {
-                taskLog("Skipping user: %s because account with smae email already exists: %s%n",
-                        user.getUsername(), email);
-                final Account account = accountMap.get(email);
-                if (account.getUser() == null) {
-                    account.setUser(user);
-                    connectedToExistingAccounts++;
+        try {
+            FenixFramework.atomic(() -> {
+                if (user.getAccount() != null) {
+                    return;
                 }
-                return;
-            }
-            final Account account = Account.create(email, false);
-            account.setUser(user);
-            createdAccounts++;
-            final Identity identity = user.getIdentity();
-            if (identity != null) {
-                account.setIdentity(identity);
-            }
-            if (identity == null || identity.getPersonalInformation() == null) {
-                setPersonalInformationFromUser(user);
-            }
-        });
+                final String email = emailsFor(user);
+                if (accountMap.containsKey(email)) {
+                    taskLog("Skipping user: %s because account with smae email already exists: %s%n",
+                            user.getUsername(), email);
+                    final Account account = accountMap.get(email);
+                    if (account.getUser() == null) {
+                        account.setUser(user);
+                        connectedToExistingAccounts++;
+                    }
+                    return;
+                }
+                final Account account = Account.create(email, false);
+                account.setUser(user);
+                createdAccounts++;
+                final Identity identity = user.getIdentity();
+                if (identity != null) {
+                    account.setIdentity(identity);
+                }
+                if (identity == null || identity.getPersonalInformation() == null) {
+                    setPersonalInformationFromUser(user);
+                }
+            });
+        } catch (Exception ex) {
+            //don't abort script because of individual fail
+            taskLog(ex.getMessage());
+        }
     }
 
     private void setPersonalInformationFromUser(final User user) {
