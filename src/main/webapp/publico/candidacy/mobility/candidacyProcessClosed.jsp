@@ -38,6 +38,6 @@
 
 <h1><bean:message key="label.candidacy" bundle="APPLICATION_RESOURCES"/>: <bean:write name="application.name" bundle="APPLICATION_RESOURCES"/></h1>
 
-<p><em>Due to technical reasons the application form will only be available from May 20th and the application period will run from May 20th to June 20th 2021. We regret this inconvenience.</em></p>
+<p><em>The application process was moved to a different platform. Go to this page <a href="https://fenix.tecnico.ulisboa.pt/fenixedu-connect/">FenixEdu Connect</a> and register to start the process.</em></p>
 
 <p><em><bean:message key="erasmus.contacts.text" bundle="CANDIDATE_RESOURCES"/>.</em></p>
