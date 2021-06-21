@@ -16,8 +16,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.fenixedu.academic.domain.Degree;
 import org.fenixedu.academic.domain.ExecutionYear;
-import org.fenixedu.academic.domain.accounting.Event;
 import org.fenixedu.academic.domain.accounting.calculator.DebtInterestCalculator;
+import org.fenixedu.academic.domain.accounting.events.gratuity.GratuityEvent;
 import org.fenixedu.admissions.domain.AdmissionProcessTarget;
 import org.fenixedu.admissions.domain.AdmissionsSystem;
 import org.fenixedu.admissions.domain.Application;
@@ -75,6 +75,7 @@ import java.util.UUID;
 public class GenerateAdmissionsDocumentForSigning extends CronTask {
 
     private static final String TEMPLATE_ID = "admissions-international-students-admitted";
+    private static final String TEMPLATE_MOBILITY_ID = "admissions-mobility-students-admitted";
     private static final String SIGNING_QUEUE = "xNCC1IYd";
     private static final String LOG_FILE = "/afs/ist.utl.pt/ciist/fenix/fenix036/admissions-international-students-admitted.log";
 
@@ -89,24 +90,78 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
                     .flatMap(admissionProcess -> admissionProcess.getAdmissionProcessTargetSet().stream())
                     .flatMap(admissionProcessTarget -> admissionProcessTarget.getApplicationSet().stream())
                     .filter(application -> application.getAdmitted())
-                    .filter(application -> isPayed(application))
                     .forEach(application -> {
-                        final String hash = calculateHashFor(application);
-                        if (!processed.contains(hash)) {
-                            try {
-                                process(application);
-                                processed.add(hash);
-                            } catch (final Throwable t) {
-                                final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                final PrintStream printStream = new PrintStream(stream);
-                                t.printStackTrace(printStream);
-                                taskLog("Failled to process: %s : %s%n    %s%n", application.getExternalId(), t.getMessage(), new String(stream.toByteArray()));
+                        final boolean isPayed = isPayed(application);
+                        final boolean isMobility = isMobilityApplication(application);
+                        if (isMobility || isPayed) {
+                            final String hash = calculateHashFor(application);
+                            if (!processed.contains(hash)) {
+                                try {
+                                    process(application, isMobility ? TEMPLATE_MOBILITY_ID : TEMPLATE_ID);
+                                    processed.add(hash);
+                                } catch (final Throwable t) {
+                                    final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    final PrintStream printStream = new PrintStream(stream);
+                                    t.printStackTrace(printStream);
+                                    taskLog("Failled to process: %s : %s%n    %s%n", application.getExternalId(), t.getMessage(), new String(stream.toByteArray()));
+                                }
                             }
                         }
                     });
         } finally {
             write(LOG_FILE, processed);
         }
+    }
+
+    private boolean isMobilityApplication(final Application application) {
+        final String outcomeType = application.getAdmissionProcessTarget().getAdmissionProcess().getOutcomeTypeJson().get("name").getAsString();
+        if (outcomeType.equalsIgnoreCase("mobilityInbound") || outcomeType.equalsIgnoreCase("mobilityInboundDoubleDegree")) {
+            final JsonObject data = application.getDataObject();
+            final JsonElement element = data.get("registration");
+            return element != null && element.isJsonNull()
+                    && !isSchengen(ConnectSystem.getPersonalInformationFor(application.getAccount()).getNationalityCountryCode());
+        }
+        return false;
+    }
+
+    private final Set<String> schengen = new HashSet<>();
+    {
+        schengen.add("AT");
+        schengen.add("BE");
+        schengen.add("BG");
+        schengen.add("CH");
+        schengen.add("CY");
+        schengen.add("CZ");
+        schengen.add("DE");
+        schengen.add("DK");
+        schengen.add("EE");
+        schengen.add("EL");
+        schengen.add("ES");
+        schengen.add("FI");
+        schengen.add("FR");
+        schengen.add("HR");
+        schengen.add("HU");
+        schengen.add("IE");
+        schengen.add("IS");
+        schengen.add("IT");
+        schengen.add("LI");
+        schengen.add("LT");
+        schengen.add("LU");
+        schengen.add("LV");
+        schengen.add("MT");
+        schengen.add("NL");
+        schengen.add("NO");
+        schengen.add("PL");
+        schengen.add("PT");
+        schengen.add("RO");
+        schengen.add("SE");
+        schengen.add("SI");
+        schengen.add("SK");
+        schengen.add("UK");
+    }
+
+    private boolean isSchengen(final String country) {
+        return schengen.contains(country);
     }
 
     private String calculateHashFor(final Application application) {
@@ -125,20 +180,20 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
         final JsonObject data = application.getDataObject();
         final JsonElement e = data.get("gratuityEvent");
         if (e != null && !e.isJsonNull()) {
-            final Event event = FenixFramework.getDomainObject(e.getAsString()) ;
+            final GratuityEvent event = FenixFramework.getDomainObject(e.getAsString()) ;
             final DebtInterestCalculator calculator = event.getDebtInterestCalculator(new DateTime());
             final BigDecimal paidDebtAmount = calculator.getPaidDebtAmount();
             final AdmissionProcessTarget target = application.getAdmissionProcessTarget();
             final Degree degree = FenixFramework.getDomainObject(target.getOutcomeConfigJson().get("degree").getAsString());
             final BigDecimal min = degree.getSigla().equals("MOTU") ? new BigDecimal("1000") : new BigDecimal("2000");
-            return paidDebtAmount.doubleValue() >= min.doubleValue();
+            return paidDebtAmount.doubleValue() >= min.doubleValue() && event.getRegistration().getRegistrationProtocol().isAlien();
         }
         return false;
     }
 
-    private void process(final Application application) {
+    private void process(final Application application, final String templateId) {
         final String uuid = UUID.randomUUID().toString();
-        final byte[] document = generate(TEMPLATE_ID, data(application, uuid), PT);
+        final byte[] document = generate(templateId, data(application, uuid), PT);
         final String title = titleFor(application);
         final User user = user(application);
         sendDocumentToBeSigned(SIGNING_QUEUE, title, title, title + ".pdf", new ByteArrayInputStream(document), uuid, user == null
