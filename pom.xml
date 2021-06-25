@@ -57,7 +57,7 @@
         <version.org.fenixedu.fenixedu-admissions>4.18.0</version.org.fenixedu.fenixedu-admissions>
         <version.org.fenixedu.fenixedu-connect>1.17.0</version.org.fenixedu.fenixedu-connect>
         <version.org.fenixedu.fenixedu-queueing>1.4.0</version.org.fenixedu.fenixedu-queueing>
-        <version.pt.ist.fenix-sibs-payments>1.0.0</version.pt.ist.fenix-sibs-payments>
+        <version.pt.ist.fenix-sibs-payments>1.0.1</version.pt.ist.fenix-sibs-payments>
     </properties>
 
 
@@ -394,13 +394,11 @@
                     <artifactId>fenixedu-queueing</artifactId>
                     <version>${version.org.fenixedu.fenixedu-queueing}</version>
                 </dependency>
-<!--
                 <dependency>
                     <groupId>pt.ist</groupId>
                     <artifactId>fenix-sibs-payments</artifactId>
                     <version>${version.pt.ist.fenix-sibs-payments}</version>
                 </dependency>
--->
             </dependencies>
             <repositories>
 	        <repository>
