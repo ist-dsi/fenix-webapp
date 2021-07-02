@@ -1,0 +1,48 @@
+image: dockerhub.dsi.tecnico.ulisboa.pt/fenix-framework/docker/java-fenix-framework:jdk8
+
+stages:
+  - Do WAR not peace
+  - Release
+
+variables:
+  NEXUS_REPOSITORY_URL: $NEXUS_BASE_URL/repository/software-proxy-cache/fenix
+
+before_script:
+  - export MAVEN_REPO_PASS=$NEXUS_PASSWORD
+  - export MAVEN_REPO_USER=$NEXUS_USERNAME
+  - export MAVEN_REPO_ID=dsi-maven-artifacts
+
+compile:
+  stage: Do WAR not peace
+  script:
+    - echo "${UPSTREAM_BUILD:?variable not set}"
+    - git clone --branch $UPSTREAM_BUILD https://gitlab-ci-token:${CI_JOB_TOKEN}@repo.dsi.tecnico.ulisboa.pt/fenixedu/application/fenix-webapp.git
+    - cd fenix-webapp
+    - mkdir -p $CI_PROJECT_DIR/.m2/
+    - cp -R /opt/config_m2/settings.xml $CI_PROJECT_DIR/.m2/settings.xml
+    - mvn -s $CI_PROJECT_DIR/.m2/settings.xml clean package -Pproduction -Dmaven.test.skip=true -Dmaven.compiler.useIncrementalCompilation=false -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    - export WAR_NAME=fenix-webapp-$UPSTREAM_BUILD.war
+    - mv target/*.war $CI_PROJECT_DIR/$WAR_NAME
+  artifacts:
+    paths:  [ $CI_PROJECT_DIR/*.war ]
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^zeta-.*$/'
+
+
+upload:
+  stage: Release
+  script:
+    - export WAR_NAME=$(ls *.war)
+    - export WAR_CHECKSUM=$(sha256sum $WAR_NAME | cut -d' ' -f1)
+    - curl --user "$NEXUS_USERNAME:$NEXUS_PASSWORD" --upload-file $WAR_NAME $NEXUS_REPOSITORY_URL/$WAR_NAME
+    - |
+      curl -X POST \
+      -F "token=$CI_JOB_TOKEN" \
+      -F ref=master \
+      -F "variables[WAR_NAME]=$WAR_NAME" \
+      -F "variables[WAR_CHECKSUM]=$WAR_CHECKSUM" \
+      -F "variables[VERSION_TO_REVIEW]=$UPSTREAM_BUILD" \
+      https://repo.dsi.tecnico.ulisboa.pt/api/v4/projects/2032/trigger/pipeline
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^zeta-.*$/'
+
