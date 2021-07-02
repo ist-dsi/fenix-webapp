@@ -38,7 +38,7 @@ upload:
       -F ref=master \
       -F "variables[WAR_NAME]=$WAR_NAME" \
       -F "variables[WAR_CHECKSUM]=$WAR_CHECKSUM" \
-      -F "variables[VERSION_TO_REVIEW]=$UPSTREAM_BUILD" \
+      -F "variables[VERSION_TO_REVIEW]=$CI_COMMIT_REF_NAME" \
       https://repo.dsi.tecnico.ulisboa.pt/api/v4/projects/2032/trigger/pipeline
   rules:
     - if: '$CI_COMMIT_REF_NAME =~ /^zeta-.*$/'
