@@ -15,13 +15,10 @@ before_script:
 compile:
   stage: Do WAR not peace
   script:
-    - echo "${UPSTREAM_BUILD:?variable not set}"
-    - git clone --branch $UPSTREAM_BUILD https://gitlab-ci-token:${CI_JOB_TOKEN}@repo.dsi.tecnico.ulisboa.pt/fenixedu/application/fenix-webapp.git
-    - cd fenix-webapp
     - mkdir -p $CI_PROJECT_DIR/.m2/
     - cp -R /opt/config_m2/settings.xml $CI_PROJECT_DIR/.m2/settings.xml
     - mvn -s $CI_PROJECT_DIR/.m2/settings.xml clean package -Pproduction -Dmaven.test.skip=true -Dmaven.compiler.useIncrementalCompilation=false -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
-    - export WAR_NAME=fenix-webapp-$UPSTREAM_BUILD.war
+    - export WAR_NAME=fenix-webapp-$CI_COMMIT_REF_NAME.war
     - mv target/*.war $CI_PROJECT_DIR/$WAR_NAME
   artifacts:
     paths:  [ $CI_PROJECT_DIR/*.war ]
