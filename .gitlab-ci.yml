@@ -22,9 +22,6 @@ compile:
     - mv target/*.war $CI_PROJECT_DIR/$WAR_NAME
   artifacts:
     paths:  [ $CI_PROJECT_DIR/*.war ]
-  rules:
-    - if: '$CI_COMMIT_REF_NAME =~ /^zeta-.*$/'
-
 
 upload:
   stage: Release
@@ -33,13 +30,14 @@ upload:
     - export WAR_CHECKSUM=$(sha256sum $WAR_NAME | cut -d' ' -f1)
     - curl --user "$NEXUS_USERNAME:$NEXUS_PASSWORD" --upload-file $WAR_NAME $NEXUS_REPOSITORY_URL/$WAR_NAME
     - |
-      curl -X POST \
-      -F "token=$CI_JOB_TOKEN" \
-      -F ref=master \
-      -F "variables[WAR_NAME]=$WAR_NAME" \
-      -F "variables[WAR_CHECKSUM]=$WAR_CHECKSUM" \
-      -F "variables[VERSION_TO_REVIEW]=$CI_COMMIT_REF_NAME" \
-      https://repo.dsi.tecnico.ulisboa.pt/api/v4/projects/2032/trigger/pipeline
-  rules:
-    - if: '$CI_COMMIT_REF_NAME =~ /^zeta-.*$/'
+      if [[ $CI_COMMIT_REF_NAME =~ /^zeta-.*$/ ]];
+      then
+        curl -X POST \
+        -F "token=$CI_JOB_TOKEN" \
+        -F ref=master \
+        -F "variables[WAR_NAME]=$WAR_NAME" \
+        -F "variables[WAR_CHECKSUM]=$WAR_CHECKSUM" \
+        -F "variables[VERSION_TO_REVIEW]=$CI_COMMIT_REF_NAME" \
+        https://repo.dsi.tecnico.ulisboa.pt/api/v4/projects/2032/trigger/pipeline
+      fi
 
