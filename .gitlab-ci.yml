@@ -30,7 +30,7 @@ upload:
     - export WAR_CHECKSUM=$(sha256sum $WAR_NAME | cut -d' ' -f1)
     - curl --user "$NEXUS_USERNAME:$NEXUS_PASSWORD" --upload-file $WAR_NAME $NEXUS_REPOSITORY_URL/$WAR_NAME
     - |
-      if [[ $CI_COMMIT_REF_NAME =~ /^zeta-.*$/ ]];
+      if [[ $CI_COMMIT_REF_NAME =~ ^zeta-.*$ ]];
       then
         curl -X POST \
         -F "token=$CI_JOB_TOKEN" \
