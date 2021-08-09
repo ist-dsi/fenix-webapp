@@ -71,10 +71,15 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <path>/fenix</path>
+                    <path>/</path>
                     <port>8080</port>
-                    <warSourceDirectory>../fenixedu-academic/src/main/webapp</warSourceDirectory>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <uriEncoding>UTF-8</uriEncoding>
+
+                    <systemProperties>
+                       <org.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING>false</org.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING>
+                        <JAVA_OPTS>-Xms2048m -Xmx8192m -Xss1m</JAVA_OPTS>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
