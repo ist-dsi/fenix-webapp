@@ -11,6 +11,7 @@ import org.fenixedu.academic.domain.contacts.EmailAddress;
 import org.fenixedu.academic.domain.person.IDDocumentType;
 import org.fenixedu.academic.domain.photograph.Picture;
 import org.fenixedu.academic.domain.student.Student;
+import org.fenixedu.admissions.ist.domain.UserAccountInfo;
 import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.UserProfile;
@@ -63,14 +64,14 @@ public class CreateUserAccounts extends CronTask {
                 .collect(Collectors.toMap(a -> a.getEmail(), a -> a));
         createdAccounts = 0;
         try {
-            skipUpdate.set(Boolean.TRUE);
+            UserAccountInfo.skipUpdate.set(Boolean.TRUE);
             Bennu.getInstance().getUserSet().stream()
                     .parallel()
                     .forEach(this::createAccount);
             taskLog("Create %s accounts.%n", createdAccounts);
             taskLog("Connected %s users to existing accounts.%n", connectedToExistingAccounts);
         } finally {
-            skipUpdate.remove();
+            UserAccountInfo.skipUpdate.remove();
         }
 
         ConnectSystem.getInstance().getAccountSet().stream()
