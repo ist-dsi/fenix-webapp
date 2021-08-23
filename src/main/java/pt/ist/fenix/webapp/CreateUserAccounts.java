@@ -16,6 +16,7 @@ import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.UserProfile;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
+import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
 import org.fenixedu.connect.domain.Account;
 import org.fenixedu.connect.domain.ConnectSystem;
 import org.fenixedu.connect.domain.Identity;
@@ -61,12 +62,16 @@ public class CreateUserAccounts extends CronTask {
         accountMap = ConnectSystem.getInstance().getAccountSet().stream()
                 .collect(Collectors.toMap(a -> a.getEmail(), a -> a));
         createdAccounts = 0;
-
-        Bennu.getInstance().getUserSet().stream()
-                .parallel()
-                .forEach(this::createAccount);
-        taskLog("Create %s accounts.%n", createdAccounts);
-        taskLog("Connected %s users to existing accounts.%n", connectedToExistingAccounts);
+        try {
+            skipUpdate.set(Boolean.TRUE);
+            Bennu.getInstance().getUserSet().stream()
+                    .parallel()
+                    .forEach(this::createAccount);
+            taskLog("Create %s accounts.%n", createdAccounts);
+            taskLog("Connected %s users to existing accounts.%n", connectedToExistingAccounts);
+        } finally {
+            skipUpdate.remove();
+        }
 
         ConnectSystem.getInstance().getAccountSet().stream()
                 .parallel()
@@ -275,6 +280,11 @@ public class CreateUserAccounts extends CronTask {
                 if (user.getAccount() != null) {
                     return;
                 }
+                if (!hasEssntialData(user)) {
+                    taskLog("Skipping user: %s because user does not have essential data%n",
+                            user.getUsername());
+                    return;
+                }
                 final String email = emailsFor(user);
                 if (accountMap.containsKey(email)) {
                     taskLog("Skipping user: %s because account with smae email already exists: %s%n",
@@ -301,6 +311,12 @@ public class CreateUserAccounts extends CronTask {
             //don't abort script because of individual fail
             taskLog(ex.getMessage());
         }
+    }
+
+    private boolean hasEssntialData(final User user) {
+        final Person person = user.getPerson();
+        final LocalDate dateOfBirth = person == null || person.getDateOfBirthYearMonthDay() == null ? null : person.getDateOfBirthYearMonthDay().toLocalDate();
+        return dateOfBirth != null;
     }
 
     private void setPersonalInformationFromUser(final User user) {
