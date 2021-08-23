@@ -1,6 +1,7 @@
 package pt.ist.fenix.webapp.task.academic.schedules.exams;
 
 import org.fenixedu.academic.domain.Exam;
+import org.fenixedu.academic.domain.ExecutionCourse;
 import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.util.Season;
 import org.fenixedu.bennu.scheduler.custom.CustomTask;
@@ -36,13 +37,22 @@ public class CopySpecialSeasonExams extends CustomTask {
             }
         }
 
-        throw new Error("Abort TX");
+//        throw new Error("Abort TX");
     }
 
     private final int[] init = new int[31+1];
     private final int[] fin = new int[31+1];
 
     private void copy(final Exam exam) {
+        if (exam.getAssociatedExecutionCoursesSet().stream().anyMatch(this::hasExam)) {
+            taskLog("Skipping %s : %s : Already has Exam.%n",
+                    exam.getAssociatedExecutionCoursesSet().stream()
+                            .map(ec -> ec.getName())
+                            .collect(Collectors.joining("; ")),
+                    exam.getDegreesAsString());
+            return;
+        }
+
         final YearMonthDay yearMonthDay = exam.getDayDateYearMonthDay();
         if (yearMonthDay.getYear() == 2021 && yearMonthDay.getMonthOfYear() == 7) {
             final int day = yearMonthDay.getDayOfMonth();
@@ -50,6 +60,7 @@ public class CopySpecialSeasonExams extends CustomTask {
                 final YearMonthDay newYearMonthDay = map(day);
                 init[day]++;
                 fin[newYearMonthDay.getDayOfMonth()]++;
+/*
                 taskLog("Mapping %s to %s : %s %s %s%n",
                         yearMonthDay.toString("yyyy-MM-dd"),
                         newYearMonthDay.toString("yyyy-MM-dd"),
@@ -60,6 +71,7 @@ public class CopySpecialSeasonExams extends CustomTask {
                         exam.getAssociatedExecutionCoursesSet().stream()
                                 .map(ec -> ec.getDegreePresentationString())
                                 .collect(Collectors.joining(", ")));
+ */
                 final DateTime begin = toDateTime(exam.getBeginningDateTime(), newYearMonthDay);
                 final DateTime end = toDateTime(exam.getEndDateTime(), newYearMonthDay);
                 new Exam(begin.toDate(), begin.toDate(), end.toDate(),
@@ -70,6 +82,14 @@ public class CopySpecialSeasonExams extends CustomTask {
                         Season.EXTRAORDINARY_SEASON_OBJ);
             }
         }
+    }
+
+    private boolean hasExam(final ExecutionCourse executionCourse) {
+        return executionCourse.getAssociatedEvaluationsSet().stream()
+                .filter(Exam.class::isInstance)
+                .map(Exam.class::cast)
+                .anyMatch(exam -> exam.getSeason().equals(Season.EXTRAORDINARY_SEASON_OBJ));
+
     }
 
     private YearMonthDay map(final int day) {
