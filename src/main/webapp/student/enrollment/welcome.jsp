@@ -29,9 +29,6 @@
 <%@page import="org.fenixedu.academic.domain.ExecutionSemester"%><html:xhtml/>
 
 <%
-	ExecutionSemester executionSemester = ExecutionSemester.readActualExecutionSemester();
-	request.setAttribute("executionSemester", executionSemester);
-
     Registration registration = (Registration) request.getAttribute("registration");
 
     request.setAttribute("hasInquiriesToRespond", StudentInquiryRegistry.hasInquiriesToRespond(registration.getStudent()));
