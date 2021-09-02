@@ -25,7 +25,7 @@ public class ExempltExtraordinarySeasonEnrolments extends CustomTask {
                 .filter(ee -> ee.getEvaluationSeason().isExtraordinary())
                 //.peek(ee -> taskLog("Checking evaluation %s%n", ee.getExternalId()))
                 .map(ee -> ee.getEnrolmentEvaluationEvent())
-                .filter(event -> event != null)
+                .filter(event -> event != null && !event.isCancelled())
                 .forEach(this::fix);
     }
 
@@ -40,9 +40,12 @@ public class ExempltExtraordinarySeasonEnrolments extends CustomTask {
 
         if (event.getAccountingTransactionsSet().isEmpty()) {
             if (otherEvent == null) {
-                taskLog("Keeping event for %s : %s%n",
-                        enrolment.getRegistration().getNumber(),
-                        enrolment.getCurricularCourse().getName());
+                // All is ok
+//                taskLog("Keeping event for %s : %s%n",
+//                        enrolment.getRegistration().getNumber(),
+//                        enrolment.getCurricularCourse().getName());
+            } else if (event.isClosed()) {
+                // All is ok
             } else {
                 taskLog("Exempting event for %s : %s%n",
                         enrolment.getRegistration().getNumber(),
@@ -57,6 +60,8 @@ public class ExempltExtraordinarySeasonEnrolments extends CustomTask {
             }
         } else {
             if (otherEvent == null) {
+                // All is ok
+            } else if (event.isClosed()) {
                 // All is ok
             } else {
                 taskLog("Refunding event for %s : %s%n",
