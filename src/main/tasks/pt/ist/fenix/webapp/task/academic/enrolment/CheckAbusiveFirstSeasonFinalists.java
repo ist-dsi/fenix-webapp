@@ -4,6 +4,8 @@ import org.fenixedu.academic.domain.Enrolment;
 import org.fenixedu.academic.domain.degreeStructure.CycleType;
 import org.fenixedu.academic.domain.student.Registration;
 import org.fenixedu.academic.domain.student.StatuteType;
+import org.fenixedu.academic.domain.student.Student;
+import org.fenixedu.academic.domain.student.StudentStatute;
 import org.fenixedu.academic.domain.studentCurriculum.CycleCurriculumGroup;
 import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
@@ -39,8 +41,8 @@ public class CheckAbusiveFirstSeasonFinalists extends ReadCustomTask {
         final long totalCount = registration.getStudentCurricularPlansSet().stream()
                 .flatMap(scp -> scp.getEnrolmentStream())
                 .filter(e -> e.getExecutionYear().isCurrent())
-                .map(e -> e.getFinalEnrolmentEvaluation())
-                .filter(ee -> ee != null && ee.getEvaluationSeason().isExtraordinary())
+                .flatMap(e -> e.getEvaluationsSet().stream())
+                .filter(ee -> ee.getEvaluationSeason().isExtraordinary())
                 .count();
         if (totalCount > 15d) {
             taskLog("Student %s enrolled in too many credits%n", registration.getPerson().getUsername());
@@ -50,12 +52,38 @@ public class CheckAbusiveFirstSeasonFinalists extends ReadCustomTask {
                 .flatMap(scp -> scp.getEnrolmentStream())
                 .filter(e -> e.getExecutionYear().isCurrent())
                 .filter(e -> !isFirstCycle(e))
-                .map(e -> e.getFinalEnrolmentEvaluation())
-                .filter(ee -> ee != null && ee.getEvaluationSeason().isExtraordinary())
+                .flatMap(e -> e.getEvaluationsSet().stream())
+                .filter(ee -> ee.getEvaluationSeason().isExtraordinary())
                 .count();
         if (secondCycleCount > 0d) {
-            taskLog("Student %s is abusing the rules%n", registration.getPerson().getUsername());
+            if (!isAllowed(registration.getStudent())) {
+                taskLog("Student %s is abusing the rules%n", registration.getPerson().getUsername());
+                registration.getStudent().getStudentStatutesSet().stream()
+                        .filter(s -> s.getEndExecutionPeriod().getExecutionYear().isCurrent())
+                        .forEach(s -> taskLog("   Status: %s = %s%n",
+                                s.getType().getCode(),
+                                s.getType().getName().getContent()));
+                registration.getStudentCurricularPlansSet().stream()
+                        .flatMap(scp -> scp.getEnrolmentStream())
+                        .filter(e -> e.getExecutionYear().isCurrent())
+                        .filter(e -> !isFirstCycle(e))
+                        .flatMap(e -> e.getEvaluationsSet().stream())
+                        .filter(ee -> ee.getEvaluationSeason().isExtraordinary())
+                        .forEach(ee -> taskLog("   Enrolment: %s%n", ee.getEnrolment().getCurricularCourse().getName()));
+                taskLog();
+            }
         }
+    }
+
+    private boolean isAllowed(final Student student) {
+        return student.getStudentStatutesSet().stream()
+                .filter(s -> s.getEndExecutionPeriod().getExecutionYear().isCurrent())
+                .anyMatch(s -> isAllowed(s));
+    }
+
+    private boolean isAllowed(final StudentStatute statute) {
+        final String code = statute.getType().getCode();
+        return code.equals("EXTRAORDINARY_SEASON_GRANTED_BY_REQUEST");
     }
 
     private boolean isFirstCycle(final Enrolment enrolment) {
