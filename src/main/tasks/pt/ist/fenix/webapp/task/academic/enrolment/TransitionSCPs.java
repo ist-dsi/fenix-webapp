@@ -42,11 +42,15 @@ public class TransitionSCPs extends CustomTask {
         DegreeCurricularPlan.readBolonhaDegreeCurricularPlans().stream()
                 .flatMap(dcp -> dcp.getDestinationTransitionPlanSet().stream())
                 .filter(dcp -> !excludeDegree(dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla()))
+                .filter(dcp -> dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla().equals("MEEC21"))
                 .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
                 .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
                 .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
-                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist190527"))
+                //.filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist190527"))
                 .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
+                .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
+                        .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
+                .limit(5l)
                 .forEach(studentPlan -> {
                     final Student student = studentPlan.getStudent();
                     final DegreeCurricularTransitionPlan degreeCurricularTransitionPlan = studentPlan.getDegreeCurricularTransitionPlan();
@@ -69,6 +73,12 @@ public class TransitionSCPs extends CustomTask {
         }
     }
 
+    private static boolean hasDestination(final DegreeCurricularPlan destinationPlan, final Student student) {
+        return student.getRegistrationsSet().stream()
+                .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
+                .anyMatch(scp -> scp.getDegreeCurricularPlan() == destinationPlan);
+    }
+
     private boolean excludeDegree(final String degreeCode) {
         return degreeCode.equals("MEMec21") || degreeCode.equals("LEMec21");
     }
@@ -79,6 +89,14 @@ public class TransitionSCPs extends CustomTask {
         final Set<StudentDegreeCurricularTransitionPlan> studentTransitionPlans = studentMap.get(registration);
         if (studentTransitionPlans.stream().anyMatch(plan -> plan.changedAfterUpdate())) {
             throw new Error("Plan changed after freeze.");
+        }
+        if (registration.getStudentCurricularPlansSet().stream()
+            .flatMap(scp -> scp.getEnrolmentStream())
+            .filter(enrolment -> enrolment.isEnroled())
+            .anyMatch(enrolment -> studentTransitionPlans.stream()
+                    .map(p -> p.getDegreeCurricularTransitionPlan().getOriginExecutionYear())
+                    .anyMatch(executionYear -> executionYear == enrolment.getExecutionYear()))) {
+            throw new Error("Mising grades");
         }
         if (studentTransitionPlans.size() == 1) {
             final StudentDegreeCurricularTransitionPlan studentPlan = studentTransitionPlans.iterator().next();
