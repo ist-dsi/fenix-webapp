@@ -38,19 +38,19 @@ public class TransitionSCPs extends CustomTask {
 
     @Override
     public void runTask() throws Exception {
+        User user = Authenticate.getUser();
+        Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
         studentMap = new HashMap<>();
         DegreeCurricularPlan.readBolonhaDegreeCurricularPlans().stream()
                 .flatMap(dcp -> dcp.getDestinationTransitionPlanSet().stream())
-                .filter(dcp -> !excludeDegree(dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla()))
 //                .filter(dcp -> dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla().equals("MEEC21"))
                 .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
                 .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
                 .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
-//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist181486"))
+//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist162389"))
                 .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
                 .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
                         .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
-//                .limit(50l)
                 .forEach(studentPlan -> {
                     final Student student = studentPlan.getStudent();
                     final DegreeCurricularTransitionPlan degreeCurricularTransitionPlan = studentPlan.getDegreeCurricularTransitionPlan();
@@ -67,20 +67,17 @@ public class TransitionSCPs extends CustomTask {
             try {
                 transition(registration);
             } catch (Throwable e) {
-                taskLog("Problem transitioning student\t%s\t%s%n", registration.getPerson().getUsername(), e.getMessage());
+                taskLog("  --> Problem transitioning student\t%s\t%s%n", registration.getPerson().getUsername(), e.getMessage());
                 e.printStackTrace();
             }
         }
+        Authenticate.mock(user, "Restore User Transition Script");
     }
 
     private static boolean hasDestination(final DegreeCurricularPlan destinationPlan, final Student student) {
         return student.getRegistrationsSet().stream()
                 .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
                 .anyMatch(scp -> scp.getDegreeCurricularPlan() == destinationPlan);
-    }
-
-    private boolean excludeDegree(final String degreeCode) {
-        return degreeCode.equals("MEMec21") || degreeCode.equals("LEMec21");
     }
 
     private void transition(final Registration registration) {
@@ -120,7 +117,7 @@ public class TransitionSCPs extends CustomTask {
                 }
             }
             TransitionService.run(studentPlan.getDegreeCurricularTransitionPlan(), person.getUser(), false, false, true, true);
-            Authenticate.mock(User.findByUsername("ist24439"), "Restore Script Runner");
+            Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
             taskLog(" > ok for 1");
 
             final StudentCurricularPlan newSCP = scp.getRegistration().getLastStudentCurricularPlan();
@@ -133,7 +130,7 @@ public class TransitionSCPs extends CustomTask {
                     .forEach(studentPlan -> {
                         taskLog("%n   running for %s", studentPlan.getDegreeCurricularTransitionPlan().getDestinationDegreeCurricularPlan().getName());
                         TransitionService.run(studentPlan.getDegreeCurricularTransitionPlan(), person.getUser(), false, false, true, true);
-                        Authenticate.mock(User.findByUsername("ist24439"), "Restore Script Runner");
+                        Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
                         FenixFramework.atomic(() -> {
                             studentTransitionPlans.forEach(plan -> plan.setUpdateInstant(new DateTime()));
                         });
