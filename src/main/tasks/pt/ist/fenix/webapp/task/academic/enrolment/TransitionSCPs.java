@@ -164,7 +164,7 @@ public class TransitionSCPs extends CustomTask {
             final Registration destinationRegistration = getDestinationRegistration(registration.getStudent());
             if (destinationRegistration.getActiveState().getStateType().equals(RegistrationStateType.TRANSITED)) {
                 //it was transitioned to an existing registration that was transitioned to another one previously and it needs to be active
-                destinationRegistration.getActiveState().delete();
+                RegistrationState.createRegistrationState(destinationRegistration, person,new DateTime(), RegistrationStateType.REGISTERED);
             }
 
             Message.fromSystem()
