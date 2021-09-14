@@ -42,15 +42,15 @@ public class TransitionSCPs extends CustomTask {
         DegreeCurricularPlan.readBolonhaDegreeCurricularPlans().stream()
                 .flatMap(dcp -> dcp.getDestinationTransitionPlanSet().stream())
                 .filter(dcp -> !excludeDegree(dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla()))
-                .filter(dcp -> dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla().equals("MEEC21"))
+//                .filter(dcp -> dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla().equals("MEEC21"))
                 .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
                 .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
                 .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
-                //.filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist190527"))
+//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist181486"))
                 .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
                 .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
                         .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
-                .limit(5l)
+//                .limit(50l)
                 .forEach(studentPlan -> {
                     final Student student = studentPlan.getStudent();
                     final DegreeCurricularTransitionPlan degreeCurricularTransitionPlan = studentPlan.getDegreeCurricularTransitionPlan();
@@ -66,7 +66,7 @@ public class TransitionSCPs extends CustomTask {
         for (Registration registration : studentMap.keySet()) {
             try {
                 transition(registration);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 taskLog("Problem transitioning student\t%s\t%s%n", registration.getPerson().getUsername(), e.getMessage());
                 e.printStackTrace();
             }
