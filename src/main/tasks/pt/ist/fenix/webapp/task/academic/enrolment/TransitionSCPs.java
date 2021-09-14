@@ -15,9 +15,11 @@ import org.fenixedu.academic.transitions.domain.StudentDegreeCurricularTransitio
 import org.fenixedu.academic.transitions.service.TransitionService;
 import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.core.domain.User;
+import org.fenixedu.bennu.core.domain.groups.NamedGroup;
 import org.fenixedu.bennu.core.groups.Group;
 import org.fenixedu.bennu.core.security.Authenticate;
 import org.fenixedu.bennu.scheduler.custom.CustomTask;
+import org.fenixedu.commons.i18n.LocalizedString;
 import org.fenixedu.messaging.core.domain.Message;
 import org.joda.time.DateTime;
 import pt.ist.fenixframework.Atomic;
@@ -25,6 +27,7 @@ import pt.ist.fenixframework.FenixFramework;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -80,9 +83,12 @@ public class TransitionSCPs extends CustomTask {
                         .filter(ed -> ed.getExecutionYear() == plan.getDestinationExecutionYear())
                         .flatMap(ed -> ed.getCoordinatorsListSet().stream())
                         .map(coordinator -> coordinator.getPerson().getUser());
+                final Group bcc = new NamedGroup(new LocalizedString(new Locale("pt", "PT"), "Coordenadores do "
+                        + plan.getDestinationDegreeCurricularPlan().getDegree().getSigla()),
+                        Group.users(User.findByUsername("ist24439"), User.findByUsername("ist24616")));
                 Message.fromSystem()
                         .to(Group.users(coordinators))
-                        .bcc(Group.users(User.findByUsername("ist24439"), User.findByUsername("ist24616")))
+                        .bcc(bcc)
                         .subject("Transição Curricular em Revisão")
                         .textBody("Caro(a) coordenador(a),\n\n" +
                                 "Foi necessário proceder ao descongelamento dos planos de transição dos seguintes alunos, " +
@@ -90,6 +96,7 @@ public class TransitionSCPs extends CustomTask {
                                 "transição ter sido elaborado.\n" +
                                 "\n" +
                                 usernames +
+                                "\n" +
                                 "\n" +
                                 "Os melhores cumprimentos,\n" +
                                 "A Equipa FenixEdu")
@@ -160,6 +167,7 @@ public class TransitionSCPs extends CustomTask {
                 if (scp.getFirstCycle() != null && scp.getFirstCycle().isConcluded()) {
                     //tudo ok - é o plano de transição para o 2º ciclo
                 } else {
+                    taskLog();
                     return; //não tem plano especializado para o 2º ciclo, só tem para o 1º
                 }
             } else if (scp.getDegree().isSecondCycle() && scp.getDegree().isFirstCycle()) { //mestrado integrado
@@ -170,6 +178,7 @@ public class TransitionSCPs extends CustomTask {
                 } else if (scp.getCycleCurriculumGroups().size() == 1) {
                     //tudo ok - é um mestrado integrado mas o aluno só tem um ciclo aberto no scp
                 } else {
+                    taskLog();
                     return;
                 }
             }
