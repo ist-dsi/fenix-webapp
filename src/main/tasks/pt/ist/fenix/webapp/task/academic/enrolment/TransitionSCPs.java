@@ -47,7 +47,7 @@ public class TransitionSCPs extends CustomTask {
                 .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
                 .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
                 .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
-//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist162389"))
+//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist181429"))
                 .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
                 .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
                         .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
@@ -93,7 +93,7 @@ public class TransitionSCPs extends CustomTask {
             .anyMatch(enrolment -> studentTransitionPlans.stream()
                     .map(p -> p.getDegreeCurricularTransitionPlan().getOriginExecutionYear())
                     .anyMatch(executionYear -> executionYear == enrolment.getExecutionYear()))) {
-            throw new Error("Mising grades");
+            throw new Error("Missing grades");
         }
         if (studentTransitionPlans.size() == 1) {
             final StudentDegreeCurricularTransitionPlan studentPlan = studentTransitionPlans.iterator().next();
@@ -157,9 +157,14 @@ public class TransitionSCPs extends CustomTask {
         }
 
         FenixFramework.atomic(() -> {
-            if (studentTransitionPlans.stream()
-                    .anyMatch(studentPlan -> studentPlan.getDegreeCurricularTransitionPlan().getDestinationDegreeCurricularPlan().getDegree() != registration.getDegree())) {
+            if (!isSameDCP(registration, studentTransitionPlans)) {
                 RegistrationState.createRegistrationState(registration, person, new DateTime(), RegistrationStateType.TRANSITED);
+            }
+
+            final Registration destinationRegistration = getDestinationRegistration(registration.getStudent());
+            if (destinationRegistration.getActiveState().getStateType().equals(RegistrationStateType.TRANSITED)) {
+                //it was transitioned to an existing registration that was transitioned to another one previously and it needs to be active
+                destinationRegistration.getActiveState().delete();
             }
 
             Message.fromSystem()
@@ -185,6 +190,12 @@ public class TransitionSCPs extends CustomTask {
         return student.getRegistrationsSet().stream()
                 .filter(r -> r.getDegree().getCycleTypes().contains(cycleType))
                 .filter(r -> isSameDCP(r, studentTransitionPlans))
+                .findAny().get();
+    }
+
+    private Registration getDestinationRegistration(final Student student) {
+        return student.getRegistrationStream()
+                .filter(r -> isSameDCP(r, r.getStudent().getStudentDegreeCurricularTransitionPlanSet()))
                 .findAny().get();
     }
 
