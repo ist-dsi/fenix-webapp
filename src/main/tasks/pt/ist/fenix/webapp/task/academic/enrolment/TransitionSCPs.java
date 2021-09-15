@@ -48,6 +48,11 @@ public class TransitionSCPs extends CustomTask {
         Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
 
         FenixFramework.atomic(() -> {
+            Bennu.getInstance().getStudentsSet().stream()
+                    .flatMap(student -> student.getStudentDegreeCurricularTransitionPlanSet().stream())
+                    .filter(plan -> isConcluded(plan))
+                    .forEach(plan -> plan.delete());
+
             final HashMap<DegreeCurricularTransitionPlan, Set<User>> coordinatorMap = new HashMap<>();
             Bennu.getInstance().getStudentsSet().stream()
                     .flatMap(student -> student.getStudentDegreeCurricularTransitionPlanSet().stream())
@@ -136,6 +141,21 @@ public class TransitionSCPs extends CustomTask {
             }
         }
         Authenticate.mock(user, "Restore User Transition Script");
+    }
+
+    private boolean isConcluded(final StudentDegreeCurricularTransitionPlan studentPlan) {
+        final DegreeCurricularTransitionPlan degreePlan = studentPlan.getDegreeCurricularTransitionPlan();
+        final DegreeCurricularPlan destinationPlan = degreePlan.getDestinationDegreeCurricularPlan();
+        final Set<CycleType> cycleTypes = destinationPlan.getRoot().getCycleCourseGroups().stream()
+                .map(group -> group.getCycleType())
+                .collect(Collectors.toSet());
+        final Student student = studentPlan.getStudent();
+        return (!destinationPlan.getDegreeType().isIntegratedMasterDegree()) && student.getRegistrationsSet().stream()
+                .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
+                .flatMap(scp -> scp.getCycleCurriculumGroups().stream())
+                .filter(group -> cycleTypes.contains(group.getCycleType()))
+                .filter(group -> group.getDegreeModule().getDegree() == degreePlan.getOriginDegreeCurricularPlan().getDegree())
+                .anyMatch(group -> group.isConcluded());
     }
 
     private static boolean hasDestination(final DegreeCurricularPlan destinationPlan, final Student student) {
@@ -238,7 +258,7 @@ public class TransitionSCPs extends CustomTask {
                     .subject("Transição Curricular Completa")
                     .textBody("Caro(a) aluno(a),\n\n" +
                             "A sua transicção para o novo plano curricular foi concluído com sucesso.\n" +
-                            "Lamentamos o atraso na conclusão desta operação.\n" +
+//                            "Lamentamos o atraso na conclusão desta operação.\n" +
                             "Pode agora proceder às suas inscrições no portal do aluno.\n" +
                             "\n" +
                             "Os melhores cumprimentos,\n" +
