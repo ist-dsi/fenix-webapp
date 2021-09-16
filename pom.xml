@@ -25,7 +25,7 @@
 
     <properties>
         <version.org.fenixedu.academic>24.20.0</version.org.fenixedu.academic>
-        <version.pt.ist.fenixedu.ist>18.5.3</version.pt.ist.fenixedu.ist>
+        <version.pt.ist.fenixedu.ist>18.6.1</version.pt.ist.fenixedu.ist>
         <version.pt.ist.renates-integration>2.0.1</version.pt.ist.renates-integration>
         <version.ch.qos.logback.logback.classic>1.1.8</version.ch.qos.logback.logback.classic>
         <version.org.fenixedu.a3es>2.4.1</version.org.fenixedu.a3es>
@@ -47,7 +47,7 @@
         <version.pt.ist.fenixedu.idcards>5.9.1</version.pt.ist.fenixedu.idcards>
         <version.pt.ist.fenixedu.onlinetests>6.6.2</version.pt.ist.fenixedu.onlinetests>
         <version.org.fenixedu.comm-hub>1.1.4</version.org.fenixedu.comm-hub>
-        <version.org.fenixedu.fenixedu-academic-transitions>1.67.0</version.org.fenixedu.fenixedu-academic-transitions>
+        <version.org.fenixedu.fenixedu-academic-transitions>1.68.0</version.org.fenixedu.fenixedu-academic-transitions>
         <version.pt.ist.sap-sdk-java>4.7.0</version.pt.ist.sap-sdk-java>
         <version.fenixedu-collaboration-integrations>1.0.4</version.fenixedu-collaboration-integrations>
         <version.org.fenixedu.profile>1.0.0</version.org.fenixedu.profile>
@@ -56,7 +56,7 @@
         <version.pt.ist.standards>2.3.2</version.pt.ist.standards>
         <version.org.fenixedu.fenixedu-admissions>5.8.0</version.org.fenixedu.fenixedu-admissions>
         <version.org.fenixedu.fenixedu-connect>1.36.0</version.org.fenixedu.fenixedu-connect>
-        <version.org.fenixedu.fenixedu-queueing>1.9.0</version.org.fenixedu.fenixedu-queueing>
+        <version.org.fenixedu.fenixedu-queueing>1.9.1</version.org.fenixedu.fenixedu-queueing>
         <version.pt.ist.fenix-sibs-payments>1.0.1</version.pt.ist.fenix-sibs-payments>
         <version.org.fenixedu.fenixedu-safe-file-share>1.1.1</version.org.fenixedu.fenixedu-safe-file-share>
         <version.bennu-vue-pluggable>0.0.3</version.bennu-vue-pluggable>
