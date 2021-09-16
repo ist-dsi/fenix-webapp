@@ -308,7 +308,7 @@ public class CreateUserAccounts extends CronTask {
                     setPersonalInformationFromUser(user);
                 }
             });
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             //don't abort script because of individual fail
             taskLog(ex.getMessage());
         }
