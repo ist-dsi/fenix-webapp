@@ -1,4 +1,4 @@
-package pt.ist.fenix.webapp.task.academic.enrolment;
+package pt.ist.fenix.webapp.task;
 
 import org.fenixedu.academic.domain.DegreeCurricularPlan;
 import org.fenixedu.academic.domain.Person;
@@ -18,6 +18,8 @@ import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.groups.NamedGroup;
 import org.fenixedu.bennu.core.groups.Group;
 import org.fenixedu.bennu.core.security.Authenticate;
+import org.fenixedu.bennu.scheduler.CronTask;
+import org.fenixedu.bennu.scheduler.annotation.Task;
 import org.fenixedu.bennu.scheduler.custom.CustomTask;
 import org.fenixedu.commons.i18n.LocalizedString;
 import org.fenixedu.messaging.core.domain.Message;
@@ -33,7 +35,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TransitionSCPs extends CustomTask {
+@Task(englishTitle = "Transition Student Curricular Plans", readOnly = true)
+public class TransitionSCPs extends CronTask {
 
     private Map<Registration, Set<StudentDegreeCurricularTransitionPlan>> studentMap = null;
 
