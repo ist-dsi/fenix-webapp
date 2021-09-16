@@ -1,4 +1,4 @@
-package pt.ist.fenix.webapp.task.academic.enrolment;
+package pt.ist.fenix.webapp.task;
 
 import org.fenixedu.academic.domain.DegreeCurricularPlan;
 import org.fenixedu.academic.domain.Person;
@@ -18,6 +18,8 @@ import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.groups.NamedGroup;
 import org.fenixedu.bennu.core.groups.Group;
 import org.fenixedu.bennu.core.security.Authenticate;
+import org.fenixedu.bennu.scheduler.CronTask;
+import org.fenixedu.bennu.scheduler.annotation.Task;
 import org.fenixedu.bennu.scheduler.custom.CustomTask;
 import org.fenixedu.commons.i18n.LocalizedString;
 import org.fenixedu.messaging.core.domain.Message;
@@ -33,7 +35,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TransitionSCPs extends CustomTask {
+@Task(englishTitle = "Transition Student Curricular Plans", readOnly = true)
+public class TransitionSCPs extends CronTask {
 
     private Map<Registration, Set<StudentDegreeCurricularTransitionPlan>> studentMap = null;
 
@@ -116,7 +119,7 @@ public class TransitionSCPs extends CustomTask {
                 .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
                 .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
                 .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
-//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist181429"))
+//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist426311"))
                 .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
                 .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
                         .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
@@ -161,7 +164,8 @@ public class TransitionSCPs extends CustomTask {
     private static boolean hasDestination(final DegreeCurricularPlan destinationPlan, final Student student) {
         return student.getRegistrationsSet().stream()
                 .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
-                .anyMatch(scp -> scp.getDegreeCurricularPlan() == destinationPlan);
+                .anyMatch(scp -> scp.getCycleCurriculumGroups().stream()
+                        .anyMatch(ccg -> ccg.getDegreeCurricularPlanOfDegreeModule() == destinationPlan));
     }
 
     private void transition(final Registration registration) {
@@ -197,6 +201,8 @@ public class TransitionSCPs extends CustomTask {
                     //tudo ok - o plano de destino contém os 2 ciclos portanto o aluno só tem um plano de transição
                 } else if (scp.getCycleCurriculumGroups().size() == 1) {
                     //tudo ok - é um mestrado integrado mas o aluno só tem um ciclo aberto no scp
+                } else if (scp.getSecondCycle() != null && scp.getSecondCycle().getAprovedEctsCredits().doubleValue() == 0.0d) {
+                    //tudo ok - é um mestrado integrado com os 2 ciclos abertos mas o 2º não tem lá nada
                 } else {
                     taskLog();
                     return;
@@ -206,10 +212,12 @@ public class TransitionSCPs extends CustomTask {
             Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
             taskLog(" > ok for 1");
 
-            final StudentCurricularPlan newSCP = scp.getRegistration().getLastStudentCurricularPlan();
-            newSCP.getCycleCurriculumGroups().stream()
-                    .filter(group -> group.getAprovedEctsCredits().doubleValue() == 0d)
-                    .forEach(group -> group.deleteRecursive());
+            FenixFramework.atomic(() -> {
+                final StudentCurricularPlan newSCP = scp.getRegistration().getLastStudentCurricularPlan();
+                newSCP.getCycleCurriculumGroups().stream()
+                        .filter(group -> group.getAprovedEctsCredits().doubleValue() == 0d && group.getCurriculumLines().isEmpty())
+                        .forEach(group -> group.deleteRecursive());
+            });
         } else {
             studentTransitionPlans.stream()
                     .sorted((p1, p2) -> CycleType.COMPARATOR_BY_LESS_WEIGHT.compare(cycleTypeFor(p1), cycleTypeFor(p2)))
