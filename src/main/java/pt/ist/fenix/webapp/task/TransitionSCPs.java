@@ -164,7 +164,8 @@ public class TransitionSCPs extends CronTask {
     private static boolean hasDestination(final DegreeCurricularPlan destinationPlan, final Student student) {
         return student.getRegistrationsSet().stream()
                 .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
-                .anyMatch(scp -> scp.getDegreeCurricularPlan() == destinationPlan);
+                .anyMatch(scp -> scp.getCycleCurriculumGroups().stream()
+                        .anyMatch(ccg -> ccg.getDegreeCurricularPlanOfDegreeModule() == destinationPlan));
     }
 
     private void transition(final Registration registration) {
