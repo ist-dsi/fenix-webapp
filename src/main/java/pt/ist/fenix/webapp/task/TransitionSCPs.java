@@ -190,6 +190,8 @@ public class TransitionSCPs extends CronTask {
             if (!scp.getDegree().isSecondCycle() && scp.getSecondCycle() != null) { //tem 2º ciclo em avanço
                 if (scp.getFirstCycle() != null && scp.getFirstCycle().isConcluded()) {
                     //tudo ok - é o plano de transição para o 2º ciclo
+                } else if (scp.getSecondCycle().getAprovedEctsCredits().doubleValue() == 0.0d) {
+                    //tudo ok - tem 2º ciclo aberto mas está vazio
                 } else {
                     taskLog();
                     return; //não tem plano especializado para o 2º ciclo, só tem para o 1º
