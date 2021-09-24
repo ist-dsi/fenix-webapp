@@ -31,8 +31,11 @@
 	<logger name="org.fenixedu" level="INFO">
 	</logger>
 
-        <logger name="org.fenixedu.academic.service.services.student.onlineTests" level="DEBUG">
-        </logger>
+	<logger name="org.fenixedu.academic.service.services.student.onlineTests" level="DEBUG">
+	</logger>
+
+	<logger name="com.qubit.solution.fenixedu.integration.cgd.services.form43.CgdForm43Sender" level="DEBUG">
+	</logger>
 
 	<root level="WARN">
 		<appender-ref ref="STDOUT"/>
