@@ -1,22 +1,34 @@
 package pt.ist.fenix.webapp.task;
 
+import com.google.gson.JsonObject;
+import org.fenixedu.academic.domain.Degree;
 import org.fenixedu.academic.domain.DegreeCurricularPlan;
+import org.fenixedu.academic.domain.ExecutionSemester;
+import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.domain.Person;
 import org.fenixedu.academic.domain.StudentCurricularPlan;
+import org.fenixedu.academic.domain.degreeStructure.CourseGroup;
+import org.fenixedu.academic.domain.degreeStructure.CycleCourseGroup;
 import org.fenixedu.academic.domain.degreeStructure.CycleType;
 import org.fenixedu.academic.domain.student.Registration;
 import org.fenixedu.academic.domain.student.Student;
 import org.fenixedu.academic.domain.student.registrationStates.RegistrationState;
 import org.fenixedu.academic.domain.student.registrationStates.RegistrationStateType;
+import org.fenixedu.academic.domain.studentCurriculum.CurriculumGroupFactory;
 import org.fenixedu.academic.domain.studentCurriculum.CycleCurriculumGroup;
+import org.fenixedu.academic.domain.studentCurriculum.ExternalCurriculumGroup;
 import org.fenixedu.academic.domain.studentCurriculum.RootCurriculumGroup;
 import org.fenixedu.academic.transitions.domain.DegreeCurricularTransitionPlan;
 import org.fenixedu.academic.transitions.domain.StudentDegreeCurricularTransitionPlan;
 import org.fenixedu.academic.transitions.service.TransitionService;
+import org.fenixedu.admissions.domain.AdmissionProcessTarget;
+import org.fenixedu.admissions.domain.Application;
+import org.fenixedu.admissions.ist.domain.Utils;
 import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.groups.NamedGroup;
 import org.fenixedu.bennu.core.groups.Group;
+import org.fenixedu.bennu.core.json.JsonUtils;
 import org.fenixedu.bennu.core.security.Authenticate;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
@@ -47,6 +59,8 @@ public class TransitionSCPs extends CronTask {
 
     @Override
     public void runTask() throws Exception {
+        openStuffThatCannotBeTransitioned();
+
         User user = Authenticate.getUser();
         Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
 
@@ -144,6 +158,135 @@ public class TransitionSCPs extends CronTask {
             }
         }
         Authenticate.mock(user, "Restore User Transition Script");
+    }
+
+    private void openStuffThatCannotBeTransitioned() {
+        FenixFramework.atomic(() -> {
+            ExecutionYear.readCurrentExecutionYear().getPreviousExecutionYear().getExecutionPeriodsSet().stream()
+                    .flatMap(executionSemester -> executionSemester.getEnrolmentsSet().stream())
+                    .map(enrolment -> enrolment.getStudentCurricularPlan())
+                    .distinct()
+                    .forEach(studentCurricularPlan -> {
+                        final CycleCurriculumGroup firstCycle = studentCurricularPlan.getFirstCycle();
+                        if (firstCycle != null) {
+                            final CycleCurriculumGroup secondCycle = studentCurricularPlan.getSecondCycle();
+                            if (secondCycle != null && secondCycle.getCurriculumLineStream()
+                                    .noneMatch(line -> line.isApproved())) {
+                                final DegreeCurricularPlan secondCycleDCP = secondCycle.getDegreeCurricularPlanOfDegreeModule();
+                                final DegreeCurricularPlan destinationSecondCycleDCP = findDestination(secondCycleDCP, CycleType.SECOND_CYCLE);
+                                final Student student = studentCurricularPlan.getRegistration().getStudent();
+                                if (student.getRegistrationsSet().stream()
+                                        .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
+                                        .flatMap(scp -> scp.getCycleCurriculumGroups().stream())
+                                        .map(group -> group.getDegreeCurricularPlanOfDegreeModule())
+                                        .noneMatch(dcp -> dcp == destinationSecondCycleDCP)) {
+
+                                    if (student.getPerson().getUser().getIdentity().getAccountSet().stream()
+                                            .flatMap(account -> account.getApplicationSet().stream())
+                                            .filter(application -> Utils.isDegreeType(application))
+                                            .anyMatch(application -> application.getAdmitted())) {
+                                        taskLog("Skipping %s because of existing application to %s%n",
+                                                student.getPerson().getUsername(),
+                                                student.getPerson().getUser().getIdentity().getAccountSet().stream()
+                                                        .flatMap(account -> account.getApplicationSet().stream())
+                                                        .filter(application -> Utils.isDegreeType(application))
+                                                        .filter(application -> application.getAdmitted())
+                                                        .map(application -> degreeFor(application))
+                                                        .map(degree -> degree.getSigla())
+                                                        .collect(Collectors.joining(", "))
+                                        );
+                                    } else {
+
+                                        // Need to open destination
+/*
+                                taskLog("%s = %s%n",
+                                        studentCurricularPlan.getRegistration().getPerson().getUsername(),
+                                        studentCurricularPlan.getDegreeCurricularPlan().getName());
+ */
+                                        if (firstCycle.isConcluded()) {
+                                            taskLog("   %s = Creating new Registration for DCP: %s%n",
+                                                    student.getPerson().getUsername(),
+                                                    destinationSecondCycleDCP.getName());
+                                            final Registration newRegistration = new Registration(student.getPerson(), destinationSecondCycleDCP,
+                                                    studentCurricularPlan.getRegistration().getRegistrationProtocol(), CycleType.SECOND_CYCLE, ExecutionYear.readCurrentExecutionYear());
+                                            newRegistration.setIngressionType(studentCurricularPlan.getRegistration().getIngressionType());
+                                        } else {
+                                            final DegreeCurricularPlan destinationFirstCycleDCP = findDestination(firstCycle.getDegreeCurricularPlanOfDegreeModule(), CycleType.FIRST_CYCLE);
+                                            final StudentCurricularPlan destinationSCP = student.getRegistrationsSet().stream()
+                                                    .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
+                                                    .filter(scp -> scp.getCycleCurriculumGroups().stream()
+                                                            .anyMatch(group -> group.getDegreeCurricularPlanOfDegreeModule() == destinationFirstCycleDCP))
+                                                    .findAny().orElse(null);
+                                            if (destinationSCP != null) {
+                                                final Registration registration = destinationSCP.getRegistration();
+                                                taskLog("   %s = Registration: %s : Adding DCP: %s%n",
+                                                        registration.getPerson().getUsername(),
+                                                        registration.getDegree().getSigla(),
+                                                        destinationSecondCycleDCP.getName()
+                                                );
+                                                hackExternalCurrioculumGroup(destinationSCP.getRoot(),
+                                                        destinationSecondCycleDCP.getCycleCourseGroup(CycleType.SECOND_CYCLE));
+                                            } else {
+                                                // not transitionned
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (secondCycle == null
+                                    && firstCycle.getCurriculumLineStream().noneMatch(line -> line.isApproved())
+                                    && firstCycle.getCurriculumLineStream().count() > 0
+                            ) {
+                                final DegreeCurricularPlan destinationFirstCycleDCP = findDestination(firstCycle.getDegreeCurricularPlanOfDegreeModule(),
+                                        CycleType.FIRST_CYCLE);
+                                final Student student = studentCurricularPlan.getRegistration().getStudent();
+                                final StudentCurricularPlan destinationSCP = student.getRegistrationsSet().stream()
+                                        .flatMap(registration -> registration.getStudentCurricularPlansSet().stream())
+                                        .filter(scp -> scp.getCycleCurriculumGroups().stream()
+                                                .anyMatch(group -> group.getDegreeCurricularPlanOfDegreeModule() == destinationFirstCycleDCP))
+                                        .findAny().orElse(null);
+                                if (destinationSCP != null) {
+                                    // Already open
+                                } else if (studentCurricularPlan.getRegistration().getDegree() == destinationFirstCycleDCP.getDegree()) {
+                                    studentCurricularPlan.getRegistration().createStudentCurricularPlan(destinationFirstCycleDCP,
+                                            ExecutionYear.readCurrentExecutionYear());
+                                    taskLog("Creating first cycle student plan for %s%n",
+                                            studentCurricularPlan.getRegistration().getPerson().getUsername());
+                                } else {
+                                    final Registration newRegistration = new Registration(student.getPerson(), destinationFirstCycleDCP,
+                                            studentCurricularPlan.getRegistration().getRegistrationProtocol(), CycleType.FIRST_CYCLE,
+                                            ExecutionYear.readCurrentExecutionYear());
+                                    newRegistration.setIngressionType(studentCurricularPlan.getRegistration().getIngressionType());
+                                    taskLog("Creating new first cycle registration for student plan for %s%n",
+                                            studentCurricularPlan.getRegistration().getPerson().getUsername());
+                                }
+                            }
+                        }
+                    });
+        });
+    }
+
+    private void hackExternalCurrioculumGroup(final RootCurriculumGroup root, final CycleCourseGroup cycleCourseGroup) {
+        final ExternalCurriculumGroup externalCurriculumGroup = new ExternalCurriculumGroup();
+        externalCurriculumGroup.setCurriculumGroup(root);
+        externalCurriculumGroup.setDegreeModule(cycleCourseGroup);
+        final ExecutionSemester executionSemester = ExecutionSemester.readActualExecutionSemester();
+        for (final CourseGroup childCourseGroup : cycleCourseGroup.getNotOptionalChildCourseGroups(executionSemester)) {
+            CurriculumGroupFactory.createGroup(externalCurriculumGroup, childCourseGroup, executionSemester);
+        }
+    }
+
+    private Degree degreeFor(final Application a) {
+        final AdmissionProcessTarget target = a.getAdmissionProcessTarget();
+        final JsonObject config = target.getOutcomeConfigJson();
+        final String id = JsonUtils.get(config, "degree");
+        return FenixFramework.getDomainObject(id);
+    }
+
+    private DegreeCurricularPlan findDestination(final DegreeCurricularPlan origin, final CycleType cycleType) {
+        return origin.getDestinationTransitionPlanSet().stream()
+                .map(plan -> plan.getDestinationDegreeCurricularPlan())
+                .filter(dcp -> dcp.getCycleCourseGroup(cycleType) != null)
+                .findAny().orElse(origin);
     }
 
     private boolean isConcluded(final StudentDegreeCurricularTransitionPlan studentPlan) {
