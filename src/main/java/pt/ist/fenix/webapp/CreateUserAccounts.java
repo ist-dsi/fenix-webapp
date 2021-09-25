@@ -80,8 +80,11 @@ public class CreateUserAccounts extends CronTask {
         taskLog("Connected %s accounts.%n", connectedAccounts);
         taskLog("Validated %s accounts.%n", validatedAccounts);
 
-        ConnectSystem.getInstance().getIdentitySet().stream()
-                .parallel()
+        ConnectSystem.getInstance().getAccountSet().stream()
+                .filter(account -> (!account.isEmailInvalidated()) && (!account.isUsernameEmail()))
+                .sorted(Account.COMPARATOR_BY_RELEVANCE)
+                .map(account -> account.getIdentity())
+                .distinct()
                 .forEach(this::autoMerge);
 
         ConnectSystem.getInstance().getIdentitySet().stream()
@@ -109,7 +112,7 @@ public class CreateUserAccounts extends CronTask {
     private void autoMerge(final Identity identity) {
         try {
             FenixFramework.atomic(() -> {
-                if (!isRecent(identity)) {
+                if ((!FenixFramework.isDomainObjectValid(identity)) || (!isRecent(identity))) {
                     return;
                 }
                 identity.autoMerge();
