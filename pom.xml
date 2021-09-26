@@ -306,6 +306,11 @@
             <artifactId>email-dispatch</artifactId>
             <version>${version.org.fenixedu.messaging}</version>
         </dependency>
+        <dependency>
+            <groupId>org.fenixedu</groupId>
+            <artifactId>sms-dispatch</artifactId>
+            <version>${version.org.fenixedu.messaging}</version>
+        </dependency>
 		  <dependency>
 		      <groupId>org.apache.poi</groupId>
 		      <artifactId>poi</artifactId>
