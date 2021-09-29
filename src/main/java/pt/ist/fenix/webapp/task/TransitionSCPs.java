@@ -397,13 +397,13 @@ public class TransitionSCPs extends CronTask {
 
         FenixFramework.atomic(() -> {
             if (!isSameDCP(registration, studentTransitionPlans)) {
-                RegistrationState.createRegistrationState(registration, person, new DateTime(), RegistrationStateType.TRANSITED);
+                RegistrationState.createRegistrationStateWithoutValidation(registration, person, new DateTime(), RegistrationStateType.TRANSITED);
             }
 
             final Registration destinationRegistration = getDestinationRegistration(registration.getStudent());
             if (destinationRegistration.getActiveState().getStateType().equals(RegistrationStateType.TRANSITED)) {
                 //it was transitioned to an existing registration that was transitioned to another one previously and it needs to be active
-                RegistrationState.createRegistrationState(destinationRegistration, person,new DateTime(), RegistrationStateType.REGISTERED);
+                RegistrationState.createRegistrationStateWithoutValidation(destinationRegistration, person,new DateTime(), RegistrationStateType.REGISTERED);
             }
 
             Message.fromSystem()
