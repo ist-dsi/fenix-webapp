@@ -248,7 +248,7 @@ public class GenerateAdmissionsDocumentForSigning extends CronTask {
         result.addProperty("docUmentCountry", Planet.getEarth().getByAlfa2(identificationDocument.getCountryCode()).getLocalizedName(EN));
         result.addProperty("documentNumber", identificationDocument.getDocumentNumber());
         result.addProperty("documenExpirationDate", identificationDocument.getExpirationDate().toString("yyyy-MM-dd"));
-        result.addProperty("tin", taxInformation.getTin());
+        result.addProperty("tin", taxInformation == null ? "n/a" : taxInformation.getTin());
 
         result.addProperty("uuid", uuid);
         result.addProperty("qrcodeImage", generateURIBase64QRCode(uuid));
