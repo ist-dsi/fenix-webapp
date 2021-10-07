@@ -32,7 +32,6 @@ import org.fenixedu.bennu.core.json.JsonUtils;
 import org.fenixedu.bennu.core.security.Authenticate;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
-import org.fenixedu.bennu.scheduler.custom.CustomTask;
 import org.fenixedu.commons.i18n.LocalizedString;
 import org.fenixedu.messaging.core.domain.Message;
 import org.joda.time.DateTime;
@@ -62,102 +61,105 @@ public class TransitionSCPs extends CronTask {
         openStuffThatCannotBeTransitioned();
 
         User user = Authenticate.getUser();
-        Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
+        try {
+            Authenticate.mock(User.findByUsername("ist24439"), "Transition Script Runner");
 
-        FenixFramework.atomic(() -> {
-            Bennu.getInstance().getStudentsSet().stream()
-                    .flatMap(student -> student.getStudentDegreeCurricularTransitionPlanSet().stream())
-                    .filter(plan -> isConcluded(plan))
-                    .forEach(plan -> plan.delete());
+            FenixFramework.atomic(() -> {
+                Bennu.getInstance().getStudentsSet().stream()
+                        .flatMap(student -> student.getStudentDegreeCurricularTransitionPlanSet().stream())
+                        .filter(plan -> isConcluded(plan))
+                        .forEach(plan -> plan.delete());
 
-            final HashMap<DegreeCurricularTransitionPlan, Set<User>> coordinatorMap = new HashMap<>();
-            Bennu.getInstance().getStudentsSet().stream()
-                    .flatMap(student -> student.getStudentDegreeCurricularTransitionPlanSet().stream())
+                final HashMap<DegreeCurricularTransitionPlan, Set<User>> coordinatorMap = new HashMap<>();
+                Bennu.getInstance().getStudentsSet().stream()
+                        .flatMap(student -> student.getStudentDegreeCurricularTransitionPlanSet().stream())
+                        .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
+                                .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
+                        .filter(plan -> plan.changedAfterUpdate())
+                        .distinct()
+                        .forEach(plan -> {
+                            final User studentUser = plan.getStudent().getPerson().getUser();
+                            if (plan.getConfirmTransitionInstant() != null) {
+                                Message.fromSystem()
+                                        .to(Group.users(studentUser))
+                                        .subject("Transição Curricular em Revisão")
+                                        .textBody("Caro(a) aluno(a),\n\n" +
+                                                "Não foi possível proceder à sua transição conforme estava planeada devido " +
+                                                "a alterações no seu plano curricular, realizadas após a elaboração inicial desse plano.\n" +
+                                                "Este terá que ser revisto pelo coordenador do seu curso, e só após essa validação " +
+                                                "estará novamente disponível para a sua confirmação.\n" +
+                                                "\n" +
+                                                "Os melhores cumprimentos,\n" +
+                                                "A Equipa FenixEdu")
+                                        .wrapped().send();
+                            }
+                            if (plan.getFreezeInstant() != null) {
+                                coordinatorMap.computeIfAbsent(plan.getDegreeCurricularTransitionPlan(),
+                                        (v) -> new HashSet<>()).add(studentUser);
+                            }
+                            plan.delete();
+                        });
+                coordinatorMap.forEach((plan, set) -> {
+                    final String usernames = set.stream().map(u -> u.getUsername()).collect(Collectors.joining("\n"));
+                    final Stream<User> coordinators = plan.getDestinationDegreeCurricularPlan().getExecutionDegreesSet().stream()
+                            .filter(ed -> ed.getExecutionYear() == plan.getDestinationExecutionYear())
+                            .flatMap(ed -> ed.getCoordinatorsListSet().stream())
+                            .map(coordinator -> coordinator.getPerson().getUser());
+                    final Group bcc = new NamedGroup(new LocalizedString(new Locale("pt", "PT"), "Coordenadores do "
+                            + plan.getDestinationDegreeCurricularPlan().getDegree().getSigla()),
+                            Group.users(User.findByUsername("ist24439"), User.findByUsername("ist24616")));
+                    Message.fromSystem()
+                            .to(Group.users(coordinators))
+                            .bcc(bcc)
+                            .subject("Transição Curricular em Revisão")
+                            .textBody("Caro(a) coordenador(a),\n\n" +
+                                    "Foi necessário proceder ao descongelamento dos planos de transição dos seguintes alunos, " +
+                                    "consequência de terem sido efetuadas alterações ao currículo do aluno depois do plano de " +
+                                    "transição ter sido elaborado.\n" +
+                                    "\n" +
+                                    usernames +
+                                    "\n" +
+                                    "\n" +
+                                    "Os melhores cumprimentos,\n" +
+                                    "A Equipa FenixEdu")
+                            .wrapped().send();
+                });
+            });
+
+            studentMap = new HashMap<>();
+            DegreeCurricularPlan.readBolonhaDegreeCurricularPlans().stream()
+                    .flatMap(dcp -> dcp.getDestinationTransitionPlanSet().stream())
+//                .filter(dcp -> dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla().equals("MEEC21"))
+                    .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
+                    .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
+                    .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
+//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist426311"))
+                    .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
                     .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
                             .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
-                    .filter(plan -> plan.changedAfterUpdate())
-                    .distinct()
-                    .forEach(plan -> {
-                        final User studentUser = plan.getStudent().getPerson().getUser();
-                        if (plan.getConfirmTransitionInstant() != null) {
-                            Message.fromSystem()
-                                    .to(Group.users(studentUser))
-                                    .subject("Transição Curricular em Revisão")
-                                    .textBody("Caro(a) aluno(a),\n\n" +
-                                            "Não foi possível proceder à sua transição conforme estava planeada devido " +
-                                            "a alterações no seu plano curricular, realizadas após a elaboração inicial desse plano.\n" +
-                                            "Este terá que ser revisto pelo coordenador do seu curso, e só após essa validação " +
-                                            "estará novamente disponível para a sua confirmação.\n" +
-                                            "\n" +
-                                            "Os melhores cumprimentos,\n" +
-                                            "A Equipa FenixEdu")
-                                    .wrapped().send();
+                    .forEach(studentPlan -> {
+                        final Student student = studentPlan.getStudent();
+                        final DegreeCurricularTransitionPlan degreeCurricularTransitionPlan = studentPlan.getDegreeCurricularTransitionPlan();
+                        final StudentCurricularPlan scp = TransitionService.getStudentCurricularPlanToTransition(student.getPerson().getUser(), degreeCurricularTransitionPlan);
+                        if (scp != null) { //if the registration is not active (concluded or other)
+                            final Set<CycleType> cycleTypesToTransition = TransitionService.getCyclesToTransition(degreeCurricularTransitionPlan.getCycleTypesToTransition(), scp);
+                            if (!cycleTypesToTransition.isEmpty()) {
+                                studentMap.computeIfAbsent(scp.getRegistration(), v -> new HashSet<>()).add(studentPlan);
+                            }
                         }
-                        if (plan.getFreezeInstant() != null) {
-                            coordinatorMap.computeIfAbsent(plan.getDegreeCurricularTransitionPlan(),
-                                    (v) -> new HashSet<>()).add(studentUser);
-                        }
-                        plan.delete();
                     });
-            coordinatorMap.forEach((plan, set) -> {
-                final String usernames = set.stream().map(u -> u.getUsername()).collect(Collectors.joining("\n"));
-                final Stream<User> coordinators = plan.getDestinationDegreeCurricularPlan().getExecutionDegreesSet().stream()
-                        .filter(ed -> ed.getExecutionYear() == plan.getDestinationExecutionYear())
-                        .flatMap(ed -> ed.getCoordinatorsListSet().stream())
-                        .map(coordinator -> coordinator.getPerson().getUser());
-                final Group bcc = new NamedGroup(new LocalizedString(new Locale("pt", "PT"), "Coordenadores do "
-                        + plan.getDestinationDegreeCurricularPlan().getDegree().getSigla()),
-                        Group.users(User.findByUsername("ist24439"), User.findByUsername("ist24616")));
-                Message.fromSystem()
-                        .to(Group.users(coordinators))
-                        .bcc(bcc)
-                        .subject("Transição Curricular em Revisão")
-                        .textBody("Caro(a) coordenador(a),\n\n" +
-                                "Foi necessário proceder ao descongelamento dos planos de transição dos seguintes alunos, " +
-                                "consequência de terem sido efetuadas alterações ao currículo do aluno depois do plano de " +
-                                "transição ter sido elaborado.\n" +
-                                "\n" +
-                                usernames +
-                                "\n" +
-                                "\n" +
-                                "Os melhores cumprimentos,\n" +
-                                "A Equipa FenixEdu")
-                        .wrapped().send();
-            });
-        });
 
-        studentMap = new HashMap<>();
-        DegreeCurricularPlan.readBolonhaDegreeCurricularPlans().stream()
-                .flatMap(dcp -> dcp.getDestinationTransitionPlanSet().stream())
-//                .filter(dcp -> dcp.getDestinationDegreeCurricularPlan().getDegree().getSigla().equals("MEEC21"))
-                .flatMap(transitionPlan -> transitionPlan.getStudentDegreeCurricularTransitionPlanSet().stream())
-                .filter(studentPlan -> studentPlan.getConfirmTransitionInstant() != null)
-                .filter(studentPlan -> studentPlan.getFreezeInstant() != null)
-//                .filter(studentPlan -> studentPlan.getStudent().getPerson().getUsername().equals("ist426311"))
-                .filter(studentPlan -> !exclude(studentPlan.getStudent().getPerson().getUsername()))
-                .filter(studentPlan -> !hasDestination(studentPlan.getDegreeCurricularTransitionPlan()
-                        .getDestinationDegreeCurricularPlan(), studentPlan.getStudent()))
-                .forEach(studentPlan -> {
-                    final Student student = studentPlan.getStudent();
-                    final DegreeCurricularTransitionPlan degreeCurricularTransitionPlan = studentPlan.getDegreeCurricularTransitionPlan();
-                    final StudentCurricularPlan scp = TransitionService.getStudentCurricularPlanToTransition(student.getPerson().getUser(), degreeCurricularTransitionPlan);
-                    if (scp != null) { //if the registration is not active (concluded or other)
-                        final Set<CycleType> cycleTypesToTransition = TransitionService.getCyclesToTransition(degreeCurricularTransitionPlan.getCycleTypesToTransition(), scp);
-                        if (!cycleTypesToTransition.isEmpty()) {
-                            studentMap.computeIfAbsent(scp.getRegistration(), v -> new HashSet<>()).add(studentPlan);
-                        }
-                    }
-                });
-
-        for (Registration registration : studentMap.keySet()) {
-            try {
-                transition(registration);
-            } catch (Throwable e) {
-                taskLog("  --> Problem transitioning student\t%s\t%s%n", registration.getPerson().getUsername(), e.getMessage());
-                e.printStackTrace();
+            for (Registration registration : studentMap.keySet()) {
+                try {
+                    transition(registration);
+                } catch (Throwable e) {
+                    taskLog("  --> Problem transitioning student\t%s\t%s%n", registration.getPerson().getUsername(), e.getMessage());
+                    e.printStackTrace();
+                }
             }
+        } finally {
+            Authenticate.mock(user, "Restore User Transition Script");
         }
-        Authenticate.mock(user, "Restore User Transition Script");
     }
 
     private void openStuffThatCannotBeTransitioned() {
