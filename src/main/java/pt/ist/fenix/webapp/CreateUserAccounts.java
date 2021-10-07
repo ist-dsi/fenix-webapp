@@ -17,6 +17,7 @@ import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.UserProfile;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
+import org.fenixedu.bennu.scheduler.custom.CustomTask;
 import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
 import org.fenixedu.connect.domain.Account;
 import org.fenixedu.connect.domain.ConnectSystem;
@@ -66,7 +67,7 @@ public class CreateUserAccounts extends CronTask {
         try {
             UserAccountInfo.skipUpdate.set(Boolean.TRUE);
             Bennu.getInstance().getUserSet().stream()
-                    .parallel()
+//                    .parallel()
                     .forEach(this::createAccount);
             taskLog("Create %s accounts.%n", createdAccounts);
             taskLog("Connected %s users to existing accounts.%n", connectedToExistingAccounts);
@@ -75,7 +76,7 @@ public class CreateUserAccounts extends CronTask {
         }
 
         ConnectSystem.getInstance().getAccountSet().stream()
-                .parallel()
+//                .parallel()
                 .forEach(this::autoValidate);
         taskLog("Connected %s accounts.%n", connectedAccounts);
         taskLog("Validated %s accounts.%n", validatedAccounts);
@@ -371,12 +372,14 @@ public class CreateUserAccounts extends CronTask {
         final IDDocumentType idDocumentType = person.getIdDocumentType();
         final String documentIdNumber = person.getDocumentIdNumber();
         final YearMonthDay expirationDate = person.getExpirationDateOfDocumentIdYearMonthDay();
-        if (idDocumentType == null || documentIdNumber == null || expirationDate == null) {
+        if (idDocumentType == null || documentIdNumber == null) {
             return null;
         }
         final JsonObject result = new JsonObject();
         result.addProperty("documentNumber", documentIdNumber);
-        result.addProperty("expirationDate", expirationDate.toLocalDate().toString(ISODateTimeFormat.date()));
+        if (expirationDate != null) {
+            result.addProperty("expirationDate", expirationDate.toLocalDate().toString(ISODateTimeFormat.date()));
+        }
         if (false) {
             return null;
         } else if (idDocumentType == IDDocumentType.CITIZEN_CARD) {
