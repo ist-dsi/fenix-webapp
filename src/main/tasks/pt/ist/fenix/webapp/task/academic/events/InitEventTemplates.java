@@ -11,11 +11,11 @@ import org.fenixedu.bennu.scheduler.custom.CustomTask;
 import org.fenixedu.commons.i18n.LocalizedString;
 import org.fenixedu.commons.spreadsheet.Spreadsheet;
 import org.joda.time.DateTime;
+import pt.ist.fenix.webapp.config.academic.accounting.EventConfig;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.text.Collator;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -28,26 +28,9 @@ public class InitEventTemplates extends CustomTask {
     private static final DateTime APPLY_FROM = new DateTime(2021, 9, 13, 0, 0, 0, 0);
     private static final DateTime APPLY_UNTIL = new DateTime(2022, 8, 31, 23, 59, 59, 0);
 
-    public enum EventTemplateCode {
-
-        CYCLE_1_NORMAL,
-        CYCLE_2_CONTINUATION,
-        CYCLE_2_NORMAL,
-        CYCLE_2_MICROBIOLOGY,
-        CYCLE_2_MOTU,
-        CYCLE_2_PHARMACEUTICAL,
-        CYCLE_2_ADVANCED,
-        INTERNATIONAL,
-        INTERNATIONAL_MOTU,
-        ISOLATED_COURSES_INTERNAL,
-        ISOLATED_COURSES_INTERNAL_INTERNATIONAL,
-        ISOLATED_COURSES_EXTERNAL
-
-    }
-
     @Override
     public void runTask() throws Exception {
-        createEventTempate(EventTemplateCode.CYCLE_1_NORMAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_1_NORMAL.name(),
                 ls("1º Ciclo Normal", "1st Cycle Normal"),
                 ls("Plano de Pagamentos para alunos normais de 1º Ciclo", "Payment plan for normal 1st Cycle students"),
                 tuitionMap -> {
@@ -67,7 +50,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.CYCLE_2_CONTINUATION.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_CONTINUATION.name(),
                 ls("2º Ciclo Continuidade", "2nd Cycle Continuation"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo em cursos de continuidade", "Payment plan 2nd Cycle students in continuation degrees"),
                 tuitionMap -> {
@@ -87,7 +70,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.CYCLE_2_NORMAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_NORMAL.name(),
                 ls("2º Ciclo Normal", "2nd Cycle Normal"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo normais", "Payment plan 2nd Cycle students"),
                 tuitionMap -> {
@@ -107,7 +90,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.CYCLE_2_MICROBIOLOGY.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_MICROBIOLOGY.name(),
                 ls("2º Ciclo Microbiologia", "2nd Cycle Microbiology"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo de Microbiologia", "Payment plan 2nd Cycle students of Microbiology"),
                 tuitionMap -> {
@@ -127,7 +110,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.CYCLE_2_MOTU.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_MOTU.name(),
                 ls("2º Ciclo MOTU", "2nd Cycle MOTU"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo de MOTU", "Payment plan 2nd Cycle students of MOTU"),
                 tuitionMap -> {
@@ -147,7 +130,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.CYCLE_2_PHARMACEUTICAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_PHARMACEUTICAL.name(),
                 ls("2º Ciclo Farmacêutica", "2nd Cycle Farmacêutica"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo de Farmacêutica", "Payment plan 2nd Cycle students of Farmacêutica"),
                 tuitionMap -> {
@@ -167,7 +150,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.CYCLE_2_ADVANCED.name(),
+        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_ADVANCED.name(),
                 ls("2º Ciclo Avançado", "2nd Cycle Advanced"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo Avançado", "Payment plan 2nd Cycle students of Advanced"),
                 tuitionMap -> {
@@ -187,7 +170,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.INTERNATIONAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.INTERNATIONAL.name(),
                 ls("Estudantes Internacionais", "International Students"),
                 ls("Plano de Pagamentos para alunos Internacionais", "Payment plan for International Students"),
                 tuitionMap -> {
@@ -207,7 +190,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.INTERNATIONAL_MOTU.name(),
+        createEventTempate(EventConfig.EventTemplateCode.INTERNATIONAL_MOTU.name(),
                 ls("Estudantes Internacionais MOTU", "International Students MOTU"),
                 ls("Plano de Pagamentos para alunos Internacionais MOTU", "Payment plan for International Students MOTU"),
                 tuitionMap -> {
@@ -227,7 +210,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 });
 
-        createEventTempate(EventTemplateCode.ISOLATED_COURSES_INTERNAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL.name(),
                 ls("Unidades Curriculares Isoladas Normal", "Isolated Courses Normal"),
                 ls("Plano de Pagamentos para aluno internos normais", "Payment plan for normal internal students"),
                 tuitionMap -> {
@@ -235,7 +218,7 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                 }, 14, "42");
 
-        createEventTempate(EventTemplateCode.ISOLATED_COURSES_INTERNAL_INTERNATIONAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL_INTERNATIONAL.name(),
                 ls("Unidades Curriculares Isoladas Internacionais", "Isolated Courses International"),
                 ls("Plano de Pagamentos para aluno internos internacionais", "Payment plan for international internal students"),
                 tuitionMap -> {
@@ -243,7 +226,7 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                 }, 14, "117");
 
-        createEventTempate(EventTemplateCode.ISOLATED_COURSES_EXTERNAL.name(),
+        createEventTempate(EventConfig.EventTemplateCode.ISOLATED_COURSES_EXTERNAL.name(),
                 ls("Unidades Curriculares Isoladas Externos", "Isolated Courses Externals"),
                 ls("Plano de Pagamentos para aluno externos", "Payment plan for external students"),
                 tuitionMap -> {
@@ -278,54 +261,14 @@ public class InitEventTemplates extends CustomTask {
                     eventTemplate.getAlternativeEventTemplateSet().forEach(alt -> report(partialSheet, partialDueDateSheet, alt));
                 });
 
-        final Map<Degree, EventTemplateCode> degreeApplicationMap = new HashMap<>();
-        ExecutionYear.readCurrentExecutionYear().getExecutionDegreesSet().stream()
-                .map(executionDegree -> executionDegree.getDegreeCurricularPlan().getDegree())
-                .filter(degree -> degree.isFirstCycle())
-                .forEach(degree -> degreeApplicationMap.put(degree, EventTemplateCode.CYCLE_1_NORMAL));
-        degreeApplicationMap.put(Degree.readBySigla("MEAer21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEBiol21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEBiom21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEC21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEMat"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MERC"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEAmb"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEGI"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEE"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEEC21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEFT21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEGM"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEIC-A"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEIC-T"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEMec21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEAN"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MEQ21"), EventTemplateCode.CYCLE_2_CONTINUATION);
-        degreeApplicationMap.put(Degree.readBySigla("MMA"), EventTemplateCode.CYCLE_2_CONTINUATION);
-
-        degreeApplicationMap.put(Degree.readBySigla("MBMRP21"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MBioNano"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MBiotec"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MCTPC"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MEP"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MEGE"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MISE"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MPSR"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MST"), EventTemplateCode.CYCLE_2_NORMAL);
-        degreeApplicationMap.put(Degree.readBySigla("MQ"), EventTemplateCode.CYCLE_2_NORMAL);
-
-        degreeApplicationMap.put(Degree.readBySigla("MicroBio"), EventTemplateCode.CYCLE_2_MICROBIOLOGY);
-        degreeApplicationMap.put(Degree.readBySigla("MOTU"), EventTemplateCode.CYCLE_2_MOTU);
-        degreeApplicationMap.put(Degree.readBySigla("MEFarm"), EventTemplateCode.CYCLE_2_PHARMACEUTICAL);
-        degreeApplicationMap.put(Degree.readBySigla("MECD"), EventTemplateCode.CYCLE_2_ADVANCED);
-        degreeApplicationMap.put(Degree.readBySigla("MEGIE"), EventTemplateCode.CYCLE_2_ADVANCED);
-        degreeApplicationMap.put(Degree.readBySigla("MSIDC"), EventTemplateCode.CYCLE_2_ADVANCED);
+        final Map<Degree, EventConfig.EventTemplateCode> degreeApplicationMap = EventConfig.degreeEventTemplateMap();
 
         ExecutionYear.readCurrentExecutionYear().getExecutionDegreesSet().stream()
                 .map(executionDegree -> executionDegree.getDegreeCurricularPlan().getDegree())
                 .filter(degree -> degree.isFirstCycle() || degree.isSecondCycle())
                 .sorted(Degree.COMPARATOR_BY_DEGREE_TYPE_AND_NAME_AND_ID)
                 .forEach(degree -> {
-                    final EventTemplateCode code = degreeApplicationMap.get(degree);
+                    final EventConfig.EventTemplateCode code = degreeApplicationMap.get(degree);
                     final double tuition = Bennu.getInstance().getEventTemplateSet().stream()
                             .filter(eventTemplate -> code != null && code.name().equals(eventTemplate.getCode()))
                             .flatMap(eventTemplate -> eventTemplate.getEventTemplateConfigSet().stream())
