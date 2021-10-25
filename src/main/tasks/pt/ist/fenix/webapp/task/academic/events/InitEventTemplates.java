@@ -31,7 +31,7 @@ public class InitEventTemplates extends CustomTask {
 
     @Override
     public void runTask() throws Exception {
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_1_NORMAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_1_NORMAL.name(),
                 ls("1º Ciclo Normal", "1st Cycle Normal"),
                 ls("Plano de Pagamentos para alunos normais de 1º Ciclo", "Payment plan for normal 1st Cycle students"),
                 tuitionMap -> {
@@ -50,10 +50,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_CONTINUATION.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_CONTINUATION.name(),
                 ls("2º Ciclo Continuidade", "2nd Cycle Continuation"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo em cursos de continuidade", "Payment plan 2nd Cycle students in continuation degrees"),
                 tuitionMap -> {
@@ -72,10 +72,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_NORMAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_NORMAL.name(),
                 ls("2º Ciclo Normal", "2nd Cycle Normal"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo normais", "Payment plan 2nd Cycle students"),
                 tuitionMap -> {
@@ -94,10 +94,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_MICROBIOLOGY.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_MICROBIOLOGY.name(),
                 ls("2º Ciclo Microbiologia", "2nd Cycle Microbiology"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo de Microbiologia", "Payment plan 2nd Cycle students of Microbiology"),
                 tuitionMap -> {
@@ -116,10 +116,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_MOTU.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_MOTU.name(),
                 ls("2º Ciclo MOTU", "2nd Cycle MOTU"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo de MOTU", "Payment plan 2nd Cycle students of MOTU"),
                 tuitionMap -> {
@@ -138,10 +138,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_PHARMACEUTICAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_PHARMACEUTICAL.name(),
                 ls("2º Ciclo Farmacêutica", "2nd Cycle Farmacêutica"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo de Farmacêutica", "Payment plan 2nd Cycle students of Farmacêutica"),
                 tuitionMap -> {
@@ -160,10 +160,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.CYCLE_2_ADVANCED.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_ADVANCED.name(),
                 ls("2º Ciclo Avançado", "2nd Cycle Advanced"),
                 ls("Plano de Pagamentos para alunos de 2º Ciclo Avançado", "Payment plan 2nd Cycle students of Advanced"),
                 tuitionMap -> {
@@ -182,10 +182,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.INTERNATIONAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.INTERNATIONAL.name(),
                 ls("Estudantes Internacionais", "International Students"),
                 ls("Plano de Pagamentos para alunos Internacionais", "Payment plan for International Students"),
                 tuitionMap -> {
@@ -204,10 +204,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.INTERNATIONAL_MOTU.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.INTERNATIONAL_MOTU.name(),
                 ls("Estudantes Internacionais MOTU", "International Students MOTU"),
                 ls("Plano de Pagamentos para alunos Internacionais MOTU", "Payment plan for International Students MOTU"),
                 tuitionMap -> {
@@ -226,10 +226,10 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 });
 
-        createEventTempate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL.name(),
                 ls("Unidades Curriculares Isoladas Normal", "Isolated Courses Normal"),
                 ls("Plano de Pagamentos para aluno internos normais", "Payment plan for normal internal students"),
                 tuitionMap -> {
@@ -238,7 +238,7 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesPenaltyMap -> {
                 },14, "42");
 
-        createEventTempate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL_INTERNATIONAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL_INTERNATIONAL.name(),
                 ls("Unidades Curriculares Isoladas Internacionais", "Isolated Courses International"),
                 ls("Plano de Pagamentos para aluno internos internacionais", "Payment plan for international internal students"),
                 tuitionMap -> {
@@ -247,7 +247,7 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesPenaltyMap -> {
                 }, 14, "117");
 
-        createEventTempate(EventConfig.EventTemplateCode.ISOLATED_COURSES_EXTERNAL.name(),
+        createEventTemplate(EventConfig.EventTemplateCode.ISOLATED_COURSES_EXTERNAL.name(),
                 ls("Unidades Curriculares Isoladas Externos", "Isolated Courses Externals"),
                 ls("Plano de Pagamentos para aluno externos", "Payment plan for external students"),
                 tuitionMap -> {
@@ -256,14 +256,14 @@ public class InitEventTemplates extends CustomTask {
                 }, adminFeesMap -> {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
-                    adminFeesPenaltyMap.addProperty("1/1/2022", "15");
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
                 }, 14, "125");
 
 /*
         Bennu.getInstance().getRegistrationProtocolsSet().stream()
                 .filter(protocol -> protocol.isMobilityAgreement())
                 .forEach(protocol -> {
-                    createEventTempate(protocol.getCode(),
+                    createEventTemplate(protocol.getCode(),
                             ls("Mobilidade ", "Mobility ").append(protocol.getCode()),
                             ls("Plano de Pagamentos para alunos de mobilidade ", "Payment plan for mobility students ").append(protocol.getDescription()),
                             tuitionMap -> {
@@ -393,32 +393,32 @@ public class InitEventTemplates extends CustomTask {
         });
     }
 
-    private EventTemplate createEventTempate(final String code, final LocalizedString title,
-                                             final LocalizedString description,
-                                             final Consumer<JsonObject> tuitionMapConsumer,
-                                             final Consumer<JsonObject> insuranceMapConsumer,
-                                             final Consumer<JsonObject> adminFeesMapConsumer,
-                                             final Consumer<JsonObject> adminFeesPenaltyMapConsumer) {
-        return createEventTempate(code, title, description, tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer,
+    private EventTemplate createEventTemplate(final String code, final LocalizedString title,
+                                              final LocalizedString description,
+                                              final Consumer<JsonObject> tuitionMapConsumer,
+                                              final Consumer<JsonObject> insuranceMapConsumer,
+                                              final Consumer<JsonObject> adminFeesMapConsumer,
+                                              final Consumer<JsonObject> adminFeesPenaltyMapConsumer) {
+        return createEventTemplate(code, title, description, tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer,
                 adminFeesPenaltyMapConsumer, null, null);
     }
 
-    private EventTemplate createEventTempate(final String code, final LocalizedString title,
-                                             final LocalizedString description,
-                                             final Consumer<JsonObject> tuitionMapConsumer,
-                                             final Consumer<JsonObject> insuranceMapConsumer,
-                                             final Consumer<JsonObject> adminFeesMapConsumer,
-                                             final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
-                                             final Integer tuitionByECTSDaysToPay, final String tuitionByECTSValue) {
+    private EventTemplate createEventTemplate(final String code, final LocalizedString title,
+                                              final LocalizedString description,
+                                              final Consumer<JsonObject> tuitionMapConsumer,
+                                              final Consumer<JsonObject> insuranceMapConsumer,
+                                              final Consumer<JsonObject> adminFeesMapConsumer,
+                                              final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
+                                              final Integer tuitionByECTSDaysToPay, final String tuitionByECTSValue) {
         final EventTemplate eventTemplate = new EventTemplate(code, title, description);
         eventTemplate.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer,
                 adminFeesPenaltyMapConsumer, tuitionByECTSDaysToPay, tuitionByECTSValue, null, null));
 
         if (tuitionByECTSDaysToPay == null && tuitionByECTSValue == null) {
-            createEventTempate(eventTemplate, code, title, description,
+            createEventTemplate(eventTemplate, code, title, description,
                     tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer,
                     50, "15/12/2021", "31/05/2022");
-            createEventTempate(eventTemplate, code, title, description,
+            createEventTemplate(eventTemplate, code, title, description,
                     tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer,
                     70, "15/12/2021", "31/05/2022");
         }
@@ -426,13 +426,13 @@ public class InitEventTemplates extends CustomTask {
         return eventTemplate;
     }
 
-    private void createEventTempate(final EventTemplate parent, final String code,
-                                    final LocalizedString title, final LocalizedString description,
-                                    final Consumer<JsonObject> tuitionMapConsumer,
-                                    final Consumer<JsonObject> insuranceMapConsumer,
-                                    final Consumer<JsonObject> adminFeesMapConsumer,
-                                    final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
-                                    final int percentage, final String date1, final String date2) {
+    private void createEventTemplate(final EventTemplate parent, final String code,
+                                     final LocalizedString title, final LocalizedString description,
+                                     final Consumer<JsonObject> tuitionMapConsumer,
+                                     final Consumer<JsonObject> insuranceMapConsumer,
+                                     final Consumer<JsonObject> adminFeesMapConsumer,
+                                     final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
+                                     final int percentage, final String date1, final String date2) {
 
         final BigDecimal tuition = new BigDecimal(JsonUtils.toJson(tuitionMapConsumer).entrySet().stream()
                 .map(Map.Entry::getValue)
