@@ -18,6 +18,7 @@ public class EventConfig {
         CYCLE_2_MOTU,
         CYCLE_2_PHARMACEUTICAL,
         CYCLE_2_ADVANCED,
+        CYCLE_INTEGRATED_NORMAL,
 
         INTERNATIONAL,
         INTERNATIONAL_MOTU,
@@ -39,8 +40,13 @@ public class EventConfig {
 
         ExecutionYear.readCurrentExecutionYear().getExecutionDegreesSet().stream()
                 .map(executionDegree -> executionDegree.getDegreeCurricularPlan().getDegree())
-                .filter(degree -> degree.isFirstCycle())
+                .filter(degree -> degree.isFirstCycle() && !degree.isSecondCycle())
                 .forEach(degree -> degreeApplicationMap.put(degree, EventConfig.EventTemplateCode.CYCLE_1_NORMAL));
+
+        ExecutionYear.readCurrentExecutionYear().getExecutionDegreesSet().stream()
+                .map(executionDegree -> executionDegree.getDegreeCurricularPlan().getDegree())
+                .filter(degree -> degree.isFirstCycle() && degree.isSecondCycle())
+                .forEach(degree -> degreeApplicationMap.put(degree, EventConfig.EventTemplateCode.CYCLE_INTEGRATED_NORMAL));
 
         degreeApplicationMap.put(Degree.readBySigla("MEAer21"), EventConfig.EventTemplateCode.CYCLE_2_CONTINUATION);
         degreeApplicationMap.put(Degree.readBySigla("MEBiol21"), EventConfig.EventTemplateCode.CYCLE_2_CONTINUATION);

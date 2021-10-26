@@ -51,7 +51,29 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0027", "PROPINAS 1 CICLO");
+
+        createEventTemplate(EventConfig.EventTemplateCode.CYCLE_INTEGRATED_NORMAL.name(),
+                ls("Mestrado Integrado Normal", "Mestrado Integrado Normal"),
+                ls("Plano de Pagamentos para alunos normais de Mestrado Integrado", "Payment plan for normal students of integrated master degrees."),
+                tuitionMap -> {
+                    tuitionMap.addProperty("11/11/2021", "69.70");
+                    tuitionMap.addProperty("11/12/2021", "69.70");
+                    tuitionMap.addProperty("11/01/2022", "69.70");
+                    tuitionMap.addProperty("11/02/2022", "69.70");
+                    tuitionMap.addProperty("11/03/2022", "69.70");
+                    tuitionMap.addProperty("11/04/2022", "69.70");
+                    tuitionMap.addProperty("11/05/2022", "69.70");
+                    tuitionMap.addProperty("11/06/2022", "69.70");
+                    tuitionMap.addProperty("11/07/2022", "69.70");
+                    tuitionMap.addProperty("11/08/2022", "69.70");
+                }, insuranceMap -> {
+                    insuranceMap.addProperty("11/11/2021", "2.03");
+                }, adminFeesMap -> {
+                    adminFeesMap.addProperty("31/12/2021", "30");
+                }, adminFeesPenaltyMap -> {
+                    adminFeesPenaltyMap.addProperty("31/12/2021", "15");
+                }, "0030", "PROPINAS MESTRADO INTEGRADO");
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_CONTINUATION.name(),
                 ls("2º Ciclo Continuidade", "2nd Cycle Continuation"),
@@ -73,7 +95,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0028", "PROPINAS 2 CICLO");
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_NORMAL.name(),
                 ls("2º Ciclo Normal", "2nd Cycle Normal"),
@@ -95,7 +117,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0028", "PROPINAS 2 CICLO");
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_MICROBIOLOGY.name(),
                 ls("2º Ciclo Microbiologia", "2nd Cycle Microbiology"),
@@ -117,7 +139,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0028", "PROPINAS 2 CICLO");
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_MOTU.name(),
                 ls("2º Ciclo MOTU", "2nd Cycle MOTU"),
@@ -139,7 +161,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0028", "PROPINAS 2 CICLO");
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_PHARMACEUTICAL.name(),
                 ls("2º Ciclo Farmacêutica", "2nd Cycle Farmacêutica"),
@@ -161,7 +183,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0028", "PROPINAS 2 CICLO");
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_2_ADVANCED.name(),
                 ls("2º Ciclo Avançado", "2nd Cycle Advanced"),
@@ -183,7 +205,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0028", "PROPINAS 2 CICLO");
 
         createEventTemplate(EventConfig.EventTemplateCode.INTERNATIONAL.name(),
                 ls("Estudantes Internacionais", "International Students"),
@@ -205,7 +227,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0075", "PROPINAS INTERNACIONAL");
 
         createEventTemplate(EventConfig.EventTemplateCode.INTERNATIONAL_MOTU.name(),
                 ls("Estudantes Internacionais MOTU", "International Students MOTU"),
@@ -227,7 +249,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                });
+                }, "0075", "PROPINAS INTERNACIONAL");
 
         createEventTemplate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL.name(),
                 ls("Unidades Curriculares Isoladas Normal", "Isolated Courses Normal"),
@@ -236,7 +258,7 @@ public class InitEventTemplates extends CustomTask {
                 }, insuranceMap -> {
                 }, adminFeesMap -> {
                 }, adminFeesPenaltyMap -> {
-                },14, "42");
+                },14, "42", "0076", "PROPINAS OUTROS");
 
         createEventTemplate(EventConfig.EventTemplateCode.ISOLATED_COURSES_INTERNAL_INTERNATIONAL.name(),
                 ls("Unidades Curriculares Isoladas Internacionais", "Isolated Courses International"),
@@ -245,7 +267,7 @@ public class InitEventTemplates extends CustomTask {
                 }, insuranceMap -> {
                 }, adminFeesMap -> {
                 }, adminFeesPenaltyMap -> {
-                }, 14, "117");
+                }, 14, "117", "0076", "PROPINAS OUTROS");
 
         createEventTemplate(EventConfig.EventTemplateCode.ISOLATED_COURSES_EXTERNAL.name(),
                 ls("Unidades Curriculares Isoladas Externos", "Isolated Courses Externals"),
@@ -257,7 +279,7 @@ public class InitEventTemplates extends CustomTask {
                     adminFeesMap.addProperty("31/12/2021", "30");
                 }, adminFeesPenaltyMap -> {
                     adminFeesPenaltyMap.addProperty("31/12/2021", "15");
-                }, 14, "125");
+                }, 14, "125", "0076", "PROPINAS OUTROS");
 
 /*
         Bennu.getInstance().getRegistrationProtocolsSet().stream()
@@ -366,7 +388,8 @@ public class InitEventTemplates extends CustomTask {
                               final Consumer<JsonObject> adminFeesMapConsumer,
                               final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
                               final Integer tuitionByECTSDaysToPay, final String tuitionByECTSValue,
-                              final Double maxCredits, final ExecutionSemester semester) {
+                              final Double maxCredits, final ExecutionSemester semester,
+                              final String tuitionProductCode, final String tuitionProductDescription) {
         return JsonUtils.toJson(config -> {
             config.add(EventTemplate.Type.TUITION.name(), JsonUtils.toJson(typeConfig -> {
                 typeConfig.add("dueDateAmountMap", JsonUtils.toJson(tuitionMapConsumer));
@@ -376,13 +399,22 @@ public class InitEventTemplates extends CustomTask {
                         byECTS.addProperty("value", tuitionByECTSValue);
                     }));
                 }
+                typeConfig.addProperty("productCode", tuitionProductCode);
+                typeConfig.addProperty("productDescription", tuitionProductDescription);
+                typeConfig.addProperty("accountId", "287762860391");
             }));
             config.add(EventTemplate.Type.INSURANCE.name(), JsonUtils.toJson(typeConfig -> {
                 typeConfig.add("dueDateAmountMap", JsonUtils.toJson(insuranceMapConsumer));
+                typeConfig.addProperty("productCode", "0034");
+                typeConfig.addProperty("productDescription", "SEGURO ESCOLAR");
+                typeConfig.addProperty("accountId", "287762860391");
             }));
             config.add(EventTemplate.Type.ADMIN_FEES.name(), JsonUtils.toJson(typeConfig -> {
                 typeConfig.add("dueDateAmountMap", JsonUtils.toJson(adminFeesMapConsumer));
                 typeConfig.add("penaltyAmountMap", JsonUtils.toJson(adminFeesPenaltyMapConsumer));
+                typeConfig.addProperty("productCode", "0031");
+                typeConfig.addProperty("productDescription", "TAXAS DE MATRICULA");
+                typeConfig.addProperty("accountId", "287762860391");
             }));
             if (maxCredits != null) {
                 config.addProperty("maxCredits", maxCredits);
@@ -398,9 +430,10 @@ public class InitEventTemplates extends CustomTask {
                                               final Consumer<JsonObject> tuitionMapConsumer,
                                               final Consumer<JsonObject> insuranceMapConsumer,
                                               final Consumer<JsonObject> adminFeesMapConsumer,
-                                              final Consumer<JsonObject> adminFeesPenaltyMapConsumer) {
+                                              final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
+                                              final String tuitionProductCode, final String tuitionProductDescription) {
         return createEventTemplate(code, title, description, tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer,
-                adminFeesPenaltyMapConsumer, null, null);
+                adminFeesPenaltyMapConsumer, null, null, tuitionProductCode, tuitionProductDescription);
     }
 
     private EventTemplate createEventTemplate(final String code, final LocalizedString title,
@@ -409,18 +442,20 @@ public class InitEventTemplates extends CustomTask {
                                               final Consumer<JsonObject> insuranceMapConsumer,
                                               final Consumer<JsonObject> adminFeesMapConsumer,
                                               final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
-                                              final Integer tuitionByECTSDaysToPay, final String tuitionByECTSValue) {
+                                              final Integer tuitionByECTSDaysToPay, final String tuitionByECTSValue,
+                                              final String tuitionProductCode, final String tuitionProductDescription) {
         final EventTemplate eventTemplate = new EventTemplate(code, title, description);
         eventTemplate.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer,
-                adminFeesPenaltyMapConsumer, tuitionByECTSDaysToPay, tuitionByECTSValue, null, null));
+                adminFeesPenaltyMapConsumer, tuitionByECTSDaysToPay, tuitionByECTSValue, null, null,
+                tuitionProductCode, tuitionProductDescription));
 
         if (tuitionByECTSDaysToPay == null && tuitionByECTSValue == null) {
             createEventTemplate(eventTemplate, code, title, description,
                     tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer,
-                    50, "15/12/2021", "31/05/2022");
+                    50, "15/12/2021", "31/05/2022", tuitionProductCode, tuitionProductDescription);
             createEventTemplate(eventTemplate, code, title, description,
                     tuitionMapConsumer, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer,
-                    70, "15/12/2021", "31/05/2022");
+                    70, "15/12/2021", "31/05/2022", tuitionProductCode, tuitionProductDescription);
         }
 
         return eventTemplate;
@@ -432,7 +467,8 @@ public class InitEventTemplates extends CustomTask {
                                      final Consumer<JsonObject> insuranceMapConsumer,
                                      final Consumer<JsonObject> adminFeesMapConsumer,
                                      final Consumer<JsonObject> adminFeesPenaltyMapConsumer,
-                                     final int percentage, final String date1, final String date2) {
+                                     final int percentage, final String date1, final String date2,
+                                     final String tuitionProductCode, final String tuitionProductDescription) {
 
         final BigDecimal tuition = new BigDecimal(JsonUtils.toJson(tuitionMapConsumer).entrySet().stream()
                 .map(Map.Entry::getValue)
@@ -447,19 +483,22 @@ public class InitEventTemplates extends CustomTask {
         eventTemplate.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
             tuitionMap.addProperty(date1, Double.toString(tuitionP));
             tuitionMap.addProperty(date2, Double.toString(tuitionP));
-        }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, null));
+        }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, null,
+                tuitionProductCode, tuitionProductDescription));
         parent.addAlternativeEventTemplate(eventTemplate);
 
         final EventTemplate eventTemplateF1 = new EventTemplate(code + percentage + "S1", title.append(" " + percentage + "% Semestre 1"), description.append(" " + percentage + "% Semester 1"));
         eventTemplateF1.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
             tuitionMap.addProperty(date1, Double.toString(tuitionF));
-        }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, executionYear.getFirstExecutionPeriod()));
+        }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, executionYear.getFirstExecutionPeriod(),
+                tuitionProductCode, tuitionProductDescription));
         parent.addAlternativeEventTemplate(eventTemplateF1);
 
         final EventTemplate eventTemplateF2 = new EventTemplate(code + percentage + "S2", title.append(" " + percentage + "% Semestre 2"), description.append(" " + percentage + "% Semester 2"));
         eventTemplateF2.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
             tuitionMap.addProperty(date2, Double.toString(tuitionF));
-        }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, executionYear.getLastExecutionPeriod()));
+        }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, executionYear.getLastExecutionPeriod(),
+                tuitionProductCode, tuitionProductDescription));
         parent.addAlternativeEventTemplate(eventTemplateF2);
     }
 
