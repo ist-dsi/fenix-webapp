@@ -55,7 +55,7 @@ public class InitEventTemplates extends CustomTask {
 
         createEventTemplate(EventConfig.EventTemplateCode.CYCLE_INTEGRATED_NORMAL.name(),
                 ls("Mestrado Integrado Normal", "Mestrado Integrado Normal"),
-                ls("Plano de Pagamentos para alunos normais de Mestrado Integrado", "Payment plan for normal students of integrated master degrees."),
+                ls("Plano de Pagamentos para alunos normais de Mestrado Integrado", "Payment plan for normal students of integrated master degrees"),
                 tuitionMap -> {
                     tuitionMap.addProperty("11/11/2021", "69.70");
                     tuitionMap.addProperty("11/12/2021", "69.70");
@@ -479,7 +479,11 @@ public class InitEventTemplates extends CustomTask {
         final double maxCredits = 60 * percentage / 100;
         final ExecutionYear executionYear = ExecutionYear.readCurrentExecutionYear();
 
-        final EventTemplate eventTemplate = new EventTemplate(code + percentage, title.append(" " + percentage + "%"), description.append(" " + percentage + "%"));
+        final EventTemplate eventTemplate = new EventTemplate(code + percentage,
+                title.append(" " + percentage + "%"),
+                description.append(" " + percentage + "%").append(ls(
+                        ".\nEste plano limita as inscrições no ano letivo a " + maxCredits + " ECTS.",
+                        ".\nThis plan limits enrolments for the entire year to " + maxCredits + " ECTS.")));
         eventTemplate.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
             tuitionMap.addProperty(date1, Double.toString(tuitionP));
             tuitionMap.addProperty(date2, Double.toString(tuitionP));
@@ -487,14 +491,22 @@ public class InitEventTemplates extends CustomTask {
                 tuitionProductCode, tuitionProductDescription));
         parent.addAlternativeEventTemplate(eventTemplate);
 
-        final EventTemplate eventTemplateF1 = new EventTemplate(code + percentage + "S1", title.append(" " + percentage + "% Semestre 1"), description.append(" " + percentage + "% Semester 1"));
+        final EventTemplate eventTemplateF1 = new EventTemplate(code + percentage + "S1",
+                title.append(" " + percentage + "% Semestre 1"),
+                description.append(" " + percentage + "% Semester 1").append(ls(
+                        ".\nEste plano apenas permite inscrições no 1º semestre e limita as inscrições a um máximo de " + maxCredits + " ECTS.",
+                        ".\nThis plan only allows enrolments during the 1st semester and limits enrolments to a maximum of " + maxCredits + " ECTS.")));
         eventTemplateF1.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
             tuitionMap.addProperty(date1, Double.toString(tuitionF));
         }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, executionYear.getFirstExecutionPeriod(),
                 tuitionProductCode, tuitionProductDescription));
         parent.addAlternativeEventTemplate(eventTemplateF1);
 
-        final EventTemplate eventTemplateF2 = new EventTemplate(code + percentage + "S2", title.append(" " + percentage + "% Semestre 2"), description.append(" " + percentage + "% Semester 2"));
+        final EventTemplate eventTemplateF2 = new EventTemplate(code + percentage + "S2",
+                title.append(" " + percentage + "% Semestre 2"),
+                description.append(" " + percentage + "% Semester 2").append(ls(
+                        ".\nEste plano apenas permite inscrições no 2º semestre e limita as inscrições a um máximo de " + maxCredits + " ECTS.",
+                        ".\nThis plan only allows enrolments during the 2nd semester and limits enrolments to a maximum of " + maxCredits + " ECTS.")));
         eventTemplateF2.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
             tuitionMap.addProperty(date2, Double.toString(tuitionF));
         }, insuranceMapConsumer, adminFeesMapConsumer, adminFeesPenaltyMapConsumer, null, null, maxCredits, executionYear.getLastExecutionPeriod(),
