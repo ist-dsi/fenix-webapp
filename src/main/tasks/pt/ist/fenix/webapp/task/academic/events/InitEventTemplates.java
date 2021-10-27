@@ -492,8 +492,8 @@ public class InitEventTemplates extends CustomTask {
         parent.addAlternativeEventTemplate(eventTemplate);
 
         final EventTemplate eventTemplateF1 = new EventTemplate(code + percentage + "S1",
-                title.append(" " + percentage + "% Semestre 1"),
-                description.append(" " + percentage + "% Semester 1").append(ls(
+                title.append(ls(" " + percentage + "% Semestre 1", " " + percentage + "% Semester 1")),
+                description.append(ls(" " + percentage + "% Semestre 1", " " + percentage + "% Semester 1")).append(ls(
                         ".\nEste plano apenas permite inscrições no 1º semestre e limita as inscrições a um máximo de " + maxCredits + " ECTS.",
                         ".\nThis plan only allows enrolments during the 1st semester and limits enrolments to a maximum of " + maxCredits + " ECTS.")));
         eventTemplateF1.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
@@ -503,8 +503,8 @@ public class InitEventTemplates extends CustomTask {
         parent.addAlternativeEventTemplate(eventTemplateF1);
 
         final EventTemplate eventTemplateF2 = new EventTemplate(code + percentage + "S2",
-                title.append(" " + percentage + "% Semestre 2"),
-                description.append(" " + percentage + "% Semester 2").append(ls(
+                title.append(ls(" " + percentage + "% Semestre 2", " " + percentage + "% Semester 2")),
+                description.append(ls(" " + percentage + "% Semestre 2", " " + percentage + "% Semester 2")).append(ls(
                         ".\nEste plano apenas permite inscrições no 2º semestre e limita as inscrições a um máximo de " + maxCredits + " ECTS.",
                         ".\nThis plan only allows enrolments during the 2nd semester and limits enrolments to a maximum of " + maxCredits + " ECTS.")));
         eventTemplateF2.createConfig(APPLY_FROM, APPLY_UNTIL, config(tuitionMap -> {
