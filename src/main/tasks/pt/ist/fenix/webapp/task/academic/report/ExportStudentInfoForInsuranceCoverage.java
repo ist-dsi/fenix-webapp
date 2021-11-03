@@ -6,6 +6,7 @@ import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.domain.Person;
 import org.fenixedu.academic.domain.contacts.PhysicalAddress;
 import org.fenixedu.academic.domain.student.Student;
+import org.fenixedu.bennu.core.json.JsonUtils;
 import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
 import org.fenixedu.commons.spreadsheet.Spreadsheet;
 import org.fenixedu.connect.domain.Account;
@@ -17,7 +18,6 @@ import org.fenixedu.connect.domain.identification.TaxInformation;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import pt.ist.standards.geographic.Country;
-import pt.ist.standards.geographic.Planet;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
@@ -39,13 +39,13 @@ public class ExportStudentInfoForInsuranceCoverage extends ReadCustomTask {
                         .flatMap(executionSemester -> executionSemester.getEnrolmentsSet().stream())
                         .map(enrolment -> enrolment.getRegistration().getStudent().getPerson()))
                 .distinct()
-                .filter(person -> isAfterRandomDate(person))
+//                .filter(person -> isAfterRandomDate(person))
                 .peek(person -> {
-                    if (person.getUser().getIdentity() == null) {
+                    if (person.getUser() == null || person.getUser().getIdentity() == null) {
                         taskLog("Skipping person with no identity: %s = %s%n", person.getUsername(), person.getName());
                     }
                 })
-                .filter(person -> person.getUser().getIdentity() != null)
+                .filter(person -> person.getUser() != null && person.getUser().getIdentity() != null)
                 .forEach(person -> {
                     final Identity identity = person.getUser().getIdentity();
                     final PersonalInformation personalInformation = identity.getPersonalInformation();
@@ -102,12 +102,14 @@ public class ExportStudentInfoForInsuranceCoverage extends ReadCustomTask {
         if (addressData != null && !"TODO".equals(addressData)) {
             final JsonObject address = new JsonParser().parse(addressData).getAsJsonObject();
 
-            final String firstLine = address.get("firstLine").getAsString();
-            result.append(firstLine);
-            final String secondLine = address.get("secondLine").getAsString();
-            if (secondLine != null && !secondLine.isEmpty()) {
-                result.append(", ");
-                result.append(secondLine);
+            final String firstLine = JsonUtils.get(address, "firstLine");
+            if (firstLine != null) {
+                result.append(firstLine);
+                final String secondLine = JsonUtils.get(address, "secondLine");
+                if (secondLine != null && !secondLine.isEmpty()) {
+                    result.append(", ");
+                    result.append(secondLine);
+                }
             }
         }
         return result.toString();
@@ -116,7 +118,7 @@ public class ExportStudentInfoForInsuranceCoverage extends ReadCustomTask {
     private String zipCode(String addressData) {
         if (addressData != null && !"TODO".equals(addressData)) {
             final JsonObject address = new JsonParser().parse(addressData).getAsJsonObject();
-            return address.get("zipCode").getAsString();
+            return JsonUtils.get(address, "zipCode");
         }
         return "";
     }
@@ -124,7 +126,7 @@ public class ExportStudentInfoForInsuranceCoverage extends ReadCustomTask {
     private String location(String addressData) {
         if (addressData != null && !"TODO".equals(addressData)) {
             final JsonObject address = new JsonParser().parse(addressData).getAsJsonObject();
-            return address.get("location").getAsString();
+            return JsonUtils.get(address, "location");
         }
         return "";
     }
