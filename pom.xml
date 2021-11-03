@@ -57,7 +57,7 @@
         <version.org.fenixedu.fenixedu-admissions>5.37.0</version.org.fenixedu.fenixedu-admissions>
         <version.org.fenixedu.fenixedu-connect>1.51.0</version.org.fenixedu.fenixedu-connect>
         <version.org.fenixedu.fenixedu-queueing>2.1.0</version.org.fenixedu.fenixedu-queueing>
-        <version.pt.ist.fenix-sibs-payments>1.1.1</version.pt.ist.fenix-sibs-payments>
+        <version.pt.ist.fenix-sibs-payments>1.1.2</version.pt.ist.fenix-sibs-payments>
         <version.org.fenixedu.fenixedu-safe-file-share>1.1.1</version.org.fenixedu.fenixedu-safe-file-share>
         <version.bennu-vue-pluggable>0.0.3</version.bennu-vue-pluggable>
     </properties>
