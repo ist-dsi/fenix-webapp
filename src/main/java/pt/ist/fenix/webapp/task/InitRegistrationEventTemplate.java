@@ -1,11 +1,12 @@
-package pt.ist.fenix.webapp.task.academic.events;
+package pt.ist.fenix.webapp.task;
 
 import org.fenixedu.academic.domain.Degree;
 import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.domain.accounting.EventTemplate;
 import org.fenixedu.academic.domain.student.Registration;
 import org.fenixedu.academic.domain.student.RegistrationProtocol;
-import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
+import org.fenixedu.bennu.scheduler.CronTask;
+import org.fenixedu.bennu.scheduler.annotation.Task;
 import pt.ist.fenix.webapp.config.academic.accounting.EventConfig;
 import pt.ist.fenix.webapp.config.academic.accounting.EventConfig.EventTemplateCode;
 import pt.ist.fenixframework.FenixFramework;
@@ -13,7 +14,9 @@ import pt.ist.fenixframework.FenixFramework;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class InitRegistrationEventTemplate extends ReadCustomTask {
+// TODO : in the future this should be set upon registration from Application according to the Admissions Process
+@Task(englishTitle = "Init Event Template for all registrations", readOnly = true)
+public class InitRegistrationEventTemplate extends CronTask {
 
     @Override
     public void runTask() throws Exception {
