@@ -386,8 +386,14 @@ public class TransitionSCPs extends CronTask {
                 Registration secondCycleRegistration = findCycleRegistration(scp.getRegistration().getStudent(), studentTransitionPlans, CycleType.SECOND_CYCLE);
                 final StudentCurricularPlan firstSCP = firstCycleRegistration.getLastStudentCurricularPlan();
                 final RootCurriculumGroup firstCycleRoot = firstSCP.getRoot();
+
                 final CycleCurriculumGroup secondCycle = secondCycleRegistration.getLastStudentCurricularPlan().getSecondCycle();
-                secondCycle.setCurriculumGroup(firstCycleRoot);
+                final ExternalCurriculumGroup externalCurriculumGroup = new ExternalCurriculumGroup();
+                externalCurriculumGroup.setCurriculumGroup(firstCycleRoot);
+                externalCurriculumGroup.setDegreeModule(secondCycle.getDegreeModule());
+                secondCycle.getCurriculumModulesSet().stream()
+                        .forEach(curriculumModule -> curriculumModule.setCurriculumGroup(externalCurriculumGroup));
+
                 secondCycleRegistration.getStudentCurricularPlansSet().stream()
                         .flatMap(scp1 -> scp1.getCreditsSet().stream())
                         .forEach(credits -> credits.setStudentCurricularPlan(firstSCP));
