@@ -42,7 +42,6 @@ public class ImportSIBSSettlementInfo extends CronTask {
                     final File dest = new File(output, file.getName());
                     Files.move(file.toPath(), dest.toPath(),
                             StandardCopyOption.ATOMIC_MOVE,
-                            StandardCopyOption.COPY_ATTRIBUTES,
                             StandardCopyOption.REPLACE_EXISTING);
                 }
             }
