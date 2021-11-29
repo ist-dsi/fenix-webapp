@@ -59,7 +59,7 @@
         <version.org.fenixedu.fenixedu-queueing>2.1.0</version.org.fenixedu.fenixedu-queueing>
         <version.pt.ist.fenix-sibs-payments>1.4.0</version.pt.ist.fenix-sibs-payments>
         <version.org.fenixedu.fenixedu-safe-file-share>1.1.1</version.org.fenixedu.fenixedu-safe-file-share>
-        <version.bennu-vue-pluggable>0.0.3</version.bennu-vue-pluggable>
+        <version.bennu-vue-pluggable>0.0.4</version.bennu-vue-pluggable>
     </properties>
 
 
