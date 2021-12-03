@@ -5,6 +5,7 @@ import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.domain.accounting.EventTemplate;
 import org.fenixedu.academic.domain.student.Registration;
 import org.fenixedu.academic.domain.student.RegistrationProtocol;
+import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
 import pt.ist.fenix.webapp.config.academic.accounting.EventConfig;
@@ -13,6 +14,7 @@ import pt.ist.fenixframework.FenixFramework;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 // TODO : in the future this should be set upon registration from Application according to the Admissions Process
 @Task(englishTitle = "Init Event Template for all registrations", readOnly = true)
@@ -24,7 +26,10 @@ public class InitRegistrationEventTemplate extends CronTask {
                 .flatMap(executionSemester -> executionSemester.getEnrolmentsSet().stream())
                 .map(enrolment -> enrolment.getRegistration())
                 .collect(Collectors.toSet());
-        set.stream().parallel().forEach(this::init);
+        final Set<Registration> mobility = Bennu.getInstance().getRegistrationsSet().stream()
+                .filter(registration -> registration.isInMobilityState())
+                .collect(Collectors.toSet());
+        Stream.concat(set.stream(), mobility.stream()).distinct().parallel().forEach(this::init);
     }
 
     private void init(final Registration registration) {
