@@ -4,6 +4,7 @@ import org.fenixedu.academic.domain.Degree;
 import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.domain.accounting.EventTemplate;
 import org.fenixedu.academic.domain.student.Registration;
+import org.fenixedu.academic.domain.student.RegistrationDataByExecutionYear;
 import org.fenixedu.academic.domain.student.RegistrationProtocol;
 import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.scheduler.CronTask;
@@ -42,6 +43,13 @@ public class InitRegistrationEventTemplate extends CronTask {
                             registration.getDegree().getSigla());
                 } else {
                     registration.setEventTemplate(eventTemplate);
+                }
+            }
+
+            if (registration.isInMobilityState()) {
+                final ExecutionYear executionYear = ExecutionYear.readCurrentExecutionYear();
+                if (executionYear != null) {
+                    RegistrationDataByExecutionYear.getOrCreateRegistrationDataByYear(registration, executionYear);
                 }
             }
         });
