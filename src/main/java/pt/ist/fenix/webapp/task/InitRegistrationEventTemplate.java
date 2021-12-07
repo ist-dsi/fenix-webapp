@@ -38,9 +38,10 @@ public class InitRegistrationEventTemplate extends CronTask {
             if (registration.getEventTemplate() == null) {
                 final EventTemplate eventTemplate = findBestTemplateFor(registration);
                 if (eventTemplate == null) {
-                    taskLog("No template found for: %s %s%n",
+                    taskLog("No template found for: %s\t%s\t%s%n",
                             registration.getPerson().getUsername(),
-                            registration.getDegree().getSigla());
+                            registration.getDegree().getSigla(),
+                            registration.getRegistrationProtocol().isAlien() ? "Alien" : "Normal");
                 } else {
                     registration.setEventTemplate(eventTemplate);
                 }

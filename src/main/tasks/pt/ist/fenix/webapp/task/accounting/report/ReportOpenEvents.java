@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 
 public class ReportOpenEvents extends CustomTask {
 
-    private final DateTime instant = new DateTime(2021, 1, 1, 0, 0, 0, 0);
+    private final DateTime instant = new DateTime(2021, 11, 4, 0, 0, 0, 0);
     private final LocalDate instantDate = instant.toLocalDate();
     private final DateTime now = new DateTime();
 
@@ -188,10 +188,10 @@ public class ReportOpenEvents extends CustomTask {
 
                     //when a custom plan is created it generates NA0, so this must be checked with instant calculator
                     //otherwise NA0 in X+1 will be counted as exemption in X
-                   final DebtInterestCalculator instantCalculator = event.getDebtInterestCalculator(instant);
+                    final DebtInterestCalculator instantCalculator = event.getDebtInterestCalculator(instant);
                     final BigDecimal exempt = calculator.getCreditEntries().stream()
                             .filter(ce -> ce instanceof DebtExemption)
-                            .filter(ce -> EventExemptionJustificationType.CUSTOM_PAYMENT_PLAN.name().equals(ce.getDescription()))
+                            .filter(ce -> !EventExemptionJustificationType.CUSTOM_PAYMENT_PLAN.name().equals(ce.getDescription()))
                             .filter(ce -> ce.getDate().isBefore(instantDate) || isNA0(event, ce))
                             .map(ce -> ce.getUsedAmountInDebts())
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
