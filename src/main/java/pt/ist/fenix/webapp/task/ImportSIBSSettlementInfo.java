@@ -16,7 +16,7 @@ import java.util.zip.ZipInputStream;
 @Task(englishTitle = "Process SIBS file to import settlement info", readOnly = true)
 public class ImportSIBSSettlementInfo extends CronTask {
 
-    private static final String BASE_DIR = "/afs/ist.utl.pt/ciist/fenix/fenix_sibs001";
+    private static final String BASE_DIR = "/afs/ist.utl.pt/ciist/fenix/sibs/sibs001";
     private static final String INPUT_DIR = BASE_DIR + "/new";
     private static final String OUTPUT_DIR = BASE_DIR + "/processed";
 
