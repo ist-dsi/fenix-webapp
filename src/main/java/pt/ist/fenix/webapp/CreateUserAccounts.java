@@ -161,7 +161,7 @@ public class CreateUserAccounts extends CronTask {
                             });
                 }
             });
-        } catch (final ClassCastException ex) {
+        } catch (final Throwable ex) {
             taskLog("Failled to automerge %s%n", identity.getExternalId());
         }
     }
