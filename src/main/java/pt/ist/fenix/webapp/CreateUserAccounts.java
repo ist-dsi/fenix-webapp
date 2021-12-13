@@ -17,8 +17,6 @@ import org.fenixedu.bennu.core.domain.User;
 import org.fenixedu.bennu.core.domain.UserProfile;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
-import org.fenixedu.bennu.scheduler.custom.CustomTask;
-import org.fenixedu.bennu.scheduler.custom.ReadCustomTask;
 import org.fenixedu.connect.domain.Account;
 import org.fenixedu.connect.domain.ConnectSystem;
 import org.fenixedu.connect.domain.Identity;
@@ -41,6 +39,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import pt.ist.fenixedu.contracts.domain.accessControl.ActiveEmployees;
 import pt.ist.fenixedu.contracts.domain.accessControl.ActiveGrantOwner;
 import pt.ist.fenixedu.contracts.domain.accessControl.ActiveResearchers;
+import pt.ist.fenixedu.contracts.domain.organizationalStructure.Invitation;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.standards.geographic.Planet;
 
@@ -276,7 +275,18 @@ public class CreateUserAccounts extends CronTask {
                 return true;
             }
         }
-        return new ActiveEmployees().isMember(user) || new ActiveResearchers().isMember(user) || new ActiveGrantOwner().isMember(user);
+        return new ActiveEmployees().isMember(user)
+                || new ActiveResearchers().isMember(user)
+                || new ActiveGrantOwner().isMember(user)
+                || hasActiveInvite(user);
+    }
+
+    private boolean hasActiveInvite(final User user) {
+        return user.getPerson() != null && user.getPerson().getParentsSet().stream()
+                .filter(Invitation.class::isInstance)
+                .map(Invitation.class::cast)
+                .anyMatch(invitation -> invitation.isActive());
+
     }
 
     private void createAccount(final User user) {
