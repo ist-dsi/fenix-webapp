@@ -18,8 +18,10 @@ import org.fenixedu.bennu.core.domain.UserProfile;
 import org.fenixedu.bennu.scheduler.CronTask;
 import org.fenixedu.bennu.scheduler.annotation.Task;
 import org.fenixedu.connect.domain.Account;
+import org.fenixedu.connect.domain.AccountNameIndex;
 import org.fenixedu.connect.domain.ConnectSystem;
 import org.fenixedu.connect.domain.Identity;
+import org.fenixedu.connect.domain.identification.DocumentFactory;
 import org.fenixedu.connect.domain.identification.Gender;
 import org.fenixedu.connect.domain.identification.IdentificationDocument;
 import org.fenixedu.connect.domain.identification.IdentityCard;
@@ -32,10 +34,13 @@ import org.fenixedu.connect.domain.identification.PortugueseIdentityCard;
 import org.fenixedu.connect.domain.identification.PortugueseMilitaryIdentityCard;
 import org.fenixedu.connect.domain.identification.PortugueseNavyIdentityCard;
 import org.fenixedu.connect.domain.identification.PortugueseResidenceAuthorization;
+import org.fenixedu.connect.domain.identification.TaxInformation;
+import org.fenixedu.connect.domain.image.Image;
 import org.fenixedu.connect.util.ConnectError;
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonthDay;
 import org.joda.time.format.ISODateTimeFormat;
+import org.springframework.http.HttpStatus;
 import pt.ist.fenixedu.contracts.domain.accessControl.ActiveEmployees;
 import pt.ist.fenixedu.contracts.domain.accessControl.ActiveGrantOwner;
 import pt.ist.fenixedu.contracts.domain.accessControl.ActiveResearchers;
@@ -350,7 +355,7 @@ public class CreateUserAccounts extends CronTask {
         final String photoContentType = picture == null ? null : picture.getPictureFileFormat().getMimeType();
         final JsonObject identificationDocument = person == null ? null : readIdentificationDocumentInformation(person, nationalityCountryCode);
         try {
-            account.setPersonalInformation(profile.getGivenNames(), profile.getFamilyNames(), profile.getDisplayName(),
+            setPersonalInformation(account, profile.getGivenNames(), profile.getFamilyNames(), profile.getDisplayName(),
                     gender, dateOfBirth, nationalityCountryCode, tin, null, identificationDocument, photoBytes, photoContentType);
         } catch (final ConnectError ex) {
             taskLog("%nex: %s - %s%n %s%n %s%n",
@@ -361,6 +366,95 @@ public class CreateUserAccounts extends CronTask {
             );
             throw ex;
         }
+    }
+
+    public PersonalInformation setPersonalInformation(final Account account,
+                                                      final String givenName, final String familyName, final String displayName,
+                                                      final Gender gender, final LocalDate dateOfBirth,
+                                                      final String nationalityCountryCode, final String tin, final String addressData,
+                                                      final JsonObject identificationDocument, final byte[] photoContent,
+                                                      final String photoContentType) {
+
+        PersonalInformation personalInformation = null;
+        if (account.getState().equals(Account.STATE.NO_PERSONAL_INFORMATION)) {
+            // Create
+            personalInformation = new PersonalInformation(account);
+            create(personalInformation, givenName, familyName, displayName, gender, dateOfBirth,
+                    nationalityCountryCode, tin, addressData, identificationDocument, photoContent, photoContentType);
+        } else {
+            // Edit
+            personalInformation = account.getPersonalInformation() != null ? account.getPersonalInformation() : account.getIdentity().getPersonalInformation();
+            personalInformation.update(givenName, familyName, displayName, gender, dateOfBirth,
+                    nationalityCountryCode, tin, addressData, identificationDocument, photoContent, photoContentType, account);
+        }
+        AccountNameIndex.updateAccountNameIndex(account);
+        return personalInformation;
+    }
+
+    public PersonalInformation create(final PersonalInformation personalInformation,
+                                      final String givenName, final String familyName, final String displayName,
+                                      final Gender gender, final LocalDate dateOfBirth,
+                                      final String nationalityCountryCode, final String tin, final String addressData,
+                                      final JsonObject identificationDocument, final byte[] photoContent,
+                                      final String photoContentType) {
+        create(personalInformation, givenName, familyName, displayName, gender, dateOfBirth, nationalityCountryCode, tin, addressData,
+                photoContent, photoContentType);
+        if (identificationDocument == null || identificationDocument.isJsonNull()) {
+            throw new ConnectError(HttpStatus.BAD_REQUEST, "error.missing.identification.document.information");
+        }
+        DocumentFactory.set(personalInformation, identificationDocument);
+        return personalInformation;
+    }
+
+    private PersonalInformation create(final PersonalInformation personalInformation,
+                                       final String givenName, final String familyName, final String displayName,
+                                       final Gender gender, final LocalDate dateOfBirth,
+                                       final String nationalityCountryCode, final String tin, final String addressData,
+                                       final byte[] photoContent, final String photoContentType) {
+        if (Strings.isNullOrEmpty(givenName)) {
+            throw new ConnectError(HttpStatus.BAD_REQUEST, "error.missing.identification.givenName");
+        } else {
+            personalInformation.setGivenName(givenName.trim());
+        }
+        personalInformation.setFamilyName(!Strings.isNullOrEmpty(familyName) ? familyName.trim() : null);
+        personalInformation.updateDisplayName(!Strings.isNullOrEmpty(displayName) ? displayName.trim() : null);
+        if (gender == null) {
+            throw new ConnectError(HttpStatus.BAD_REQUEST, "error.missing.identification.gender");
+        } else {
+            personalInformation.setGender(gender);
+        }
+        if (dateOfBirth == null) {
+            throw new ConnectError(HttpStatus.BAD_REQUEST, "error.missing.identification.dateOfBirth");
+        } else {
+            personalInformation.setDateOfBirth(dateOfBirth);
+        }
+        if (Strings.isNullOrEmpty(nationalityCountryCode)) {
+            throw new ConnectError(HttpStatus.BAD_REQUEST, "error.missing.identification.nationalityCountryCode");
+        } else {
+            personalInformation.setNationalityCountryCode(nationalityCountryCode);
+        }
+        if (!Strings.isNullOrEmpty(tin)) {
+            final TaxInformation taxInformation = personalInformation.getTaxInformation();
+            if (taxInformation == null) {
+                new TaxInformation(personalInformation, tin, addressData);
+            } else {
+                taxInformation.setTin(tin);
+                taxInformation.setAddressData(addressData);
+            }
+        }
+        if (photoContent == null) {
+//            throw new ConnectError(HttpStatus.BAD_REQUEST, "error.missing.identification.photo");
+        } else {
+            final Image image = personalInformation.getPhotograph();
+            if (image != null) {
+                image.setPersonalInformation(null);
+                image.delete();
+            }
+            final int i = photoContentType.lastIndexOf("/");
+            personalInformation.setPhotograph(new Image(personalInformation.getExternalId() + "." + photoContentType.substring(i + 1), personalInformation.getDisplayName(), photoContent,
+                    photoContentType));
+        }
+        return personalInformation;
     }
 
     private boolean isValid(final String tin) {
