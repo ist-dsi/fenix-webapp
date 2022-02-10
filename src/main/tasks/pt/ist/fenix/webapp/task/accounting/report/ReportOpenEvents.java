@@ -25,6 +25,8 @@ import pt.ist.fenixframework.FenixFramework;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -33,7 +35,7 @@ import java.util.stream.Stream;
 
 public class ReportOpenEvents extends CustomTask {
 
-    private final DateTime instant = new DateTime(2021, 11, 4, 0, 0, 0, 0);
+    private final DateTime instant = new DateTime(2022, 01, 01, 0, 0, 0, 0);
     private final LocalDate instantDate = instant.toLocalDate();
     private final DateTime now = new DateTime();
 
@@ -43,6 +45,7 @@ public class ReportOpenEvents extends CustomTask {
                 .map(this::process)
                 .filter(o -> o != null)
                 .collect(Collectors.toSet());
+
         final Map<String, BigDecimal> byProductCode = new TreeMap<>();
         final Map<String, BigDecimal> byYearCode = new TreeMap<>();
         final Spreadsheet spreadsheet = new Spreadsheet("OpenDebts" + instant.getYear());
@@ -204,12 +207,14 @@ public class ReportOpenEvents extends CustomTask {
                     if (dueAmount.signum() > 0) {
                         final String description = event.getDescription().toString();
                         final LocalDate dueDate = new LocalDate(Utils.getDueDate(event));
+                        final AbstractMap.SimpleImmutableEntry<String, String> mapToProduct = SapEvent.mapToProduct(event, description, false, false, false, false);
+                        final String sapProduct = mapToProduct != null ? mapToProduct.getValue() : "Sem código";
                         return new Object[] {
                                 event.getExternalId(),
                                 ClientMap.uVATNumberFor(event.getParty()),
                                 dueAmount,
                                 dueInterest,
-                                SapEvent.mapToProduct(event, description, false, false, false, false).getValue(),
+                                sapProduct,
                                 eventDate.toString("yyyy-MM-dd"),
                                 dueDate.toString("yyyy-MM-dd"),
                                 debt,
